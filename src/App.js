@@ -10,13 +10,40 @@ var ContactDictionary = [
                         ]
 
 
+
+function StatusButton(props){
+    return (                      //()=> should be function() {alert('click');}
+      <button style={props.color} className="status-button" onClick={() => props.onClick()}>
+      </button>
+    );
+}
+
 class Contact extends React.Component {
   constructor(props) {
     super(props);
-  }
+    this.state = {
+      check: false
+    }
+  };
+
+  // binding handleclick to this by using arrow function
+  handleClick () {
+    this.setState({check: !this.state.check})
+  };
 
   render()  {
-    return <div> {this.props.name} </div>
+    let checkedIn = {backgroundColor: 'green'}
+    let notCheckedIn = {backgroundColor: 'red'}
+
+    return (
+      <div class="contact-widget">
+        <p>{this.props.name}</p>
+        <StatusButton 
+        color= {this.state.check ? checkedIn : notCheckedIn} 
+        onClick= {() => this.handleClick()}
+        />
+      </div>
+    )
   }
 }
 

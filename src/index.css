@@ -8,6 +8,24 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.contact-list {
+  margin: 0 auto;
+  width: 100;
+  display: flex;
+  flex-direction: column;
+}
+
+.status-button {
+	width: 10px;
+	height: 10px;
+}
+
+.contact-widget {
+	display: flex;
+	flex-direction: row;
+}
+
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
