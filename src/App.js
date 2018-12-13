@@ -10,6 +10,7 @@ var ContactDictionary = [
                           {name:"Ellen Choi", phone:6476476477},
                           {name:"Bilal Ahmed", phone:9059059055},
                           {name:"Brian Yang", phone:3053053055}
+                        ]
 
 var applicationConfig = {
         // this is the id of our website, registered in Azure Active Directory (it runs sharepoint)
@@ -115,7 +116,6 @@ class App extends Component {
 
       <LoginButton />
 
-      <ContactList list="Checked In"/>
       </HttpsRedirect>);
   }
 }
