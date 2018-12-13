@@ -28,3 +28,5 @@ Sharepoint Site
 The task is to see if we can access sharepoint list data, if you figure it out, make sure to print some of the data in the console.log
 
 The list we are using on the sharepoint site is called [DDSB Contacts Info](https://rahmnik.sharepoint.com/sites/DDSBlazeWFH/Lists/DDSB%20Contacts%20Info/AllItems.aspx)
+
+### NOTE: We are using MSAL library for OAUTH2, see [here](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-core/README.md)
