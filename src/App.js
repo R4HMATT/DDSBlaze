@@ -12,6 +12,9 @@ var ContactDictionary = [
                           {name:"Brian Yang", phone:3053053055}
                         ]
 
+// will be required for the authentication for making sharepoint calls
+var appSecret = "p2A7bksC2qIuJk4P1P6h4AqpiS4MPfqv23Iyo7W9d0U="
+
 var applicationConfig = {
         // this is the id of our website, registered in Azure Active Directory (it runs sharepoint)
         clientID: 'adf1a6da-cc17-4863-885a-a2b6148aed42',
