@@ -8,9 +8,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+
+
+
 .contact-list {
-  margin: 0 auto;
-  width: 100;
+  margin: 0px auto;
+  width: 50%;
   display: flex;
   flex-direction: column;
 }
@@ -18,11 +21,31 @@ body {
 .status-button {
 	width: 10px;
 	height: 10px;
+	margin-left: 0.4em;
+}
+
+
+.login-div {
+  display: flex;
+  margin: 0px auto;
+  justify-content: center;
+  flex-direction: row;
+  width: 50%;
+}
+
+.login-button {
+  text-align: center;
+  font-size: 2em;
+  background: dodgerblue;
+  width: 5em;
 }
 
 .contact-widget {
 	display: flex;
+	justify-content: center;
 	flex-direction: row;
+	align-items: center;
+
 }
 
 

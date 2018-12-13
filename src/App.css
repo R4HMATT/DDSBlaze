@@ -1,3 +1,12 @@
+* {
+    padding: 0;
+    margin: 0;
+    border: 0;
+
+    font-family: sans-serif;
+  }
+
+
 .App {
   text-align: center;
 }
@@ -17,6 +26,9 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+
+
 
 .App-link {
   color: #61dafb;
