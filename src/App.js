@@ -92,27 +92,10 @@ class App extends Component {
       return <MarkedSafe key={key} text={val} deleteMethod={ (markedSafe) => this.undoCheckIn(key) } />
     })
 
-    // If we are searching for a specific user, filter the results
-    if(this.state.search !== ''){
-
-      // Go through every user in notCheckedIn list and remove any that user hasn't searched for
-      for(var i = 0; i < this.state.notCheckedIn.length; i++){
-        if(notCheckedIn[i]["B"] === this.state.search){
-          notCheckedIn.splice(i, 1);
-        }
-      }
-      for(var i = 0; i < this.state.markedSafe.length; i++){
-        if(this.markedSafe[i]["B"] === this.state.search){
-          safepeople.splice(i, 1);
-        }
-      }
-    }
-
     let totalList = notCheckedIn.concat(safepeople);
     return (
       <div className="container">
           <input type="text" className="searchBar" onChange={this.updateSearch.bind(this)} placeholder="Search" value={this.state.search} />
-            <h1>Searching for: {this.state.search}</h1>
             <h2 className="Title">Not Checked-In</h2>
               <div className="noCheck">
               { notCheckedIn }
