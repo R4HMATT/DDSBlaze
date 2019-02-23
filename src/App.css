@@ -27,6 +27,7 @@ body {
   padding: 40px;
   text-align: center;
 }
+/*Check-In/Not Checked-in title*/
 .Title {
   font-size: larger;
   background: #3cd3d8;
@@ -34,6 +35,8 @@ body {
   font-size: large;
   margin: 20px;
 }
+
+/*Search bar*/
 .searchBar {
   display: flex;
   flex-direction: row;

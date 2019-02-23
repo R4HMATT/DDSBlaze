@@ -29,18 +29,22 @@
   text-decoration: none;
   vertical-align: center;
 }
+
+/*Check in button*/
 .CheckedIn .buttons .btnCheckIn {
   background-color: #4CAF50; /* Green */
   border: none;
   color: white;
   padding-top: 15px;
   padding-bottom: 15px;
-  width: 125px;
+  width: 70px;
   border-radius: 4px;
   float: right;
   display: block;
   font-size: 60%;
 }
+
+/*Info icon*/
 .CheckedIn .buttons .btnContactInfo {
   border:none;
   width:25px;
@@ -48,4 +52,5 @@
   background: url(info_icon.png) no-repeat;
   background-position: center;
   margin-right: 18px;
+  margin-top: 6px;
 }

@@ -25,12 +25,10 @@ class ContactCard extends Component {
 	render() {
         let contactInformation = this.state.employee;
 	    return (
-
-
 	      <div className="ContactCard">
           <h2>{this.props.text}</h2>
-          <h2>{contactInformation.PhoneNumber[keyindex]}</h2>
-          <h2>{contactInformation.email[keyindex]}</h2>
+          <h2>{contactInformation.PhoneNumber[0]}</h2>
+          <h2>{contactInformation.email[0]}</h2>
 	      </div>
 	    );
 	  }

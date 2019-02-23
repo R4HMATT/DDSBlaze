@@ -27,6 +27,8 @@
   align-items: center;
   text-decoration: none;
 }
+
+/*Undo check-in button*/
 .MarkedSafe .buttons .btnUndoCheckIn {
   background-color: #e83c3c; /* Red */
   border: none;
@@ -34,7 +36,7 @@
   float: right;
   padding-top: 15px;
   padding-bottom: 15px;
-  width: 125px;
+  width: 70px;
   border-radius: 4px;
   text-align: center;
   align-items: center;
@@ -42,6 +44,8 @@
   display: block;
   font-size: 60%;
 }
+
+/*Info icon*/
 .MarkedSafe .buttons .btnContactInfo {
   cursor:pointer;
   border:none;
@@ -51,4 +55,5 @@
   background: url(info_icon.png) no-repeat;
   background-position: center;
   margin-right: 18px;
+  margin-top: 6px;
 }
