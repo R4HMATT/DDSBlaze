@@ -128,43 +128,6 @@ function getAccessToken() {
      });
 }
 
-// custom react login button component
-class LoginButton extends Component {
-  // initialization
-  constructor(props) {
-    //default initializer
-    super(props);
-    this.state = {};
-
-
-    // binding the handle click function to this component,
-    // this is required for react components, kinda weird, you can ignore
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-
-
-  // triggers the accesstoken granting flow
-  handleClick() {
-    //let token = getAccessToken();
-
-
-    //console.log('token after callback is' + token)
-    //this.props.callBack(token);
-  }
-
-
-  render() {
-    return (
-    <div className='login-div'>
-      <button className='login-button' onClick={this.handleClick}>
-      <p>Login</p>
-      </button>
-    </div>);
-
-  }
-}
-
 
 class DisplaySPInfo extends Component {
   // initialization
