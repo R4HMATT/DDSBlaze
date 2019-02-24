@@ -11,6 +11,11 @@ const https = require('https');
 //var sharepointSite = "https://rahmnik.sharepoint.com/sites/DDSBlazeWFH/_api/web/lists/getbytitle('DDSB Contacts Info')"
 var sharepointSite = "https://graph.microsoft.com/v1.0/sites/rahmnik.sharepoint.com/lists/testlist/items?expand=fields";
 
+
+// this should probably be moved to a seperate file, cuz it
+// should be a different screen
+// probably dont need this, its just a container
+// dont think it actually does anything tbh
 class DisplaySPInfo extends Component {
   // initialization
   constructor(props) {
@@ -47,7 +52,6 @@ class DisplaySPInfo extends Component {
     <div className='sp-display'>
       <p>{this.state.text}</p>
     </div>);
-
   }
 }
 
@@ -142,16 +146,12 @@ class loginPage extends Component {
   }
 
   render() {
-
-
     return (
-
       <HttpsRedirect>
         <React.Fragment>
           <button onClick={this.handleClick} className='login-button'>
           Login
           </button>
-
 
           <button onClick={this.getSPlist} className='login-button'>
           Yeet
