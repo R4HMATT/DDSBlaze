@@ -81,6 +81,8 @@ class App extends Component {
 
 
   render() {
+
+    // ==== Search bar functionality ====
     // List of all NOT checked-in people
     let notCheckedIn = this.state.notCheckedIn.map((val, key) => {
       return <CheckedIn key={key} text={val} deleteMethod={ (notCheckedIn) => this.checkIn(key) } 
@@ -91,6 +93,44 @@ class App extends Component {
     let safepeople = this.state.markedSafe.map((val, key) => {
       return <MarkedSafe key={key} text={val} deleteMethod={ (markedSafe) => this.undoCheckIn(key) } />
     })
+    
+    if(this.state.search !== ''){
+      // Create clone of notChekedIn and markedSafe arrays
+      let tmp_notCheckedIn = [];
+      let tmp_markedSafe = [];
+
+      // Add user to tmp_notCheckedIn that match this.state.search
+      for(var i = 0; i < this.state.notCheckedIn.length; i++){
+        //console.log("searching for: " + this.state.search + "; Current element: " + this.state.notCheckedIn[i]);
+        if(this.state.notCheckedIn[i].toLowerCase().includes(this.state.search.toLowerCase())){
+          console.log("Found match in noCheckedIn: " + this.state.notCheckedIn[i]);
+          tmp_notCheckedIn.push(this.state.notCheckedIn[i]);
+        }
+        
+      }
+
+      // Same as above, but for users that are checked in
+      for(var i = 0; i < this.state.markedSafe; i++){
+        //console.log("searching for: " + this.state.search + "; Current element: " + this.state.markedSafe[i]);
+        if(this.state.markedSafe[i].toLowerCase().includes(this.state.search.toLowerCase())){
+          console.log("Found match in markedSafe: " + this.state.markedSafe[i]);
+          tmp_markedSafe.push(this.state.markedSafe[i]);
+        }
+      }
+      console.log({tmp_notCheckedIn});
+      console.log({tmp_markedSafe});
+      console.log({array: this.state.notCheckedIn});
+      console.log({array: this.state.markedSafe});
+
+      notCheckedIn = tmp_notCheckedIn.map((val, key) => {
+        return <CheckedIn key={key} text={val} deleteMethod={ (notCheckedIn) => this.checkIn(key) } 
+        />
+      })
+      safepeople = tmp_markedSafe.map((val, key) => {
+        return <MarkedSafe key={key} text={val} deleteMethod={ (markedSafe) => this.undoCheckIn(key) } />
+      })
+
+    }
 
     let totalList = notCheckedIn.concat(safepeople);
     return (
