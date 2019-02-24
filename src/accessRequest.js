@@ -1,5 +1,6 @@
 import * as Msal from 'msal';
-
+import React, { Component } from 'react';
+import { Redirect } from 'react-router';
 
 //var exports = module.exports = {};
 
@@ -43,6 +44,7 @@ var userAgentApplication = new Msal.UserAgentApplication(applicationConfig.clien
 function tokenReceivedCallback(errorDesc, token, error, tokenType) {
     if (token) {
       // successful
+      return (<Redirect to="/list" />);
       console.log(token)
     }
     // error checking

@@ -55,7 +55,7 @@ class DisplaySPInfo extends Component {
   }
 }
 
-class loginPage extends Component {
+class LoginPage extends Component {
 
   constructor(props) {
   //default initializer
@@ -148,7 +148,7 @@ class loginPage extends Component {
   render() {
     return (
       <HttpsRedirect>
-        <React.Fragment>
+         <React.Fragment>
           <button onClick={this.handleClick} className='login-button'>
           Login
           </button>
@@ -158,24 +158,11 @@ class loginPage extends Component {
           </button>
           {this.state.list}
           <DisplaySPInfo token={this.state.token}/>
-        </React.Fragment>
+         </React.Fragment>
       </HttpsRedirect>
       );
   }
 
 }
 
-class App extends Component {
-
-
-  render() {
-    return (
-      // dont mind these wrappers
-      <HttpsRedirect>
-      <loginPage />
-      </HttpsRedirect>);
-  }
-}
-
-
-export default loginPage;
+export default LoginPage;
