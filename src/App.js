@@ -52,6 +52,7 @@ class App extends Component {
     }
   }
 
+  /* Move user with name "value" into the Checked-in list */
   checkIn(index, value) {
     let notCheckedInArr = this.state.notCheckedIn;
     let markedSafeArr = this.state.markedSafe;
@@ -69,6 +70,7 @@ class App extends Component {
     
   }
 
+  /* Move user with name "value" into the Not Checked-in list */
   undoCheckIn(index, value) {
     let notCheckedInArr = this.state.notCheckedIn;
     let markedSafeArr = this.state.markedSafe;
@@ -92,58 +94,64 @@ class App extends Component {
 
   }
 
+  /* Filter which people are displayed in both Checked-in and Not Checked-in sections based on user search*/
+  filteredList(){
+    // Create clone of notChekedIn and markedSafe arrays
+    let tmp_notCheckedIn = [];
+    let tmp_markedSafe = [];
+
+    // Add user to tmp_notCheckedIn that match this.state.search
+    for(var i = 0; i < this.state.notCheckedIn.length; i++){
+      //console.log("searching for: " + this.state.search + "; Current element: " + this.state.notCheckedIn[i]);
+      if(this.state.notCheckedIn[i].toLowerCase().includes(this.state.search.toLowerCase())){
+        //console.log("Found match in noCheckedIn: " + this.state.notCheckedIn[i]);
+        tmp_notCheckedIn.push(this.state.notCheckedIn[i]);
+      }
+      
+    }
+
+    // Same as above, but for users that are checked in
+    for(var i = 0; i < this.state.markedSafe.length; i++){
+      //console.log("searching for: " + this.state.search + "; Current element: " + this.state.markedSafe[i]);
+      if(this.state.markedSafe[i].toLowerCase().includes(this.state.search.toLowerCase())){
+        //console.log("Found match in markedSafe: " + this.state.markedSafe[i]);
+        tmp_markedSafe.push(this.state.markedSafe[i]);
+      }
+    }
+
+    let notCheckedIn = tmp_notCheckedIn.map((val, key) => {
+      return <CheckedIn key={key} text={val} deleteMethod={ () => this.checkIn(key, val) } 
+      />
+    });
+    let safepeople = tmp_markedSafe.map((val, key) => {
+      return <MarkedSafe key={key} text={val} deleteMethod={ () => this.undoCheckIn(key, val) } />
+    });
+
+    //console.log({tmp_notCheckedIn});
+    //console.log({notCheckedIn: this.state.notCheckedIn});
+    //console.log({tmp_markedSafe});
+    //console.log({markedSafe: this.state.markedSafe});
+    return ([notCheckedIn, safepeople]);
+
+  }
 
   render() {
     // List of all NOT checked-in people
     let notCheckedIn = this.state.notCheckedIn.map((val, key) => {
-      return <CheckedIn key={key} text={val} deleteMethod={ (notCheckedIn) => this.checkIn(key, val) } 
+      return <CheckedIn key={key} text={val} deleteMethod={ () => this.checkIn(key, val) } 
       />
     })
 
     // List of all safely checked-in people
     let safepeople = this.state.markedSafe.map((val, key) => {
-      return <MarkedSafe key={key} text={val} deleteMethod={ (markedSafe) => this.undoCheckIn(key, val) } />
+      return <MarkedSafe key={key} text={val} deleteMethod={ () => this.undoCheckIn(key, val) } />
     })
 
-    // ==== SEARCH BAR FUNCTIONALITY ====
-
+    // If user is searching for a name, filter the results
     if(this.state.search !== ''){
-      // Create clone of notChekedIn and markedSafe arrays
-      let tmp_notCheckedIn = [];
-      let tmp_markedSafe = [];
-
-      // Add user to tmp_notCheckedIn that match this.state.search
-      for(var i = 0; i < this.state.notCheckedIn.length; i++){
-        //console.log("searching for: " + this.state.search + "; Current element: " + this.state.notCheckedIn[i]);
-        if(this.state.notCheckedIn[i].toLowerCase().includes(this.state.search.toLowerCase())){
-          //console.log("Found match in noCheckedIn: " + this.state.notCheckedIn[i]);
-          tmp_notCheckedIn.push(this.state.notCheckedIn[i]);
-        }
-        
-      }
-
-      // Same as above, but for users that are checked in
-      for(var i = 0; i < this.state.markedSafe.length; i++){
-        //console.log("searching for: " + this.state.search + "; Current element: " + this.state.markedSafe[i]);
-        if(this.state.markedSafe[i].toLowerCase().includes(this.state.search.toLowerCase())){
-          //console.log("Found match in markedSafe: " + this.state.markedSafe[i]);
-          tmp_markedSafe.push(this.state.markedSafe[i]);
-        }
-      }
-
-      notCheckedIn = tmp_notCheckedIn.map((val, key) => {
-        return <CheckedIn key={key} text={val} deleteMethod={ () => this.checkIn(key, val) } 
-        />
-      })
-      safepeople = tmp_markedSafe.map((val, key) => {
-        return <MarkedSafe key={key} text={val} deleteMethod={ () => this.undoCheckIn(key, val) } />
-      })
-
-      //console.log({tmp_notCheckedIn});
-      //console.log({notCheckedIn: this.state.notCheckedIn});
-      //console.log({tmp_markedSafe});
-      //console.log({markedSafe: this.state.markedSafe});
-
+      let tmp_arr = this.filteredList();
+      notCheckedIn = tmp_arr[0];
+      safepeople = tmp_arr[1];
     }
 
     let totalList = notCheckedIn.concat(safepeople);
