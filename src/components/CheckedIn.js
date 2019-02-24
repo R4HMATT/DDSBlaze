@@ -23,14 +23,22 @@ class CheckedIn extends Component {
 	        {this.props.text}
 	        <div className="buttons">
 		         <button 
-		         	className="btnCheckIn" 
+		         	class="btnCheckIn" 
 		         	name="isCheckedIn" 
 		         	type="button"
 		         	onClick={this.props.deleteMethod}>Check In
 		         </button>
 
+						 <button class="btnContactPhone"
+						 name="viewContactPhone"
+						 type="button"/>
+
+						 <button class="btnContactSMS"
+						 name="viewContactSMS"
+						 type="button"/>
+
 		         <button
-		         	className="btnContactInfo"
+		         	class="btnContactInfo"
 		         	name="viewContactInfo"
 		         	type="button">
 		         </button>

@@ -4,8 +4,11 @@
   "private": true,
   "dependencies": {
     "json-parser": "^1.1.5",
+    "material-ui-search-bar": "^0.4.2",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
+    "react-native-material-design-searchbar": "^1.8.0",
+    "react-native-vector-icons": "^6.3.0",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "^2.1.5"

@@ -34,15 +34,22 @@ body {
   padding: 20px;
   font-size: large;
   margin: 20px;
+  text-align: center;
+  font-family: "Century Gothic";
 }
 
+.search-wrapper{
+  align-items: center;
+}
 /*Search bar*/
-.searchBar {
+.search-wrapper .searchBar {
   display: flex;
+  font-family: "Century Gothic";
   flex-direction: row;
   object-fit: stretch;
   padding: 10px;
   border: none;
   margin: 20px;
   font-size: 17px;
+  width: 80%
 }

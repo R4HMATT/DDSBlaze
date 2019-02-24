@@ -6,6 +6,7 @@
   color: #adadad;
   padding: 30px;
   font-size: large;
+  font-family: "Century Gothic";
   margin: 20px;
   background: #fff;
   vertical-align: center;
@@ -49,8 +50,30 @@
   border:none;
   width:25px;
   height:25px;
-  background: url(info_icon.png) no-repeat;
+  background: url('info_icon.png') no-repeat;
   background-position: center;
-  margin-right: 18px;
-  margin-top: 6px;
+  margin-right: 15px;
+  margin-top: 11px;
+}
+
+/*SMS Icon*/
+.CheckedIn .buttons .btnContactSMS{
+  border: none;
+  width:25px;
+  height:25px;
+  background: url('sms_icon.png') no-repeat;
+  background-position: center;
+  margin-right: 15px;
+  margin-top: 11px;
+}
+
+/*Phone Icon*/
+.CheckedIn .buttons .btnContactPhone{
+  border: none;
+  width:25px;
+  height:25px;
+  background: url('phone_icon.png') no-repeat;
+  background-position: center;
+  margin-right: 15px;
+  margin-top: 11px;
 }
