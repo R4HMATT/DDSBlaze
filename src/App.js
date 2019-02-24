@@ -19,7 +19,7 @@ class App extends Component {
     for(var i = 1; i < contacts.length; i++){
       notCheckedInArr.push(contacts[i]["B"]);
     }
-
+    notCheckedInArr.sort()
     this.state = {
       notCheckedIn: notCheckedInArr,
       markedSafe: [],
@@ -65,6 +65,11 @@ class App extends Component {
     }
     notCheckedInArr.splice(index, 1);
     markedSafeArr.push(temp);
+
+    // Sort the two lists of names
+    notCheckedInArr.sort();
+    markedSafeArr.sort();
+
     this.setState({ markedSafe: markedSafeArr })
     this.setState({ notCheckedIn: notCheckedInArr })
     
@@ -82,9 +87,13 @@ class App extends Component {
       index = markedSafeArr.indexOf(value);
 
     }
-    console.log("Removing person: " + value + " at index (key): " + index);
     markedSafeArr.splice(index, 1);
     notCheckedInArr.push(temp);
+
+    // Sort the two lists of names
+    notCheckedInArr.sort();
+    markedSafeArr.sort();
+
     this.setState({ markedSafe: markedSafeArr })
     this.setState({ notCheckedIn: notCheckedInArr })
   }
@@ -119,6 +128,10 @@ class App extends Component {
       }
     }
 
+    // Sort the list of names
+    tmp_notCheckedIn.sort();
+    tmp_markedSafe.sort();
+    
     let notCheckedIn = tmp_notCheckedIn.map((val, key) => {
       return <CheckedIn key={key} text={val} deleteMethod={ () => this.checkIn(key, val) } 
       />
