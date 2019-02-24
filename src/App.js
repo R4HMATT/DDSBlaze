@@ -170,8 +170,12 @@ class App extends Component {
     let totalList = notCheckedIn.concat(safepeople);
     return (
       <div className="container">
-          <div class="search-wrapper">
-            <input type="text" class="searchBar" onChange={this.updateSearch.bind(this)} placeholder="Search..." value={this.state.search} />
+          <div className="search-wrapper">
+            <input type="text" className="searchBar" onChange={this.updateSearch.bind(this)} placeholder="Search..." value={this.state.search} />
+            <button class="searchIcon"
+						 name="searchIcon"
+						 type="button"
+						 />
           </div>
             <h2 className="Title">Not Checked-In</h2>
               <div className="noCheck">

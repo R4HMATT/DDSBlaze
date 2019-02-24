@@ -25,24 +25,27 @@ class MarkedSafe extends Component {
 		        {this.props.text}
 		        <div className="buttons">
 		        <button 
-		         	class="btnUndoCheckIn" 
+		         	className="btnUndoCheckIn" 
 		         	name="UndoCheckIn" 
 		         	type="button" 
 		         	onClick={this.props.deleteMethod}>  Undo  
 		         </button>
 
-						 <button class="btnContactPhone"
+						 <button className="btnContactPhone"
 						 name="viewContactPhone"
-						 type="button"/>
-		         
-		         <button class="btnContactSMS"
+						 type="button"
+						 />
+
+						 <button className="btnContactSMS"
 						 name="viewContactSMS"
-						 type="button"/>
+						 type="button"
+						 />
 						 
 						 <button
-			         	class="btnContactInfo"
+			         	className="btnContactInfo"
 			         	name="viewContactInfo"
-			         	type="button">
+			         	type="button"
+								 >
 			         	<Link to="/hello"></Link>
 			     		</button>
 

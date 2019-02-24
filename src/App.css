@@ -40,7 +40,9 @@ body {
 
 .search-wrapper{
   align-items: center;
+  margin: auto;
 }
+
 /*Search bar*/
 .search-wrapper .searchBar {
   display: flex;
@@ -49,7 +51,18 @@ body {
   object-fit: stretch;
   padding: 10px;
   border: none;
-  margin: 20px;
+  margin: auto;
+  margin-top: 20px;
   font-size: 17px;
-  width: 80%
+  width: 65%;
+}
+
+/*Phone Icon*/
+.search-wrapper .searchIcon{
+  border: none;
+  width:25px;
+  height:25px;
+  background: url('search_icon.png') no-repeat;
+  background-position: center;
+  margin: auto;
 }
