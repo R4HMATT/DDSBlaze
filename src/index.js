@@ -4,8 +4,6 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 import './index.css';
 import App from './App';
-import ContactCard from './components/ContactCard.js';
-import LoginPage from './loginPage';
 
 import * as serviceWorker from './serviceWorker';
 
