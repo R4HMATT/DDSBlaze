@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import './App.css';
+import './LoginPage.css';
 import HttpsRedirect from 'react-https-redirect';
 
-import getAccessToken from './accessRequest.js';
+import getAccessToken from '../accessRequest.js';
 
 //var access = require('./accessRequest.js')
 const https = require('https');

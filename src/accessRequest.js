@@ -4,9 +4,10 @@ import { Redirect } from 'react-router';
 
 //var exports = module.exports = {};
 
+let contacts = require('./Connection.json');
 
 // will be required for the authentication for making sharepoint calls
-var appSecret = "p2A7bksC2qIuJk4P1P6h4AqpiS4MPfqv23Iyo7W9d0U="
+var appSecret = contacts.sharepoint.client_secret;
 
   var applicationConfig = {
         // this is the id of our website, registered in Azure Active Directory (it runs sharepoint)
@@ -16,14 +17,8 @@ var appSecret = "p2A7bksC2qIuJk4P1P6h4AqpiS4MPfqv23Iyo7W9d0U="
         // it features a tenant id (for our website's azure directory), the client id, and more required parameters (mostly defaulted)
         // this built from default values             <----------------TENANT ID---------->                 other parameters required ->                                                      
         authority: 'https://login.microsoftonline.com/bdcc68fe-2692-4c7a-b7fe-ca9ff4385193/oauth2/authorize?client_id=adf1a6da-cc17-4863-885a-a2b6148aed42&response_type=id_token+token&scope=openid&redirect_uri=https://localhost:3000/&state=12345&nonce=random&response_mode=form_post',
-        /** authority: 'https://rahmnik.sharepoint.com/_layouts/15/OAuthorize.aspx' +
-        '?IsDlg=1&amp;client_id=d162fed4-64b5-495d-8f10-e3bb4c0b9290' +
-        '&amp;scope=list.read;response_type=code' + 
-        '&amp;redirect_uri=https://localhost:3000/',
-        **/
         // this is the scope for the access token request call
-        // open id is a default value required
-        //scope: ["openid"], 
+        // open id is a default value
         scope: ["Sites.Read.All"],
         // this gives u default user scopes? https://graph.microsoft.com/.default
         //spendpoint: "https://rahmnik.sharepoint.com/_api/web/lists/getbytitle('testlist')"
@@ -45,7 +40,6 @@ function tokenReceivedCallback(errorDesc, token, error, tokenType) {
     if (token) {
       // successful
       return (<Redirect to="/list" />);
-      console.log(token)
     }
     // error checking
     else {
@@ -65,7 +59,7 @@ var getAccessToken = function () {
                console.log('Success');
                localStorage.setItem("accessToken", accessToken)
                console.log(accessToken);
-               //getSPlist2(accessToken);
+
                return accessToken;
                //return accessToken;
   

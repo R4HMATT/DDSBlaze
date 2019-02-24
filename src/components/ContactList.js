@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import CheckedIn from './components/CheckedIn.js';
-import MarkedSafe from './components/MarkedSafe.js';
-import ContactCard from './components/ContactCard.js';
+import CheckedIn from './CheckedIn.js';
+import MarkedSafe from './MarkedSafe.js';
+import ContactCard from './ContactCard.js';
 import {
   BrowserRouter as Router,
   Route,
@@ -14,7 +14,7 @@ class ContactList extends Component {
 
   constructor(props) {
     super(props);
-    let contacts = require('./ContactInfo.json');
+    let contacts = require('../ContactInfo.json');
     let notCheckedInArr = [];
     for(var i = 1; i < contacts.length; i++){
       notCheckedInArr.push(contacts[i]["B"]);

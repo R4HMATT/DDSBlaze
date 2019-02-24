@@ -3,8 +3,8 @@ import { Route, Link } from 'react-router-dom';
 import './App.css';
 
 import ContactCard from './components/ContactCard.js';
-import LoginPage from './loginPage';
-import ContactList from './ContactList';
+import LoginPage from './components/LoginPage';
+import ContactList from './components/ContactList';
 
 class App extends Component {
   render() {

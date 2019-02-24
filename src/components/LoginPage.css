@@ -1,0 +1,17 @@
+
+.login-div {
+    display: flex;
+    margin: 0px auto;
+    justify-content: center;
+    flex-direction: row;
+    width: 50%;
+  }
+  
+  .login-button {
+    text-align: center;
+    font-size: 2em;
+    color: white;
+    background: dodgerblue;
+    width: 5em;
+  }
+  
