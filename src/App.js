@@ -171,11 +171,7 @@ class App extends Component {
     return (
       <div className="container">
           <div className="search-wrapper">
-            <input type="text" className="searchBar" onChange={this.updateSearch.bind(this)} placeholder="Search..." value={this.state.search} />
-            <button class="searchIcon"
-						 name="searchIcon"
-						 type="button"
-						 />
+            <input type="text" className="searchBar" onChange={this.updateSearch.bind(this)} placeholder="Search a User..." value={this.state.search} />
           </div>
             <h2 className="Title">Not Checked-In</h2>
               <div className="noCheck">

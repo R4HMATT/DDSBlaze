@@ -17,9 +17,11 @@
   -moz-box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.1);
   transition: transform .2s ease;
 }
-.CheckedIn:hover {
+
+/*Make the element pop-out of the screen upon mouse hover*/
+/* .CheckedIn:hover {
   transform: scale(1.02);
-}
+} */
 .CheckedIn .buttons{
   color: white;
   cursor:pointer;
