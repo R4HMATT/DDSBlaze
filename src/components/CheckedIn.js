@@ -20,7 +20,7 @@ class CheckedIn extends Component {
 	    return (
 
 	      <div className="CheckedIn">
-	        {this.props.text}
+	        <div className="userName">{this.props.text}</div>
 	        <div className="buttons">
 		         <button 
 		         	className="btnCheckIn" 
@@ -39,12 +39,12 @@ class CheckedIn extends Component {
 						 type="button"
 						 />
 
-		         <button
+		         {/* <button
 		         	className="btnContactInfo"
 		         	name="viewContactInfo"
 		         	type="button"
 							 >
-		         </button>
+		         </button> */}
 		    </div>
 	      </div>
 	    );

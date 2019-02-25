@@ -22,7 +22,7 @@ class MarkedSafe extends Component {
 	    return (
 	    	<Router>
 		      <div className="MarkedSafe">
-		        {this.props.text}
+					<div className="userName">{this.props.text}</div>
 		        <div className="buttons">
 		        <button 
 		         	className="btnUndoCheckIn" 
@@ -41,15 +41,13 @@ class MarkedSafe extends Component {
 						 type="button"
 						 />
 						 
-						 <button
+						 {/* <button
 			         	className="btnContactInfo"
 			         	name="viewContactInfo"
 			         	type="button"
 								 >
 			         	<Link to="/hello"></Link>
-			     		</button>
-
-					 
+			     		</button> */}
 
 			    <Route path="/hello" component={ContactCard}/>
 			     </div>

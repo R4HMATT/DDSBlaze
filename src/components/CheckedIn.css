@@ -3,18 +3,20 @@
   flex-flow: row wrap;
   align-items: center;
   justify-content: space-between;
-  color: #adadad;
-  padding: 30px;
-  font-size: large;
-  font-family: "Century Gothic";
+  
+  padding: 10px;
+  
   margin: 20px;
   background: #fff;
   vertical-align: center;
   border: solid 1px #e9e9e9;
   cursor: pointer;
+
+  /*Shadows*/
   box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.1);
   -webkit-box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.1);
   -moz-box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.1);
+
   transition: transform .2s ease;
 }
 
@@ -22,6 +24,17 @@
 /* .CheckedIn:hover {
   transform: scale(1.02);
 } */
+
+/*Handles the names of people*/
+.CheckedIn .userName{
+  font-size: large;
+  font-family: "Century Gothic";
+  color: #adadad;
+  padding: 3px;
+  width: 40%;
+  text-overflow: ellipsis;
+  
+}
 .CheckedIn .buttons{
   color: white;
   cursor:pointer;
@@ -44,7 +57,7 @@
   border-radius: 4px;
   float: right;
   display: block;
-  font-size: 60%;
+  font-size: 75%;
 }
 
 /*Info icon*/
@@ -53,6 +66,7 @@
   width:25px;
   height:25px;
   background: url('info_icon.png') no-repeat;
+  background-size: 25px 25px;
   background-position: center;
   margin-right: 15px;
   margin-top: 11px;
@@ -64,9 +78,10 @@
   width:25px;
   height:25px;
   background: url('sms_icon.png') no-repeat;
+  background-size: 25px 25px;
   background-position: center;
-  margin-right: 15px;
-  margin-top: 11px;
+  margin-right: 25px;
+  margin-top: 9px;
 }
 
 /*Phone Icon*/
@@ -75,6 +90,7 @@
   width:25px;
   height:25px;
   background: url('phone_icon.png') no-repeat;
+  background-size: 25px 25px;
   background-position: center;
   margin-right: 15px;
   margin-top: 11px;
