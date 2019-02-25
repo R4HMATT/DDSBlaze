@@ -1,8 +1,9 @@
 {
-  "name": "opsfire",
+  "name": "ddsblaze",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "msal": "^0.2.3",
     "json-parser": "^1.1.5",
     "material-ui-search-bar": "^0.4.2",
     "react": "^16.6.3",
@@ -11,10 +12,12 @@
     "react-native-vector-icons": "^6.3.0",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "^2.1.5"
+    "react-scripts": "^2.1.5",
+    "react-https-redirect": "^1.0.11"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "HTTPS=true react-scripts start",
+    "stop": "node server.stop.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

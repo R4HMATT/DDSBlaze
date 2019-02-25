@@ -78,3 +78,17 @@ body {
   background-size: 28px 28px;
   background-color: #ffffff;
 }
+
+.search-wrapper .btn-redo{
+  border: none;
+  background: url("redo icon.png") no-repeat;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 95%;
+  margin-right: auto;
+  vertical-align: center;
+  width: 25px;
+  height: 25px;
+  background-size: 25px 25px;
+  background-position: center;
+}
