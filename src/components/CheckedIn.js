@@ -34,7 +34,7 @@ class CheckedIn extends Component {
 						 type="button"
 						 />
 
-						 <button className="btnContactSMS"
+						 <img className="btnContactSMS"
 						 name="viewContactSMS"
 						 type="button"
 						 />
