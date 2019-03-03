@@ -32,6 +32,8 @@
   color: #adadad;
   padding: 3px;
   width: 40%;
+  white-space: nowrap;
+  overflow: hidden;
   text-overflow: ellipsis;
   
 }
@@ -94,4 +96,20 @@
   background-position: center;
   margin-right: 15px;
   margin-top: 11px;
+}
+
+/*Underlying div to allow navigationg to contact card by clicking any whitespace*/
+.CheckedIn .openContactCard{
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.CheckedIn a {
+  text-decoration: none;
+  color: #adadad;
+  width: 40%;
 }

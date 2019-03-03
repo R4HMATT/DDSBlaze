@@ -8,6 +8,8 @@ import {
   Redirect
 } from 'react-router-dom';
 
+/**** This component is used to generate entries for indivdualds that are NOT checked in ****/
+
 class CheckedIn extends Component {
 
 	constructor(props) {
@@ -34,7 +36,7 @@ class CheckedIn extends Component {
 						 type="button"
 						 />
 
-						 <img className="btnContactSMS"
+						 <button className="btnContactSMS"
 						 name="viewContactSMS"
 						 type="button"
 						 />

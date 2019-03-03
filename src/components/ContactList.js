@@ -10,7 +10,10 @@ import {
   Redirect
 } from 'react-router-dom';
 import './ContactList.css';
- 
+
+/**** This component displays all individuals that are checked-in and not checked-in, 
+   as well as the search bar and other main functionality ****/
+
 class ContactList extends Component {
 
   constructor(props) {

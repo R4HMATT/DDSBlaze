@@ -9,6 +9,8 @@ import {
   Redirect
 } from 'react-router-dom';
 
+/**** This component is used to generate entries for individuals that ARE checked in ****/
+
 class MarkedSafe extends Component {
 
 	constructor(props) {
