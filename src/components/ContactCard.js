@@ -23,6 +23,7 @@ class ContactCard extends Component {
     
 
 	render() {
+    console.log(this.props);
         let contactInformation = this.state.employee;
 	    return (
 	      <div className="ContactCard">
