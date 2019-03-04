@@ -15,7 +15,7 @@ class App extends Component{
 
         <Route path="/login" exact component={LoginPage}/>
         <Route path="/contactlist" component={ContactList}/>
-        <Route path="/contactCard" exact component={ContactCard}/>
+        <Route path="/contactCard" render={(props) => <ContactCard {...props}/>}/>
       </div>
     );
     }
