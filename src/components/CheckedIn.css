@@ -109,6 +109,8 @@
 }
 
 .CheckedIn a {
+  font-size: large;
+  font-family: "Century Gothic";
   text-decoration: none;
   color: #adadad;
   width: 40%;

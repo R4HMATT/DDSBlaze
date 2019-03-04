@@ -114,7 +114,7 @@ class ContactList extends Component {
     let tmp_markedSafe = [];
 
     // Add user to tmp_notCheckedIn that match this.state.search
-    for(var i = 0; i < this.state.notCheckedIn.length; i++){
+    for(let i = 0; i < this.state.notCheckedIn.length; i++){
       //console.log("searching for: " + this.state.search + "; Current element: " + this.state.notCheckedIn[i]);
       if(this.state.notCheckedIn[i].toLowerCase().includes(this.state.search.toLowerCase())){
         //console.log("Found match in noCheckedIn: " + this.state.notCheckedIn[i]);
@@ -124,7 +124,7 @@ class ContactList extends Component {
     }
 
     // Same as above, but for users that are checked in
-    for(var i = 0; i < this.state.markedSafe.length; i++){
+    for(let i = 0; i < this.state.markedSafe.length; i++){
       //console.log("searching for: " + this.state.search + "; Current element: " + this.state.markedSafe[i]);
       if(this.state.markedSafe[i].toLowerCase().includes(this.state.search.toLowerCase())){
         //console.log("Found match in markedSafe: " + this.state.markedSafe[i]);

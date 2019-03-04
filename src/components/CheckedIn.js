@@ -7,6 +7,7 @@ import {
   Switch,
   Redirect
 } from 'react-router-dom';
+import ContactCard from './ContactCard';
 
 /**** This component is used to generate entries for indivdualds that are NOT checked in ****/
 
@@ -22,7 +23,7 @@ class CheckedIn extends Component {
 	    return (
 
 	      <div className="CheckedIn">
-	        <div className="userName">{this.props.text}</div>
+	        <div className="userName"><Link to="/contactCard"> {this.props.text} </Link></div>
 	        <div className="buttons">
 		         <button 
 		         	className="btnCheckIn" 
@@ -48,6 +49,7 @@ class CheckedIn extends Component {
 							 >
 		         </button> */}
 		    </div>
+				<Route path='/contactCard' Component={ContactCard}></Route>
 	      </div>
 	    );
 	  }
