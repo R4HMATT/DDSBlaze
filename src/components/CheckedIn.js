@@ -51,7 +51,6 @@ class CheckedIn extends Component {
 							 >
 		         </button> */}
 		    </div>
-
 	      </div>
 	    );
 	  }

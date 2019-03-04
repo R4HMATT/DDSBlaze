@@ -67,7 +67,7 @@
   border:none;
   width:25px;
   height:25px;
-  background: url('info_icon.png') no-repeat;
+  background: url('./assets/info_icon.png') no-repeat;
   background-size: 25px 25px;
   background-position: center;
   margin-right: 15px;
@@ -79,7 +79,7 @@
   border: none;
   width:25px;
   height:25px;
-  background: url('sms_icon.png') no-repeat;
+  background: url('./assets/sms_icon.png') no-repeat;
   background-size: 25px 25px;
   background-position: center;
   margin-right: 25px;
@@ -91,7 +91,7 @@
   border: none;
   width:25px;
   height:25px;
-  background: url('phone_icon.png') no-repeat;
+  background: url('./assets/phone_icon.png') no-repeat;
   background-size: 25px 25px;
   background-position: center;
   margin-right: 15px;
