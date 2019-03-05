@@ -1,3 +1,33 @@
+* {
+	padding: 0;
+    margin: 0;
+	border: 0;
+	font-weight: 100;
+	font-family: "Century Gothic", "Calibri", "Arial";
+	overflow-wrap: break-word;
+}
 .ContactCard{
-	font-style: "Century Gothic", Times, serif;
+	text-align: center;	
+	margin: 0px;
+	box-sizing: border-box;
+}
+
+/*Includes Profile Pic, Name, and position title of the person*/
+.ContactCard .contactOverview{
+	padding-top: 5%;
+	position: sticky;
+	top: 0;
+	background-color: #dbdbdb
+}
+
+.ContactCard .contactOverview .employeeName{
+	font-family: 'Century Gothic', 'Calibri', 'Arial';
+	font-size: 150%;
+	font-weight: 400;
+}
+
+.ContactCard .contactOverview .employeeTitle{
+	font-size: 100%;
+	padding-top: 2%;
+	padding-bottom: 5%;
 }
