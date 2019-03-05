@@ -20,6 +20,7 @@
 	background-color: #dbdbdb
 }
 
+
 .ContactCard .contactOverview .employeeName{
 	font-family: 'Century Gothic', 'Calibri', 'Arial';
 	font-size: 150%;
@@ -30,4 +31,14 @@
 	font-size: 100%;
 	padding-top: 2%;
 	padding-bottom: 5%;
+}
+
+.ContactCard .detailedInfo .detailedInfoContent{
+	align-content: center;
+	display: inline-block;
+	text-align: center;
+}
+
+.inline-block-child {
+	display: inline-block;
 }
