@@ -4,6 +4,7 @@ import './App.css';
 import LoginPage from './components/LoginPage';
 import ContactList from './components/ContactList';
 import ContactCard from './components/ContactCard.js';
+import CheckedIn from './components/CheckedIn';
 class App extends Component{
   render() {
   return (
@@ -15,7 +16,7 @@ class App extends Component{
 
         <Route path="/login" exact component={LoginPage}/>
         <Route path="/contactlist" component={ContactList}/>
-        <Route path="/contactCard" render={(props) => <ContactCard {...props}/>}/>
+        <Route path="/:id" component={ContactCard}/>
       </div>
     );
     }

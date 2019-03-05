@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import './CheckedIn.css';
 import {
   BrowserRouter as Router,
-  Route,
   Link,
   Switch,
   Redirect
 } from 'react-router-dom';
 import ContactCard from './ContactCard';
+import App from "../App";
 
 /**** This component is used to generate entries for indivdualds that are NOT checked in ****/
 
@@ -24,7 +24,7 @@ class CheckedIn extends Component {
 
 	      <div className="CheckedIn">
 	        <div className="userName">
-	        	<Link to="/contactCard"> {this.props.text} </Link>
+	        	<Link to={this.props.text}> {this.props.text} </Link>
 	        </div>
 	        <div className="buttons">
 		         <button 
