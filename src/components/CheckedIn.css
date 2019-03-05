@@ -108,6 +108,7 @@
   z-index: 0;
 }
 
+/*Modify default styling of the <Link> attribute from react router*/
 .CheckedIn a {
   font-size: large;
   font-family: "Century Gothic";

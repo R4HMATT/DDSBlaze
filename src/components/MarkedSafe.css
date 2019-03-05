@@ -99,3 +99,12 @@
   margin-right: 15px;
   margin-top: 11px;
 }
+
+/*Modify default styling of the <Link> attribute from react router*/
+.MarkedSafe a {
+  font-size: large;
+  font-family: "Century Gothic";
+  text-decoration: none;
+  color: #adadad;
+  width: 40%;
+}
