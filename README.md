@@ -14,30 +14,30 @@ Now for the setup guide. You will need the following software on your computer a
 
 ## Step 1: Installing Git
 
-Visit the following link to find Git installations: https://git-scm.com/downloads<br/>
-Download and install the appropriate version<br/>
-Follow through with the installation normally<br/>
-In the “Choosing the default editor used by Git” section, set it to what you will most likely use (the drop-down list will show the available options)<br/>
-Follow through the rest of the installation without changing any of the settings
+1.1 Visit the following link to find Git installations: https://git-scm.com/downloads<br/>
+1.2 Download and install the appropriate version<br/>
+1.3 Follow through with the installation normally<br/>
+1.4 In the “Choosing the default editor used by Git” section, set it to what you will most likely use (the drop-down list will show the available options)<br/>
+1.5 Follow through the rest of the installation without changing any of the settings
  
 
 ## Step 2: Installing Node.js
 
-Visit the Node.js download website: https://nodejs.org/en/download/<br/>
-Choose “Current” release and download for your OS<br/>
-Follow the installation normally<br/>
-Once you reach the “Tools for Native Modules” section, make sure to select the “Automatically install the necessary…” checkbox<br/>
-Click Next and Install
+2.1 Visit the Node.js download website: https://nodejs.org/en/download/<br/>
+2.2 Choose “Current” release and download for your OS<br/>
+2.3 Follow the installation normally<br/>
+2.4 Once you reach the “Tools for Native Modules” section, make sure to select the “Automatically install the necessary…” checkbox<br/>
+2.5 Click Next and Install
  
 
 # Step 3: Cloning the GitHub Repo
 
 Now that you have everything setup, go ahead and clone the repo:
 
-Open Git Bash, Command Prompt or any other terminal<br/>
-Navigate to where you want to clone the repo (eg. cd C:/Users/beeeelaaal/Desktop/)<br/>
-Type the following: git clone https://github.com/R4HMATT/DDSBlaze.git<br/>
-Once it’s completed, pull the branch that you want with “git pull -b <branch_name>” and run “npm install” to download the remaining dependencies<br/>
+3.1 Open Git Bash, Command Prompt or any other terminal<br/>
+3.2 Navigate to where you want to clone the repo (eg. cd C:/Users/beeeelaaal/Desktop/)<br/>
+3.3 Type the following: git clone https://github.com/R4HMATT/DDSBlaze.git<br/>
+3.4 Once it’s completed, pull the branch that you want with “git pull -b <branch_name>” and run “npm install” to download the remaining dependencies<br/>
  
 …and that’s about it. One thing I would recommend is getting familiar with our TFS. It can be pretty confusing to use if you’re new to it. If you have any questions/concerns, please feel free to reach out to Bilal or Rahm.
 
