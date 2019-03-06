@@ -2,7 +2,7 @@
 	padding: 0;
     margin: 0;
 	border: 0;
-	font-weight: 100;
+	font-weight: 300;
 	font-family: "Century Gothic", "Calibri", "Arial";
 	overflow-wrap: break-word;
 }
@@ -33,12 +33,37 @@
 	padding-bottom: 5%;
 }
 
-.ContactCard .detailedInfo .detailedInfoContent{
-	align-content: center;
-	display: inline-block;
-	text-align: center;
+/*Container for Detailed Info section*/
+.ContactCard .detailedInfo{
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
 }
 
-.inline-block-child {
-	display: inline-block;
+/*All children of above container*/
+.ContactCard .detailedInfo *{
+	display: flex;
+	flex-direction: row;
+	flex-grow: unset;
+	flex-wrap: nowrap;
+	margin: auto;
+	padding: 5px;
+}
+
+/*All h2 tags inside detailedInfo flexbox*/
+.ContactCard .detailedInfo * h2{
+	font-size: 125%;
+}
+
+.ContactCard .detailedInfo * img{
+	width: 50px;
+	height: 50px;
+}
+
+/*Special case for locationInfo because the address can be very long*/
+.ContactCard .detailedInfo .locationInfo img{
+	width: 50px;
+	height: 50px;
 }

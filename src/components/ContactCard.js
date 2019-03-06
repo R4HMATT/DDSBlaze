@@ -46,16 +46,17 @@ class ContactCard extends Component {
 
         <div className="detailedInfo">
           <div className="phoneInfo">
-            <img src={require("./assets/phone_icon.png")} className="detailedInfoContent" height="10%" width="10%"/>
-            <h2 className="detailedInfoContent">{contactInformation["phoneNumber"]}</h2>
+            <img src={require("./assets/phone_icon.png")}/>
+            <h2>{contactInformation["phoneNumber"]}</h2>
           </div>
 
           <div className="emailInfo">
-            <img src={require("./assets/info_icon.png")} className="detailedInfoContent" height="10%" width="10%"/>
-            <h2 className="detailedInfoContent">{contactInformation["email"]}</h2>
+            <img src={require("./assets/info_icon.png")}/>
+            <h2>{contactInformation["email"]}</h2>
           </div>
 
           <div className="locationInfo">
+            <img src={require("./assets/location_icon.png")}/>
             <h2>{contactInformation["location"]}</h2>
           </div>
         </div>
