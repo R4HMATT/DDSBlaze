@@ -3,10 +3,10 @@
 First of all, welcome to the DDSBlaze project :) I wanted to follow up on what we covered during our last group mentoring session as well as a small setup guide. Here are some important links (pls bookmark):
 
  
-On-premise SharePoint: http://cscgikdcapmdw40/DDSBTest/DDSBlaze/_layouts/15/start.aspx#/SitePages/Home.aspx
-Remote Sharepoint: https://rahmnik.sharepoint.com/
-TFS: http://cscgikdcapmdw39.cihs.ad.gov.on.ca/DDSB/Emergency%20Response
-GitHub: https://github.com/R4HMATT/DDSBlaze (this also contains an important README.md)
+On-premise SharePoint: http://cscgikdcapmdw40/DDSBTest/DDSBlaze/_layouts/15/start.aspx#/SitePages/Home.aspx <br/>
+Remote Sharepoint: https://rahmnik.sharepoint.com/ <br/>
+TFS: http://cscgikdcapmdw39.cihs.ad.gov.on.ca/DDSB/Emergency%20Response <br/>
+GitHub: https://github.com/R4HMATT/DDSBlaze (this also contains an important README.md) <br/>
  
 # Set up
 
@@ -14,19 +14,19 @@ Now for the setup guide. You will need the following software on your computer a
 
 ## Step 1: Installing Git
 
-Visit the following link to find Git installations: https://git-scm.com/downloads
-Download and install the appropriate version
-Follow through with the installation normally
-In the “Choosing the default editor used by Git” section, set it to what you will most likely use (the drop-down list will show the available options)
+Visit the following link to find Git installations: https://git-scm.com/downloads<br/>
+Download and install the appropriate version<br/>
+Follow through with the installation normally<br/>
+In the “Choosing the default editor used by Git” section, set it to what you will most likely use (the drop-down list will show the available options)<br/>
 Follow through the rest of the installation without changing any of the settings
  
 
 ## Step 2: Installing Node.js
 
-Visit the Node.js download website: https://nodejs.org/en/download/
-Choose “Current” release and download for your OS
-Follow the installation normally
-Once you reach the “Tools for Native Modules” section, make sure to select the “Automatically install the necessary…” checkbox
+Visit the Node.js download website: https://nodejs.org/en/download/<br/>
+Choose “Current” release and download for your OS<br/>
+Follow the installation normally<br/>
+Once you reach the “Tools for Native Modules” section, make sure to select the “Automatically install the necessary…” checkbox<br/>
 Click Next and Install
  
 
@@ -34,10 +34,10 @@ Click Next and Install
 
 Now that you have everything setup, go ahead and clone the repo:
 
-Open Git Bash, Command Prompt or any other terminal
-Navigate to where you want to clone the repo (eg. cd C:/Users/beeeelaaal/Desktop/)
-Type the following: git clone https://github.com/R4HMATT/DDSBlaze.git
-Once it’s completed, pull the branch that you want with “git pull -b <branch_name>” and run “npm install” to download the remaining dependencies
+Open Git Bash, Command Prompt or any other terminal<br/>
+Navigate to where you want to clone the repo (eg. cd C:/Users/beeeelaaal/Desktop/)<br/>
+Type the following: git clone https://github.com/R4HMATT/DDSBlaze.git<br/>
+Once it’s completed, pull the branch that you want with “git pull -b <branch_name>” and run “npm install” to download the remaining dependencies<br/>
  
 …and that’s about it. One thing I would recommend is getting familiar with our TFS. It can be pretty confusing to use if you’re new to it. If you have any questions/concerns, please feel free to reach out to Bilal or Rahm.
 
