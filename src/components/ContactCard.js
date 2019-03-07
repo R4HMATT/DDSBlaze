@@ -39,7 +39,7 @@ class ContactCard extends Component {
       <div className="ContactCard">
 
         <div className="contactOverview">
-          <img src={require("./assets/default_profile_pic.png")} height="35%" width="35%"/>
+          <img src={require("./assets/default_profile_pic.png")}/>
           <h2 className="employeeName">{contactInformation["name"]}</h2>
           <h3 className="employeeTitle"><i> {contactInformation["title"]} </i></h3>
         </div>

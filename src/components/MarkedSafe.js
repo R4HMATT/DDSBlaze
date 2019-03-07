@@ -23,7 +23,6 @@ class MarkedSafe extends Component {
 	render() {
 		let new_url = "/contactCard/" + this.props.text;
 	    return (
-	    	<Router>
 		      <div className="MarkedSafe">
 					<div className="userName">
 						<Link to={new_url}> {this.props.text} </Link>
@@ -55,7 +54,6 @@ class MarkedSafe extends Component {
 			     		</button> */}
 			     </div>
 		      </div>
-		    </Router>
 	    );
 	  }
 }
