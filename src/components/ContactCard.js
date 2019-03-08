@@ -3,7 +3,6 @@ import './ContactCard.css';
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import EmergencyContact from "./EmergencyContact";
 import {
   BrowserRouter as Router,
   Link,
