@@ -4,6 +4,7 @@ import './App.css';
 import LoginPage from './components/LoginPage';
 import ContactList from './components/ContactList';
 import ContactCard from './components/ContactCard.js';
+import EmergencyContact from "./components/EmergencyContact";
 
 class App extends Component{
   render() {
@@ -17,6 +18,7 @@ class App extends Component{
         <Route path="/login" exact component={LoginPage}/>
         <Route path="/contactList" component={ContactList}/>
         <Route path="/contactCard/:id" component={ContactCard}/>
+        <Route path="/emergencyContact/:id" component={ContactCard}/>
       </div>
     );
     }
