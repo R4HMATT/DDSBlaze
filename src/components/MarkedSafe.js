@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './MarkedSafe.css';
-import ContactCard from './ContactCard.js';
 import {
   BrowserRouter as Router,
   Route,
