@@ -1,3 +1,7 @@
 .ContactCard{
-	font-style: "Century Gothic", Times, serif;
+	position: fixed;
+	bottom: 0px;
+	width: 100%;
+	margin: auto;
+	padding: auto;
 }

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './MarkedSafe.css';
-import ContactCard from './ContactCard.js';
 import {
   BrowserRouter as Router,
   Route,
@@ -21,10 +20,12 @@ class MarkedSafe extends Component {
   }
 
 	render() {
+		let new_url = "/contactCard/" + this.props.text;
 	    return (
-	    	<Router>
 		      <div className="MarkedSafe">
-					<div className="userName">{this.props.text}</div>
+					<div className="userName">
+						<Link to={new_url}> {this.props.text} </Link>
+					</div>
 		        <div className="buttons">
 		        <button 
 		         	className="btnUndoCheckIn" 
@@ -50,11 +51,8 @@ class MarkedSafe extends Component {
 								 >
 			         	<Link to="/hello"></Link>
 			     		</button> */}
-
-			    <Route path="/hello" component={ContactCard}/>
 			     </div>
 		      </div>
-		    </Router>
 	    );
 	  }
 }

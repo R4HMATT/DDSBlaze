@@ -69,7 +69,7 @@
   width:25px;
   height:25px;
   vertical-align: center;
-  background: url(info_icon.png) no-repeat;
+  background: url("./assets/info_icon.png") no-repeat;
   background-size: 25px 25px;
   background-position: center;
   margin-right: 15px;
@@ -81,7 +81,7 @@
   border: none;
   width:25px;
   height:25px;
-  background: url('sms_icon.png') no-repeat;
+  background: url('./assets/sms_icon.png') no-repeat;
   background-size: 25px 25px;
   background-position: center;
   margin-right: 15px;
@@ -93,9 +93,18 @@
   border: none;
   width:25px;
   height:25px;
-  background: url('phone_icon.png') no-repeat;
+  background: url('./assets/phone_icon.png') no-repeat;
   background-size: 25px 25px;
   background-position: center;
   margin-right: 15px;
   margin-top: 11px;
+}
+
+/*Modify default styling of the <Link> attribute from react router*/
+.MarkedSafe a {
+  font-size: large;
+  font-family: "Century Gothic";
+  text-decoration: none;
+  color: #adadad;
+  width: 40%;
 }

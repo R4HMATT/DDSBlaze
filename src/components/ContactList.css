@@ -89,14 +89,14 @@ body {
   -webkit-box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.1);
   -moz-box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.1);
   
-  background: url('../search_icon.png') no-repeat scroll 98% 50%;
+  background: url('./assets/search_icon.png') no-repeat scroll 98% 50%;
   background-size: 28px 28px;
   background-color: #ffffff;
 }
 
 .search-wrapper .btn-redo{
   border: none;
-  background: url("../redo icon.png") no-repeat;
+  background: url("./assets/redo icon.png") no-repeat;
   margin-top: auto;
   margin-bottom: auto;
   margin-left: 95%;

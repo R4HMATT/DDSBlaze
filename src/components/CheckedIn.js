@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './CheckedIn.css';
 import {
   BrowserRouter as Router,
-  Route,
   Link,
   Switch,
   Redirect
@@ -19,10 +18,13 @@ class CheckedIn extends Component {
   }
 
 	render() {
+		let new_url = "/contactCard/" + this.props.text;
 	    return (
 
 	      <div className="CheckedIn">
-	        <div className="userName">{this.props.text}</div>
+	        <div className="userName">
+	        	<Link to={new_url}> {this.props.text} </Link>
+	        </div>
 	        <div className="buttons">
 		         <button 
 		         	className="btnCheckIn" 
