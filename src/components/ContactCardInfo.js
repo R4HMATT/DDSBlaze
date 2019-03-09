@@ -2,13 +2,7 @@ import React, { Component } from 'react';
 import './ContactCardInfo.css';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-
-import {
-  BrowserRouter as Router,
-  Link,
-  Switch,
-  Redirect
-} from 'react-router-dom';
+import Paper from '@material-ui/core/Paper';
 import { ListItemText, ListItemIcon } from '@material-ui/core';
 
 class ContactCardInfo extends Component {
@@ -53,29 +47,16 @@ class ContactCardInfo extends Component {
     let emergContact_link = "/contactCard/" + contactInformation["emergencyContact"]
     console.log("This state value: " + this.state.value);
 
-    //     <div className="phoneInfo">
-    //     <img src={require("./assets/phone_icon.png")}/>
-    //     <h2>{contactInformation["phoneNumber"]}</h2>
-    //   </div>
-
-    //   <div className="emailInfo">
-    //     <img src={require("./assets/info_icon.png")}/>
-    //     <h2>{contactInformation["email"]}</h2>
-    //   </div>
-
-    //   <div className="locationInfo">
-    //     <img src={require("./assets/location_icon.png")}/>
-    //     <h2>{contactInformation["location"]}</h2>
-    //   </div>
     return (
       <div className="ContactCardInfo">
-
         <div className="contactOverview">
           <img src={require("./assets/default_profile_pic.png")}/>
           <h2 className="employeeName">{contactInformation["name"]}</h2>
           <h3 className="employeeTitle"><i> {contactInformation["title"]} </i></h3>
         </div>
         <div className="detailedInfo">
+
+        <Paper>
             <List>
                 <div className="phoneInfo">
                 <ListItem button>
@@ -98,6 +79,7 @@ class ContactCardInfo extends Component {
                 </ListItem>
                 </div>
             </List>
+        </Paper>
         </div>
       </div>
     );

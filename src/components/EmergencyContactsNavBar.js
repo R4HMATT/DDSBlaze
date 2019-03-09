@@ -7,7 +7,6 @@ import NoSsr from '@material-ui/core/NoSsr';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import ContactCardInfo from "./ContactCardInfo";
-import { palette } from '@material-ui/system';
 
 function TabContainer(props) {
   return (
@@ -50,7 +49,7 @@ class EmergencyContactsNavBar extends React.Component {
         <div className={classes.root}>
         {value === 0 && <ContactCardInfo user_id={this.props.user_id}/>}
         {value === 1 && <ContactCardInfo user_id={this.props.emerg_contact_id}/>}
-          <AppBar position="static" color="primary" classes={{backgroundColor: palette.main}}>
+          <AppBar position="static" color="primary">
             <Tabs variant="fullWidth" value={value} onChange={this.handleChange} indicatorColor="secondary">
               <LinkTab label="Primary Contact" />
               <LinkTab label={this.props.emerg_contact_id} />

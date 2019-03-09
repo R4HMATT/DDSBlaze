@@ -1,19 +1,6 @@
 import React, { Component } from 'react';
 import './ContactCard.css';
-import Tab from "@material-ui/core/Tab";
 import EmergencyContactsNavBar from "./EmergencyContactsNavBar"
-
-import {
-  BrowserRouter as Router,
-  Link,
-  Switch,
-  Redirect
-} from 'react-router-dom';
-import { withStyles } from '@material-ui/core';
-
-function LinkTab(props) {
-  return <Tab component="a" onClick={event => event.preventDefault()} {...props} />;
-}
 
 class ContactCard extends Component {
 
@@ -58,19 +45,7 @@ class ContactCard extends Component {
 
 	render() {
     let contactInformation = this.state.employee;
-    let emergContact_link = "/contactCard/" + contactInformation["emergencyContact"]
-    //console.log("This state value: " + this.state.value);
-    /* <div className="emergencyInfo">
-          <div className="emergencyContact">
-          Emergency Contact #1
-          </div>
-          <div className="emergencyContact">
-          Emergency Contact #2
-          </div>
-          <div className="emergencyContact">
-          Emergency Contact #3
-          </div>
-        </div>*/
+
     return (
       <div className="ContactCard">
         <EmergencyContactsNavBar user_id={this.props.match.params.id} emerg_contact_id={this.state.employee["emergencyContact"]}/>
