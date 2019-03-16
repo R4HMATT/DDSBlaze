@@ -27,13 +27,14 @@ function LinkTab(props) {
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    backgroundColor: "#f1f1f1",
+    backgroundColor: "white",
   },
-  tabs: {
-    backgroundColor: '#fff',
+  AppBar: {
+    backgroundColor: '#0483e8',
   }
 });
 
+/*** This class handles switching between people who are Checked-In and NOT Checked-In ***/
 class ContactListNavBar extends React.Component {
   state = {
     value: 0,
@@ -54,7 +55,7 @@ class ContactListNavBar extends React.Component {
     return (
       <NoSsr>
         <div className={classes.root}>
-          <AppBar position="sticky" color="primary">
+          <AppBar position="sticky" color="primary" classes={{colorPrimary: classes.AppBar}}>
             <Tabs variant="fullWidth" value={value} onChange={this.handleChange} indicatorColor="secondary">
               <LinkTab label="Not Checked-In" />
               <LinkTab label="Checked-In" />

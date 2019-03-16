@@ -30,6 +30,9 @@ const styles = theme => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
   },
+  AppBar: {
+    backgroundColor: '#0483e8',
+  }
 });
 
 class EmergencyContactsNavBar extends React.Component {
@@ -52,7 +55,7 @@ class EmergencyContactsNavBar extends React.Component {
           {value === 0 && <ContactCardInfo user_id={this.props.user_id}/>}
           {value === 1 && <ContactCardInfo user_id={this.props.emerg_contact_id}/>}
         </SwipeableViews>
-          <AppBar position="static" color="primary">
+          <AppBar position="static" color="primary" classes={{colorPrimary: classes.AppBar}}>
             <Tabs variant="fullWidth" value={value} onChange={this.handleChange} indicatorColor="secondary">
               <LinkTab label="Primary Contact" />
               <LinkTab label={this.props.emerg_contact_id} />

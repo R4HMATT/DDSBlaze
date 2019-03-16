@@ -52,8 +52,6 @@
 /*Container for Detailed Info section*/
 .ContactCardInfo .detailedInfo{
 	padding: 10%;
-	height: 100%;	
-	width: 100%;
 }
 
 /*All children of above container*/
