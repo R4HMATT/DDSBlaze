@@ -45,7 +45,7 @@ class ContactCardInfo extends Component {
 	render() {
     let contactInformation = this.state.employee;
     let emergContact_link = "/contactCard/" + contactInformation["emergencyContact"]
-    console.log("This state value: " + this.state.value);
+    //console.log("This state value: " + this.state.value);
 
     return (
       <div className="ContactCardInfo">
