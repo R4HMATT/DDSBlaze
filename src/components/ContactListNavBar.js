@@ -6,6 +6,7 @@ import Tabs from '@material-ui/core/Tabs';
 import NoSsr from '@material-ui/core/NoSsr';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
+import SwipeableViews from 'react-swipeable-views';
 
 function TabContainer(props) {
   return (
@@ -28,6 +29,9 @@ const styles = theme => ({
     flexGrow: 1,
     backgroundColor: "#f1f1f1",
   },
+  tabs: {
+    backgroundColor: '#fff',
+  }
 });
 
 class ContactListNavBar extends React.Component {
@@ -39,8 +43,12 @@ class ContactListNavBar extends React.Component {
     this.setState({ value });
   };
 
+  handleChangeIndex = index => {
+    this.setState({index,});
+  }
+
   render() {
-    const { classes } = this.props;
+    const { classes, theme } = this.props;
     const { value } = this.state;
 
     return (
@@ -52,8 +60,10 @@ class ContactListNavBar extends React.Component {
               <LinkTab label="Checked-In" />
             </Tabs>
           </AppBar>
-        {value === 0 && <div>{this.props.notCheckedIn}</div>}
-        {value === 1 && <div>{this.props.safepeople}</div>}
+          <SwipeableViews disabled={true} index={value} onChangeIndex={this.handleChange} axis={value === 0 ? 'x-reverse' : 'x'}>
+            {value === 0 && <div>{this.props.notCheckedIn}</div>}
+            {value === 1 && <div>{this.props.safepeople}</div>}
+          </SwipeableViews>
         </div>
       </NoSsr>
     );
@@ -62,6 +72,7 @@ class ContactListNavBar extends React.Component {
 
 ContactListNavBar.propTypes = {
   classes: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(ContactListNavBar);
