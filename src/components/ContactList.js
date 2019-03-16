@@ -2,13 +2,7 @@ import React, { Component } from 'react';
 import CheckedIn from './CheckedIn.js';
 import MarkedSafe from './MarkedSafe.js';
 import ContactCard from './ContactCard.js';
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Switch,
-  Redirect
-} from 'react-router-dom';
+import ContactListNavBar from './ContactListNavBar';
 import './ContactList.css';
 
 /**** This component displays all individuals that are checked-in and not checked-in, 
@@ -171,21 +165,21 @@ class ContactList extends Component {
       safepeople = tmp_arr[1];
     }
 
+    // <h2 className="Title">Not Checked-In</h2>
+    // <div className="noCheck">
+    // { notCheckedIn }
+    // </div>
+    // <h2 className="Title">Checked-In</h2>
+    // <div className="markedSafe">
+    // { safepeople }
+    // </div>
     let totalList = notCheckedIn.concat(safepeople);
     return (
       <div className="container">
           <div className="search-wrapper">
-            <button className="btn-redo"/>
             <input type="text" className="searchBar" onChange={this.updateSearch.bind(this)} placeholder="Search a User..." value={this.state.search} />
           </div>
-            <h2 className="Title">Not Checked-In</h2>
-              <div className="noCheck">
-              { notCheckedIn }
-              </div>
-              <h2 className="Title">Checked-In</h2>
-              <div className="markedSafe">
-              { safepeople }
-              </div>
+          <ContactListNavBar notCheckedIn={notCheckedIn} safepeople={safepeople}/>
       </div>
     );
   }

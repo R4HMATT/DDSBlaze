@@ -6,7 +6,6 @@ import Tabs from '@material-ui/core/Tabs';
 import NoSsr from '@material-ui/core/NoSsr';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
-import ContactCardInfo from "./ContactCardInfo";
 
 function TabContainer(props) {
   return (
@@ -27,7 +26,7 @@ function LinkTab(props) {
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: "#f1f1f1",
   },
 });
 
@@ -47,14 +46,14 @@ class ContactListNavBar extends React.Component {
     return (
       <NoSsr>
         <div className={classes.root}>
-          <AppBar position="static" color="primary">
+          <AppBar position="sticky" color="primary">
             <Tabs variant="fullWidth" value={value} onChange={this.handleChange} indicatorColor="secondary">
               <LinkTab label="Not Checked-In" />
               <LinkTab label="Checked-In" />
             </Tabs>
           </AppBar>
-        {value === 0 && <div>Not Checked-In</div>}
-        {value === 1 && <div>Checked-In</div>}
+        {value === 0 && <div>{this.props.notCheckedIn}</div>}
+        {value === 1 && <div>{this.props.safepeople}</div>}
         </div>
       </NoSsr>
     );
