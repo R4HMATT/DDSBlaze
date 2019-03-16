@@ -6,7 +6,6 @@ import Tabs from '@material-ui/core/Tabs';
 import NoSsr from '@material-ui/core/NoSsr';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
-import ContactCardInfo from "./ContactCardInfo";
 import SwipeableViews from 'react-swipeable-views';
 
 function TabContainer(props) {
@@ -28,14 +27,15 @@ function LinkTab(props) {
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: "white",
   },
   AppBar: {
     backgroundColor: '#0483e8',
   }
 });
 
-class EmergencyContactsNavBar extends React.Component {
+/*** This class handles switching between people who are Checked-In and NOT Checked-In ***/
+class ContactListNavBar extends React.Component {
   state = {
     value: 0,
   };
@@ -44,31 +44,36 @@ class EmergencyContactsNavBar extends React.Component {
     this.setState({ value });
   };
 
+  handleChangeIndex = index => {
+    this.setState({index,});
+  }
+
   render() {
-    const { classes } = this.props;
+    const { classes, theme } = this.props;
     const { value } = this.state;
 
     return (
       <NoSsr>
         <div className={classes.root}>
-        <SwipeableViews disabled={true} index={value} onChangeIndex={this.handleChange} axis={value === 0 ? 'x-reverse' : 'x'}>
-          {value === 0 && <ContactCardInfo user_id={this.props.user_id}/>}
-          {value === 1 && <ContactCardInfo user_id={this.props.emerg_contact_id}/>}
-        </SwipeableViews>
-          <AppBar position="static" color="primary" classes={{colorPrimary: classes.AppBar}}>
+          <AppBar position="sticky" color="primary" classes={{colorPrimary: classes.AppBar}}>
             <Tabs variant="fullWidth" value={value} onChange={this.handleChange} indicatorColor="secondary">
-              <LinkTab label="Primary Contact" />
-              <LinkTab label={this.props.emerg_contact_id} />
+              <LinkTab label="Not Checked-In" />
+              <LinkTab label="Checked-In" />
             </Tabs>
           </AppBar>
+          <SwipeableViews disabled={true} index={value} onChangeIndex={this.handleChange} axis={value === 0 ? 'x-reverse' : 'x'}>
+            {value === 0 && <div>{this.props.notCheckedIn}</div>}
+            {value === 1 && <div>{this.props.safepeople}</div>}
+          </SwipeableViews>
         </div>
       </NoSsr>
     );
   }
 }
 
-EmergencyContactsNavBar.propTypes = {
+ContactListNavBar.propTypes = {
   classes: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(EmergencyContactsNavBar);
+export default withStyles(styles)(ContactListNavBar);

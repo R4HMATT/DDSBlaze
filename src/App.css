@@ -13,19 +13,4 @@ body {
   width: 100%;
   height: 100%;
 }
-/* Our App Container */
-.container {
-  padding-bottom: 80px;
-}
-
-/*Check-In/Not Checked-in title*/
-.Title {
-  font-size: larger;
-  background: #3cd3d8;
-  padding: 20px;
-  font-size: large;
-  margin: 20px;
-  text-align: center;
-  font-family: "Century Gothic";
-}
 

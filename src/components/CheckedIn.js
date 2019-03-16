@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import './CheckedIn.css';
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
 import {
   BrowserRouter as Router,
   Link,
@@ -26,18 +28,14 @@ class CheckedIn extends Component {
 	        	<Link to={new_url}> {this.props.text} </Link>
 	        </div>
 	        <div className="buttons">
-		         <button 
-		         	className="btnCheckIn" 
-		         	name="isCheckedIn" 
-		         	type="button"
-		         	onClick={this.props.deleteMethod}>Check In
-		         </button>
+		         <Button className="btnCheckIn" variant="contained" color="primary" onClick={this.props.deleteMethod}>Check In
+		         </Button>
 
 						 <button className="btnContactPhone"
 						 name="viewContactPhone"
 						 type="button"
 						 />
-
+						
 						 <button className="btnContactSMS"
 						 name="viewContactSMS"
 						 type="button"

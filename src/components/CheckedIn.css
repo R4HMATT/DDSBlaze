@@ -9,13 +9,12 @@
   margin: 20px;
   background: #fff;
   vertical-align: center;
-  border: solid 1px #e9e9e9;
-  cursor: pointer;
+  border: solid 2px #e9e9e9;
 
   /*Shadows*/
-  box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.1);
-  -webkit-box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.1);
-  -moz-box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.1);
+  box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.1);
+  -webkit-box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.1);
+  -moz-box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.1);
 
   transition: transform .2s ease;
 }
@@ -29,7 +28,7 @@
 .CheckedIn .userName{
   font-size: large;
   font-family: "Century Gothic";
-  color: #adadad;
+  color: black;
   padding: 3px;
   width: 40%;
   white-space: nowrap;
@@ -39,7 +38,6 @@
 }
 .CheckedIn .buttons{
   color: white;
-  cursor:pointer;
   display: block;
   float: right;
   text-align: center;
@@ -53,9 +51,9 @@
   background-color: #4CAF50; /* Green */
   border: none;
   color: white;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  width: 70px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 90px;
   border-radius: 4px;
   float: right;
   display: block;
@@ -113,6 +111,7 @@
   font-size: large;
   font-family: "Century Gothic";
   text-decoration: none;
-  color: #adadad;
+  color: black;
+  font-weight: 300;
   width: 40%;
 }
