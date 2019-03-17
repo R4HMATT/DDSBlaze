@@ -18,7 +18,7 @@
     "react-swipeable-views": "^0.13.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "HTTPS=true react-scripts start",
     "stop": "node server.stop.js",
     "build": "react-scripts build",
     "test": "react-scripts test",

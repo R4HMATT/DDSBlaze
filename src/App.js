@@ -1,24 +1,28 @@
 import React, { Component } from 'react';
-import { Route, Link } from 'react-router-dom';
+import { Switch, Route, Link } from 'react-router-dom';
 import './App.css';
 import LoginPage from './components/LoginPage';
 import ContactList from './components/ContactList';
 import ContactCard from './components/ContactCard.js';
 
+//<Route path="/login" exact component={LoginPage}/>
 
 class App extends Component{
   render() {
   return (
+
       <div>
         <ul>
-          <li><Link to="/login">LoginPage</Link></li>
+          <li><Link to="/">Login</Link></li>
           <li><Link to="/contactList">Contact List</Link></li>
         </ul>
 
-        <Route path="/login" exact component={LoginPage}/>
+        <Switch>
+        <Route exact path="/" component={LoginPage}/>
         <Route path="/contactList" component={ContactList}/>
         <Route path="/contactCard/:id" component={ContactCard}/>
         <Route path="/emergencyContact/:id" component={ContactCard}/>
+        </Switch>
       </div>
     );
     }

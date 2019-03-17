@@ -135,13 +135,14 @@ class LoginPage extends Component {
           method: "GET",
           headers: headers
       };
-
       var list;
       fetch(sharepointSite, options)
-        .then(response => response.json)
-        .then( res => this.setState({list: res}));
-        console.log(this.state.list);
+        .then(response => response.json())
+        .then( res => localStorage.setItem("contacts", JSON.stringify(res.value)));
 
+        //localStorage.setItem("contacts", res.value)
+        console.log("got the sp info");
+    
     }
   }
 

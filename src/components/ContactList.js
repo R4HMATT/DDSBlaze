@@ -12,10 +12,13 @@ class ContactList extends Component {
 
   constructor(props) {
     super(props);
-    let contacts = require('./ContactInfo.json');
+    // let contacts = require('./ContactInfo.json');
+    let contacts = JSON.parse(localStorage.getItem("contacts"));
+    console.log(contacts)
+
     let notCheckedInArr = [];
     for(var i = 1; i < contacts.length; i++){
-      notCheckedInArr.push(contacts[i]["B"]);
+      notCheckedInArr.push(contacts[i]["fields"]["Title"]);
     }
     notCheckedInArr.sort()
     this.state = {
