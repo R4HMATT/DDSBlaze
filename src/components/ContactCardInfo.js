@@ -2,8 +2,17 @@ import React, { Component } from 'react';
 import './ContactCardInfo.css';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import Paper from '@material-ui/core/Paper';
 import { ListItemText, ListItemIcon } from '@material-ui/core';
+import Paper from '@material-ui/core/Paper';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import Divider from '@material-ui/core/Divider';
+import Avatar from '@material-ui/core/Avatar';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Modal from '@material-ui/core/Modal';
+import Button from '@material-ui/core/Button';
+
 
 class ContactCardInfo extends Component {
 
@@ -38,15 +47,23 @@ class ContactCardInfo extends Component {
       employee: employee,
       employee_id: this.props.user_id,
       primary_link: "/contactCard/" + this.props.user_id,
-      value: "/contactCard/" + this.props.user_id
+      value: "/contactCard/" + this.props.user_id,
+      modelIsOpen: false,
     };
-}
+  }
+
+  handleModalOpen = () => {
+    this.setState({modalIsOpen: true});
+  }
+
+  handleModalClose = () => {
+    this.setState({modalIsOpen: false});
+  }
 
 	render() {
     let contactInformation = this.state.employee;
-    let emergContact_link = "/contactCard/" + contactInformation["emergencyContact"]
     //console.log("This state value: " + this.state.value);
-
+    
     return (
       <div className="ContactCardInfo">
         <div className="contactOverview">
@@ -59,17 +76,21 @@ class ContactCardInfo extends Component {
         <Paper>
             <List>
                 <div className="phoneInfo">
+                <a href={"tel:" + contactInformation["phoneNumber"]}>
                 <ListItem button>
                     <ListItemIcon><img src={require("./assets/phone_icon.png")}/></ListItemIcon>
                     <ListItemText primary={contactInformation["phoneNumber"]}/>
                 </ListItem>
+                </a>
                 </div>
 
                 <div className="emailInfo">
+                <a href={"mailto:" + contactInformation["email"]}>
                 <ListItem button>
                     <ListItemIcon><img src={require("./assets/email_icon.png")}/></ListItemIcon>
                     <ListItemText primary={contactInformation["email"]}/>
                 </ListItem>
+                </a>
                 </div>
 
                 <div className="locationInfo">
@@ -80,6 +101,38 @@ class ContactCardInfo extends Component {
                 </div>
             </List>
         </Paper>
+        </div>
+
+        <Divider variant="middle"/>
+        <div className="emergencyContactInfo">
+          <ExpansionPanel>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
+                Emergency Contact
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <List>
+                  <ListItem button alignItems="center" aria-label="Expand Emergency Contact" onClick={this.handleModalOpen}>
+                    <Avatar>
+                      <img src={require("./assets/default_profile_pic.png")}/>
+                    </Avatar>
+                    <ListItemText primary={this.props.emerg_contact_id} secondary="Click for details"/>
+                  </ListItem>
+                </List>
+              </ExpansionPanelDetails>
+          </ExpansionPanel>
+          <Modal
+            aria-labelledby="simple-modal-title"
+            aria-describedby="simple-modal-description"
+            open={this.state.modalIsOpen} 
+            onClose={this.handleModalClose}>
+            <Paper className="emergencyContactModal" elevation="5">
+              <Button 
+                className="emergencyContactModalButton" 
+                variant="contained" 
+                size="small" 
+                onClick={this.handleModalClose}>Close</Button>
+            </Paper>
+        </Modal>
         </div>
       </div>
     );
