@@ -67,19 +67,24 @@ class ContactCardInfo extends Component {
     return (
       <div className="ContactCardInfo">
         <div className="contactOverview">
+        <Button
+          className="backButton" 
+          variant="outlined" 
+          size="small" 
+          onClick={console.log("Clicked back button")}>{"<"} Back</Button>
           <img src={require("./assets/default_profile_pic.png")}/>
           <h2 className="employeeName">{contactInformation["name"]}</h2>
           <h3 className="employeeTitle"><i> {contactInformation["title"]} </i></h3>
         </div>
-        <div className="detailedInfo">
 
+        <div className="detailedInfo">
         <Paper>
             <List>
                 <div className="phoneInfo">
                 <a href={"tel:" + contactInformation["phoneNumber"]}>
                 <ListItem button>
                     <ListItemIcon><img src={require("./assets/phone_icon.png")}/></ListItemIcon>
-                    <ListItemText primary={contactInformation["phoneNumber"]}/>
+                    <ListItemText primary={contactInformation["phoneNumber"]} secondary="Tap to Call/Tap + Hold for SMS"/>
                 </ListItem>
                 </a>
                 </div>
@@ -88,7 +93,7 @@ class ContactCardInfo extends Component {
                 <a href={"mailto:" + contactInformation["email"]}>
                 <ListItem button>
                     <ListItemIcon><img src={require("./assets/email_icon.png")}/></ListItemIcon>
-                    <ListItemText primary={contactInformation["email"]}/>
+                    <ListItemText primary={contactInformation["email"]} secondary="Tap to Email"/>
                 </ListItem>
                 </a>
                 </div>
@@ -107,7 +112,7 @@ class ContactCardInfo extends Component {
         <div className="emergencyContactInfo">
           <ExpansionPanel>
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
-                Emergency Contact
+                Emergency Contact Information
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
                 <List>
@@ -125,12 +130,12 @@ class ContactCardInfo extends Component {
             aria-describedby="simple-modal-description"
             open={this.state.modalIsOpen} 
             onClose={this.handleModalClose}>
-            <Paper className="emergencyContactModal" elevation="5">
-              <Button 
+            <Paper className="emergencyContactModal" elevation={5}>
+              <Button
                 className="emergencyContactModalButton" 
-                variant="contained" 
+                variant="outlined" 
                 size="small" 
-                onClick={this.handleModalClose}>Close</Button>
+                onClick={this.handleModalClose}>X Close</Button>
             </Paper>
         </Modal>
         </div>
