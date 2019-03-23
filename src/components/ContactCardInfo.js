@@ -21,11 +21,11 @@ class ContactCardInfo extends Component {
     let contacts = require('../ContactInfo.json');
     let employee = {
         "id": this.props.user_id,
-        "name": "",
-        "title": "",
+        "name": "N/A",
+        "title": "N/A",
         "location": "",
-        "phoneNumber": [],
-        "email": [],
+        "phoneNumber": "",
+        "email": "",
         "emergencyContact": ""
     };
 
@@ -84,7 +84,7 @@ class ContactCardInfo extends Component {
                 <a href={"tel:" + contactInformation["phoneNumber"]}>
                 <ListItem button>
                     <ListItemIcon><img src={require("./assets/phone_icon.png")}/></ListItemIcon>
-                    <ListItemText primary={contactInformation["phoneNumber"]} secondary="Tap to Call/Tap + Hold for SMS"/>
+                    <ListItemText primary={contactInformation["phoneNumber"]} secondary={contactInformation["phoneNumber"] === "" ? 'No Phone Number on Record' : "Tap to Call / Tap + Hold for SMS"}/>
                 </ListItem>
                 </a>
                 </div>
@@ -93,7 +93,7 @@ class ContactCardInfo extends Component {
                 <a href={"mailto:" + contactInformation["email"]}>
                 <ListItem button>
                     <ListItemIcon><img src={require("./assets/email_icon.png")}/></ListItemIcon>
-                    <ListItemText primary={contactInformation["email"]} secondary="Tap to Email"/>
+                    <ListItemText primary={contactInformation["email"]} secondary={contactInformation["email"] === "" ? 'No Email on Record' : 'Tap to Email'}/>
                 </ListItem>
                 </a>
                 </div>
@@ -101,7 +101,7 @@ class ContactCardInfo extends Component {
                 <div className="locationInfo">
                 <ListItem button>
                     <ListItemIcon><img src={require("./assets/location_icon.png")}/></ListItemIcon>
-                    <ListItemText primary={contactInformation["location"]}/>
+                    <ListItemText primary={contactInformation["location"]} secondary={contactInformation["location"] === "" ? 'No Location Info on Record' : ''}/>
                 </ListItem>
                 </div>
             </List>
@@ -120,7 +120,7 @@ class ContactCardInfo extends Component {
                     <Avatar>
                       <img src={require("./assets/default_profile_pic.png")}/>
                     </Avatar>
-                    <ListItemText primary={this.props.emerg_contact_id} secondary="Click for details"/>
+                    <ListItemText primary={this.props.emerg_contact_id} secondary={this.props.emerg_contact_id === '' ? 'No Emergency Contact on Record' : 'Tap for more details'}/>
                   </ListItem>
                 </List>
               </ExpansionPanelDetails>
@@ -134,7 +134,6 @@ class ContactCardInfo extends Component {
               <Button
                 className="emergencyContactModalButton" 
                 variant="outlined" 
-                size="small" 
                 onClick={this.handleModalClose}>X Close</Button>
             </Paper>
         </Modal>
