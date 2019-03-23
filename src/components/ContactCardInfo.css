@@ -36,6 +36,11 @@
 	margin: auto;
 }
 
+.ContactCardInfo .contactOverview .backButton img{
+	width: 20px;
+	height: 20px;
+}
+
 /*Name of employee */
 .ContactCardInfo .contactOverview .employeeName{
 	font-family: 'Century Gothic', 'Calibri', 'Arial';
@@ -113,31 +118,12 @@
 	padding-top: 5%;
 }
 
-.ContactCardInfo .emergencyContactInfo * img{
+.ContactCardInfo .emergencyContactInfo .emergencyContactProfilePic{
 	width: 100%;
 	height: 100%;
 }
 
-/*Pop-up modal for displaying emergency contact info*/
-* .emergencyContactModal{
-	display: inline-block;
-	background: white;
-	position: fixed;
-	outline: none;
-
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-
-	width: 90%;
-	height: 40%;
-	margin: auto;
-}
-
-* .emergencyContactModal .emergencyContactModalButton{
-	position: sticky;
-	margin-top: 10px;
-	margin-left: 10px;
-	border-radius: 4px;
+.ContactCardInfo .emergencyContactInfo .emergencyContactSecondaryActions{
+	width: 10%;
+	height: 10%;
 }
