@@ -120,10 +120,10 @@ class ContactCardInfo extends Component {
                 </Avatar>
                 <ListItemText primary={this.props.emerg_contact_id} secondary={this.props.emerg_contact_id === '' ? 'No Emergency Contact on Record' : 'Emergency Contact - Tap for Info'}/>
                 <ListItemSecondaryAction>
-                  <IconButton aria-label={"Call " + this.props.emerg_contact_id} href={"tel:" + contactInformation["phoneNumber"]} disabled={this.props.emerg_contact_id === ''}>
+                  <IconButton aria-label={"Call " + this.props.emerg_contact_id} href="tel:416-456-7890" disabled={this.props.emerg_contact_id === ''}>
                     <CallIcon/>
                   </IconButton>
-                  <IconButton aria-label={"Send SMS to " + this.props.emerg_contact_id} disabled={this.props.emerg_contact_id === ''}>
+                  <IconButton aria-label={"Send SMS to " + this.props.emerg_contact_id} href="sms:416-456-7890" disabled={this.props.emerg_contact_id === ''}>
                     <SMSIcon/>
                   </IconButton>
                 </ListItemSecondaryAction>
@@ -143,7 +143,8 @@ class ContactCardInfo extends Component {
 
             <DialogContent>
               <DialogContentText>
-                Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test
+                Emergency Contact Details Emergency Contact Details Emergency Contact Details 
+                Emergency Contact Details Emergency Contact Details Emergency Contact Details 
               </DialogContentText>
               
               <DialogActions>
