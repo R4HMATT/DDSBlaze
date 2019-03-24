@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+//import getSPlist from accessRequest.js;
 import CheckedIn from './CheckedIn.js';
 import MarkedSafe from './MarkedSafe.js';
 import ContactCard from './ContactCard.js';
@@ -8,26 +9,107 @@ import './ContactList.css';
 /**** This component displays all individuals that are checked-in and not checked-in, 
    as well as the search bar and other main functionality ****/
 
+const SP = require('../Connection.json');
+
 class ContactList extends Component {
 
   constructor(props) {
     super(props);
+    this.getSPlist = this.getSPlist.bind(this);
+    this.setUp = this.setUp.bind(this);
     // let contacts = require('./ContactInfo.json');
-    let contacts = JSON.parse(localStorage.getItem("contacts"));
-    console.log(contacts)
-
-    let notCheckedInArr = [];
-    for(var i = 1; i < contacts.length; i++){
-      notCheckedInArr.push(contacts[i]["fields"]["Title"]);
-    }
-    notCheckedInArr.sort()
+    //let contacts = JSON.parse(localStorage.getItem("contacts"));
+    //console.log(contacts)
     this.state = {
-      notCheckedIn: notCheckedInArr,
+      contacts: [],
+      isLoading: true,
+      notCheckedIn: [],
       markedSafe: [],
       search: '',
       emergContacts: ContactCard
     }
   }
+
+  setUp() {
+    console.log({'contacts': this.state.contacts});
+    let notCheckedInArr = [];
+    let checkedInArr = [];
+    if (this.state.isLoading === false) {
+      console.log("got Past Set Up if statement")
+      let contacts = JSON.parse(this.state.contacts);
+      console.log({"setUp": contacts});
+      let notCheckedInArr = [];
+      let checkedInArr = [];
+      for(var i = 1; i < contacts.length; i++) {
+        if (contacts[i]["fields"]["Status"] === "NotCheckedIn") {
+          notCheckedInArr.push(contacts[i]["fields"]["Title"]);
+        }
+        else if (contacts[i]["fields"]["Status"] === "CheckedIn") {
+          checkedInArr.push(contacts[i]["fields"]["Title"]);
+        }
+      }
+
+      console.log({"result of Set Up": [notCheckedInArr, checkedInArr]});
+
+      return [notCheckedInArr, checkedInArr];
+      /* 
+      notCheckedInArr.sort();
+      checkedInArr.sort();
+      this.setState({
+                    notCheckedIn: notCheckedInArr,
+                    markedSafe: checkedInArr
+                  });
+      */
+      }
+    }
+
+
+  componentDidMount() {
+    console.log("ContactList mounted");
+    this.getSPlist();
+    console.log("getSPlist triggered");
+    console.log(this.state.contacts);
+    //this.setUp();
+  };
+
+
+  getSPlist = function () {
+    console.log({token: localStorage.getItem('accessToken')})
+    this.setState({token: localStorage.getItem('accessToken')})
+    
+    if (localStorage.getItem('accessToken')) {
+
+      console.log("token validation done");
+      var headers = new Headers();
+      console.log(typeof(this.state.token));
+
+
+      console.log({token: localStorage.getItem('accessToken')})
+      //var bearer = "Bearer " + this.state.token;
+      var bearer = "Bearer " + localStorage.getItem('accessToken')
+      console.log({"bearer": bearer});
+      headers.append("Authorization", bearer);
+      headers.append('Content-Type', 'application/json');
+      headers.append('Accept', 'application/json');
+      var options = {
+          method: "GET",
+          headers: headers
+      };
+      console.log({'SPaddress': SP.sharepoint.list_address});
+      fetch(SP.sharepoint.list_address, options)
+        .then(response => response.json())
+        .then(res => this.setState({
+          contacts: JSON.stringify(res.value),
+          isLoading: false}));
+      
+        // contacts: JSON.stringify(res.value),
+
+        //localStorage.se tItem("contacts", res.value)
+        console.log("got the sp info");
+    
+    }
+  }
+
 
   updateNoteText(noteText) {
     this.setState({ noteText: noteText.target.value })
@@ -150,6 +232,17 @@ class ContactList extends Component {
   }
 
   render() {
+
+    let notCheckedInArray = [];
+    let markedSafeArray = [];
+    if (this.state.isLoading === false) {
+    let sortedContacts = this.setUp();
+    notCheckedInArray = sortedContacts[0];
+    markedSafeArray = sortedContacts[1];
+    console.log(notCheckedInArray);
+    console.log(markedSafeArray);
+    }
+
     // List of all NOT checked-in people
     let notCheckedIn = this.state.notCheckedIn.map((val, key) => {
       return <CheckedIn key={key} text={val} deleteMethod={ () => this.checkIn(key, val) } 
