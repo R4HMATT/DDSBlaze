@@ -112,6 +112,8 @@
 .ContactCardInfo .emergencyContactInfo{
 	display: inline-block;
 	justify-content: center;
+	text-decoration: none;
+  	color: inherit;
 	
 	width: 95%;
 	padding-bottom: 10%;
@@ -121,9 +123,4 @@
 .ContactCardInfo .emergencyContactInfo .emergencyContactProfilePic{
 	width: 100%;
 	height: 100%;
-}
-
-.ContactCardInfo .emergencyContactInfo .emergencyContactSecondaryActions{
-	width: 10%;
-	height: 10%;
 }

@@ -5,6 +5,10 @@ import ListItem from '@material-ui/core/ListItem';
 import { ListItemText, ListItemIcon, DialogContentText, ListItemAvatar, ListItemSecondaryAction, IconButton } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CallIcon from '@material-ui/icons/Call'
@@ -46,6 +50,14 @@ class ContactCardInfo extends Component {
       primary_link: "/contactCard/" + this.props.user_id,
       value: "/contactCard/" + this.props.user_id,
     };
+  }
+
+  handleModalOpen = () => {
+    this.setState({modalIsOpen: true});
+  }
+
+  handleModalClose = () => {
+    this.setState({modalIsOpen: false});
   }
 
 	render() {
@@ -102,37 +114,46 @@ class ContactCardInfo extends Component {
         <div className="emergencyContactInfo">
           <Paper>
             <List>
-              <ListItem button alignItems="center" aria-label="Emergency Contact Overview" disabled={this.props.emerg_contact_id === ''}>
+              <ListItem button alignItems="center" aria-label="Emergency Contact Overview" disabled={this.props.emerg_contact_id === ''} onClick={this.handleModalOpen}>
                 <Avatar>
                   <img className="emergencyContactProfilePic" src={require("./assets/default_profile_pic.png")}/>
                 </Avatar>
-                <ListItemText primary={this.props.emerg_contact_id} secondary={this.props.emerg_contact_id === '' ? 'No Emergency Contact on Record' : 'Emergency Contact'}/>
+                <ListItemText primary={this.props.emerg_contact_id} secondary={this.props.emerg_contact_id === '' ? 'No Emergency Contact on Record' : 'Emergency Contact - Tap for Info'}/>
                 <ListItemSecondaryAction>
-                  <IconButton aria-label={"Call " + this.props.emerg_contact_id}>
-                    <CallIcon href={"tel:" + contactInformation["phoneNumber"]}/>
+                  <IconButton aria-label={"Call " + this.props.emerg_contact_id} href={"tel:" + contactInformation["phoneNumber"]} disabled={this.props.emerg_contact_id === ''}>
+                    <CallIcon/>
                   </IconButton>
-                  <IconButton aria-label={"Send SMS to " + this.props.emerg_contact_id}>
+                  <IconButton aria-label={"Send SMS to " + this.props.emerg_contact_id} disabled={this.props.emerg_contact_id === ''}>
                     <SMSIcon/>
                   </IconButton>
                 </ListItemSecondaryAction>
               </ListItem>
             </List>
           </Paper>
-          {/* <ExpansionPanel>
-              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
-                Emergency Contact Information
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <List>
-                  <ListItem button alignItems="center" aria-label="Expand Emergency Contact" onClick={this.handleModalOpen} disabled={this.props.emerg_contact_id === ''}>
-                    <Avatar>
-                      <img src={require("./assets/default_profile_pic.png")}/>
-                    </Avatar>
-                    <ListItemText primary={this.props.emerg_contact_id} secondary={this.props.emerg_contact_id === '' ? 'No Emergency Contact on Record' : 'Tap for more details'}/>
-                  </ListItem>
-                </List>
-              </ExpansionPanelDetails>
-          </ExpansionPanel> */}
+
+          <Dialog
+            aria-labelledby="simple-modal-title"
+            aria-describedby="simple-modal-description"
+            open={this.state.modalIsOpen} 
+            onClose={this.handleModalClose}>
+            
+            <DialogTitle id="customized-dialog-title" onClose={this.handleClose}>
+              {this.props.emerg_contact_id}
+            </DialogTitle>
+
+            <DialogContent>
+              <DialogContentText>
+                Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test
+              </DialogContentText>
+              
+              <DialogActions>
+                <Button
+                  className="emergencyContactModalButton" 
+                  variant="outlined" 
+                  onClick={this.handleModalClose}>X Close</Button>
+              </DialogActions>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
     );
