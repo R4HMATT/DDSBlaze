@@ -83,21 +83,17 @@ class ContactCardInfo extends Component {
         <Paper>
             <List>
                 <div className="phoneInfo">
-                <a href={"tel:" + contactInformation["phoneNumber"]}>
-                <ListItem button disabled={contactInformation["phoneNumber"] === ""}>
+                <ListItem button disabled={contactInformation["phoneNumber"] === ""} component="a" href={"tel:" + contactInformation["phoneNumber"]}>
                     <ListItemIcon><img src={require("./assets/phone_icon.png")}/></ListItemIcon>
                     <ListItemText primary={contactInformation["phoneNumber"]} secondary={contactInformation["phoneNumber"] === "" ? 'No Phone Number on Record' : "Tap to Call / Tap + Hold for SMS"}/>
                 </ListItem>
-                </a>
                 </div>
 
                 <div className="emailInfo">
-                <a href={"mailto:" + contactInformation["email"]}>
-                <ListItem button disabled={contactInformation["email"] === ""}>
+                <ListItem button disabled={contactInformation["email"] === ""} component="a" href={"mailto:" + contactInformation["email"]}>
                     <ListItemIcon><img src={require("./assets/email_icon.png")}/></ListItemIcon>
                     <ListItemText primary={contactInformation["email"]} secondary={contactInformation["email"] === "" ? 'No Email on Record' : 'Tap to Email'}/>
                 </ListItem>
-                </a>
                 </div>
 
                 <div className="locationInfo">
@@ -139,19 +135,26 @@ class ContactCardInfo extends Component {
             
             <DialogTitle id="customized-dialog-title" onClose={this.handleClose}>
               {this.props.emerg_contact_id}
+              <Divider variant="fullWidth"/>
             </DialogTitle>
 
             <DialogContent>
               <DialogContentText>
-                Emergency Contact Details Emergency Contact Details Emergency Contact Details 
-                Emergency Contact Details Emergency Contact Details Emergency Contact Details 
+                <List>
+                  <ListItem aria-label="Emergency Contact Phone Number">
+                    Phone: 416-456-7890 ext. 12345
+                  </ListItem>
+                  <ListItem aria-label="Emergency Contact Email">
+                    Email: emergency.contact@email.ca
+                  </ListItem>
+                </List>
               </DialogContentText>
               
               <DialogActions>
                 <Button
                   className="emergencyContactModalButton" 
                   variant="outlined" 
-                  onClick={this.handleModalClose}>X Close</Button>
+                  onClick={this.handleModalClose}>Close</Button>
               </DialogActions>
             </DialogContent>
           </Dialog>
