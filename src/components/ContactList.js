@@ -23,6 +23,7 @@ class ContactList extends Component {
     this.state = {
       contacts: [],
       isLoading: true,
+      intervalIsSet: null,
       notCheckedIn: [],
       markedSafe: [],
       search: '',
@@ -65,13 +66,21 @@ class ContactList extends Component {
 
 
   componentDidMount() {
-    console.log("ContactList mounted");
     this.getSPlist();
-    console.log("getSPlist triggered");
-    console.log(this.state.contacts);
-    //this.setUp();
+    if (!this.state.intervalIsSet) {
+      let interval = setInterval(this.getSPlist, 1000);
+      this.setState({ intervalIsSet: interval });
+    }
   };
 
+  // never let a process live forever 
+  // always kill a process everytime we are done using it
+  componentWillUnmount() {
+    if (this.state.intervalIsSet) {
+      clearInterval(this.state.intervalIsSet);
+      this.setState({ intervalIsSet: null });
+    }
+  }
 
   getSPlist = function () {
     console.log({token: localStorage.getItem('accessToken')})
@@ -236,21 +245,21 @@ class ContactList extends Component {
     let notCheckedInArray = [];
     let markedSafeArray = [];
     if (this.state.isLoading === false) {
-    let sortedContacts = this.setUp();
-    notCheckedInArray = sortedContacts[0];
-    markedSafeArray = sortedContacts[1];
-    console.log(notCheckedInArray);
-    console.log(markedSafeArray);
+      let sortedContacts = this.setUp();
+      notCheckedInArray = sortedContacts[0];
+      markedSafeArray = sortedContacts[1];
+      console.log(notCheckedInArray);
+      console.log(markedSafeArray);
     }
 
     // List of all NOT checked-in people
-    let notCheckedIn = this.state.notCheckedIn.map((val, key) => {
+    let notCheckedIn = notCheckedInArray.map((val, key) => {
       return <CheckedIn key={key} text={val} deleteMethod={ () => this.checkIn(key, val) } 
       />
     })
 
     // List of all safely checked-in people
-    let safepeople = this.state.markedSafe.map((val, key) => {
+    let safepeople = markedSafeArray.map((val, key) => {
       return <MarkedSafe key={key} text={val} deleteMethod={ () => this.undoCheckIn(key, val) } />
     })
 
