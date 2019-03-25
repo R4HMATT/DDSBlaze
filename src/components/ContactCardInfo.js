@@ -49,6 +49,7 @@ class ContactCardInfo extends Component {
       employee_id: this.props.user_id,
       primary_link: "/contactCard/" + this.props.user_id,
       value: "/contactCard/" + this.props.user_id,
+      modalIsOpen: false,
     };
   }
 
