@@ -207,63 +207,50 @@ class ContactList extends Component {
       console.log(markedSafeArray);
     }
 
-    // List of all NOT checked-in people
-    let notCheckedIn = notCheckedInArray.map((val, key) => {
-      return <CheckedIn key={key} text={val} deleteMethod={ () => this.checkIn(key, val) } 
-      />
-    })
-
-    // List of all safely checked-in people
-    let safepeople = markedSafeArray.map((val, key) => {
-      return <MarkedSafe key={key} text={val} deleteMethod={ () => this.undoCheckIn(key, val) } />
-    })
+   let notCheckedInFiltered = [];
+   let markedSafeFiltered = [];    
 
     /* Filter which people are displayed in both Checked-in and Not Checked-in sections based on user search*/
-    if(this.state.search !== ''){
-      // Create clone of notChekedIn and markedSafe arrays
-      let tmp_notCheckedIn = [];
-      let tmp_markedSafe = [];
+    if(this.state.search !== '') {
 
+      // Create clone of notChekedIn and markedSafe arrays
       // Add user to tmp_notCheckedIn that match this.state.search
-      for(let i = 0; i < this.state.notCheckedIn.length; i++){
+      for(let i = 0; i < notCheckedInArray.length; i++){
         //console.log("searching for: " + this.state.search + "; Current element: " + this.state.notCheckedIn[i]);
-        if(this.state.notCheckedIn[i].toLowerCase().includes(this.state.search.toLowerCase())){
+        if(notCheckedInArray[i].toLowerCase().includes(this.state.search.toLowerCase())){
           //console.log("Found match in noCheckedIn: " + this.state.notCheckedIn[i]);
-          tmp_notCheckedIn.push(this.state.notCheckedIn[i]);
-        }
-        
+          notCheckedInFiltered.push(notCheckedInArray[i]);
+        }  
       }
 
       // Same as above, but for users that are checked in
-      for(let i = 0; i < this.state.markedSafe.length; i++){
+      for(let i = 0; i < markedSafeArray.length; i++){
         //console.log("searching for: " + this.state.search + "; Current element: " + this.state.markedSafe[i]);
-        if(this.state.markedSafe[i].toLowerCase().includes(this.state.search.toLowerCase())){
+        if(markedSafeArray[i].toLowerCase().includes(this.state.search.toLowerCase())){
           //console.log("Found match in markedSafe: " + this.state.markedSafe[i]);
-          tmp_markedSafe.push(this.state.markedSafe[i]);
+          markedSafeFiltered.push(markedSafeArray[i]);
         }
       }
 
+    }
+      else {
+        notCheckedInFiltered = notCheckedInArray;
+        markedSafeFiltered = markedSafeArray;
+      };
+
       // Sort the list of names
-      tmp_notCheckedIn.sort();
-      tmp_markedSafe.sort();
+      notCheckedInFiltered.sort();
+      markedSafeFiltered.sort();
       
-      notCheckedIn = tmp_notCheckedIn.map((val, key) => {
+      let notCheckedIn = notCheckedInFiltered.map((val, key) => {
         return <CheckedIn key={key} text={val} deleteMethod={ () => this.checkIn(key, val) } 
         />
       });
-      safepeople = tmp_markedSafe.map((val, key) => {
+      let safepeople = markedSafeFiltered.map((val, key) => {
         return <MarkedSafe key={key} text={val} deleteMethod={ () => this.undoCheckIn(key, val) } />
       });
-    }
+    
 
-    // <h2 className="Title">Not Checked-In</h2>
-    // <div className="noCheck">
-    // { notCheckedIn }
-    // </div>
-    // <h2 className="Title">Checked-In</h2>
-    // <div className="markedSafe">
-    // { safepeople }
-    // </div>
     let totalList = notCheckedIn.concat(safepeople);
     return (
       <div className="container">
