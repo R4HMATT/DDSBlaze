@@ -16,7 +16,7 @@ class ContactList extends Component {
   constructor(props) {
     super(props);
     this.getSPlist = this.getSPlist.bind(this);
-    this.setUp = this.sortContacts.bind(this);
+    this.setUp = this.setUp.bind(this);
     // let contacts = require('./ContactInfo.json');
     //let contacts = JSON.parse(localStorage.getItem("contacts"));
     //console.log(contacts)
@@ -31,13 +31,12 @@ class ContactList extends Component {
     }
   }
 
-  // this function takes in the contact saved from state, which is taken from SP,
-  // and then sorts it into two arrays of 
-  sortContacts() {
-
+  setUp() {
+    console.log({'contacts': this.state.contacts});
     let notCheckedInArr = [];
     let checkedInArr = [];
     if (this.state.isLoading === false) {
+      console.log("got Past Set Up if statement")
       let contacts = JSON.parse(this.state.contacts);
       console.log({"setUp": contacts});
       let notCheckedInArr = [];
@@ -51,8 +50,17 @@ class ContactList extends Component {
         }
       }
 
-      return [notCheckedInArr, checkedInArr];
+      console.log({"result of Set Up": [notCheckedInArr, checkedInArr]});
 
+      return [notCheckedInArr, checkedInArr];
+      /* 
+      notCheckedInArr.sort();
+      checkedInArr.sort();
+      this.setState({
+                    notCheckedIn: notCheckedInArr,
+                    markedSafe: checkedInArr
+                  });
+      */
       }
     }
 
@@ -192,7 +200,7 @@ class ContactList extends Component {
     let notCheckedInArray = [];
     let markedSafeArray = [];
     if (this.state.isLoading === false) {
-      let sortedContacts = this.sortContacts();
+      let sortedContacts = this.setUp();
       notCheckedInArray = sortedContacts[0];
       markedSafeArray = sortedContacts[1];
       console.log(notCheckedInArray);
@@ -206,7 +214,7 @@ class ContactList extends Component {
     })
 
     // List of all safely checked-in people
-    let safepeople = markedSafeArray.map( (val, key) => {
+    let safepeople = markedSafeArray.map((val, key) => {
       return <MarkedSafe key={key} text={val} deleteMethod={ () => this.undoCheckIn(key, val) } />
     })
 
