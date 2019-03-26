@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './CheckedIn.css';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
+import ButtonBase from '@material-ui/core/ButtonBase';
 import {
   BrowserRouter as Router,
   Link,

@@ -185,52 +185,7 @@ class ContactList extends Component {
   updateSearch(event) {
     this.setState({search: event.target.value});
 
-  }
-
-  /* Filter which people are displayed in both Checked-in and Not Checked-in sections based on user search*/
-  filteredList(){
-    // Create clone of notChekedIn and markedSafe arrays
-    let tmp_notCheckedIn = [];
-    let tmp_markedSafe = [];
-
-    // Add user to tmp_notCheckedIn that match this.state.search
-    for(let i = 0; i < this.state.notCheckedIn.length; i++){
-      //console.log("searching for: " + this.state.search + "; Current element: " + this.state.notCheckedIn[i]);
-      if(this.state.notCheckedIn[i].toLowerCase().includes(this.state.search.toLowerCase())){
-        //console.log("Found match in noCheckedIn: " + this.state.notCheckedIn[i]);
-        tmp_notCheckedIn.push(this.state.notCheckedIn[i]);
-      }
-      
-    }
-
-    // Same as above, but for users that are checked in
-    for(let i = 0; i < this.state.markedSafe.length; i++){
-      //console.log("searching for: " + this.state.search + "; Current element: " + this.state.markedSafe[i]);
-      if(this.state.markedSafe[i].toLowerCase().includes(this.state.search.toLowerCase())){
-        //console.log("Found match in markedSafe: " + this.state.markedSafe[i]);
-        tmp_markedSafe.push(this.state.markedSafe[i]);
-      }
-    }
-
-    // Sort the list of names
-    tmp_notCheckedIn.sort();
-    tmp_markedSafe.sort();
-    
-    let notCheckedIn = tmp_notCheckedIn.map((val, key) => {
-      return <CheckedIn key={key} text={val} deleteMethod={ () => this.checkIn(key, val) } 
-      />
-    });
-    let safepeople = tmp_markedSafe.map((val, key) => {
-      return <MarkedSafe key={key} text={val} deleteMethod={ () => this.undoCheckIn(key, val) } />
-    });
-
-    //console.log({tmp_notCheckedIn});
-    //console.log({notCheckedIn: this.state.notCheckedIn});
-    //console.log({tmp_markedSafe});
-    //console.log({markedSafe: this.state.markedSafe});
-    return ([notCheckedIn, safepeople]);
-
-  }
+  } 
 
   render() {
 
@@ -255,11 +210,42 @@ class ContactList extends Component {
       return <MarkedSafe key={key} text={val} deleteMethod={ () => this.undoCheckIn(key, val) } />
     })
 
-    // If user is searching for a name, filter the results
+    /* Filter which people are displayed in both Checked-in and Not Checked-in sections based on user search*/
     if(this.state.search !== ''){
-      let tmp_arr = this.filteredList();
-      notCheckedIn = tmp_arr[0];
-      safepeople = tmp_arr[1];
+      // Create clone of notChekedIn and markedSafe arrays
+      let tmp_notCheckedIn = [];
+      let tmp_markedSafe = [];
+
+      // Add user to tmp_notCheckedIn that match this.state.search
+      for(let i = 0; i < this.state.notCheckedIn.length; i++){
+        //console.log("searching for: " + this.state.search + "; Current element: " + this.state.notCheckedIn[i]);
+        if(this.state.notCheckedIn[i].toLowerCase().includes(this.state.search.toLowerCase())){
+          //console.log("Found match in noCheckedIn: " + this.state.notCheckedIn[i]);
+          tmp_notCheckedIn.push(this.state.notCheckedIn[i]);
+        }
+        
+      }
+
+      // Same as above, but for users that are checked in
+      for(let i = 0; i < this.state.markedSafe.length; i++){
+        //console.log("searching for: " + this.state.search + "; Current element: " + this.state.markedSafe[i]);
+        if(this.state.markedSafe[i].toLowerCase().includes(this.state.search.toLowerCase())){
+          //console.log("Found match in markedSafe: " + this.state.markedSafe[i]);
+          tmp_markedSafe.push(this.state.markedSafe[i]);
+        }
+      }
+
+      // Sort the list of names
+      tmp_notCheckedIn.sort();
+      tmp_markedSafe.sort();
+      
+      notCheckedIn = tmp_notCheckedIn.map((val, key) => {
+        return <CheckedIn key={key} text={val} deleteMethod={ () => this.checkIn(key, val) } 
+        />
+      });
+      safepeople = tmp_markedSafe.map((val, key) => {
+        return <MarkedSafe key={key} text={val} deleteMethod={ () => this.undoCheckIn(key, val) } />
+      });
     }
 
     // <h2 className="Title">Not Checked-In</h2>
