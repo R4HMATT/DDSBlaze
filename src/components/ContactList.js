@@ -32,13 +32,13 @@ class ContactList extends Component {
   }
 
   setUp() {
-    console.log({'contacts': this.state.contacts});
+    // console.log({'contacts': this.state.contacts});
     let notCheckedInArr = [];
     let checkedInArr = [];
     if (this.state.isLoading === false) {
-      console.log("got Past Set Up if statement")
+      // console.log("got Past Set Up if statement")
       let contacts = JSON.parse(this.state.contacts);
-      console.log({"setUp": contacts});
+      // console.log({"setUp": contacts});
       let notCheckedInArr = [];
       let checkedInArr = [];
       for(var i = 1; i < contacts.length; i++) {
@@ -50,7 +50,7 @@ class ContactList extends Component {
         }
       }
 
-      console.log({"result of Set Up": [notCheckedInArr, checkedInArr]});
+      // console.log({"result of Set Up": [notCheckedInArr, checkedInArr]});
 
       return [notCheckedInArr, checkedInArr];
       /* 
@@ -83,20 +83,20 @@ class ContactList extends Component {
   }
 
   getSPlist = function () {
-    console.log({token: localStorage.getItem('accessToken')})
+    // console.log({token: localStorage.getItem('accessToken')})
     this.setState({token: localStorage.getItem('accessToken')})
     
     if (localStorage.getItem('accessToken')) {
 
-      console.log("token validation done");
+      // console.log("token validation done");
       var headers = new Headers();
-      console.log(typeof(this.state.token));
+      // console.log(typeof(this.state.token));
 
 
-      console.log({token: localStorage.getItem('accessToken')})
+      // console.log({token: localStorage.getItem('accessToken')})
       //var bearer = "Bearer " + this.state.token;
       var bearer = "Bearer " + localStorage.getItem('accessToken')
-      console.log({"bearer": bearer});
+      // console.log({"bearer": bearer});
       headers.append("Authorization", bearer);
       headers.append('Content-Type', 'application/json');
       headers.append('Accept', 'application/json');
@@ -104,7 +104,7 @@ class ContactList extends Component {
           method: "GET",
           headers: headers
       };
-      console.log({'SPaddress': SP.sharepoint.list_address});
+      // console.log({'SPaddress': SP.sharepoint.list_address});
       fetch(SP.sharepoint.list_address, options)
         .then(response => response.json())
         .then(res => this.setState({
@@ -114,7 +114,7 @@ class ContactList extends Component {
         // contacts: JSON.stringify(res.value),
 
         //localStorage.se tItem("contacts", res.value)
-        console.log("got the sp info");
+        // console.log("got the sp info");
     
     }
   }
@@ -203,8 +203,12 @@ class ContactList extends Component {
       let sortedContacts = this.setUp();
       notCheckedInArray = sortedContacts[0];
       markedSafeArray = sortedContacts[1];
-      console.log(notCheckedInArray);
-      console.log(markedSafeArray);
+      // console.log(notCheckedInArray);
+      // console.log(markedSafeArray);
+    }
+    let tmp_contacts = this.state.contacts;
+    for(let i = 0; i < tmp_contacts.length; i++){
+      console.log(tmp_contacts[i]["fields"]);
     }
 
    let notCheckedInFiltered = [];
@@ -243,11 +247,11 @@ class ContactList extends Component {
       markedSafeFiltered.sort();
       
       let notCheckedIn = notCheckedInFiltered.map((val, key) => {
-        return <CheckedIn key={key} text={val} deleteMethod={ () => this.checkIn(key, val) } 
+        return <CheckedIn key={key} text={val} employeeList={notCheckedInArray.concat(markedSafeArray)} deleteMethod={ () => this.checkIn(key, val) } 
         />
       });
       let safepeople = markedSafeFiltered.map((val, key) => {
-        return <MarkedSafe key={key} text={val} deleteMethod={ () => this.undoCheckIn(key, val) } />
+        return <MarkedSafe key={key} text={val} employeeList={notCheckedInArray.concat(markedSafeArray)} deleteMethod={ () => this.undoCheckIn(key, val) } />
       });
     
 
