@@ -23,15 +23,10 @@ class CheckedIn extends Component {
 	render() {
 		let new_url = "/contactCard/" + this.props.text;
 	    return (
-				
+
 	      <div className="CheckedIn">
 	        <div className="userName">
-	        	<Link to={{
-							pathname: new_url,
-							state: {
-								employeeList: this.props.employeeList
-							}
-						}}> {this.props.text} </Link>
+	        	<Link to={new_url}> {this.props.text} </Link>
 	        </div>
 	        <div className="buttons">
 		         <Button className="btnCheckIn" variant="contained" color="primary" >Check In

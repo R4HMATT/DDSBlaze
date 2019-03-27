@@ -25,12 +25,7 @@ class MarkedSafe extends Component {
 	    return (
 		      <div className="MarkedSafe" elevation={0.5}>
 					<div className="userName">
-					<Link to={{
-							pathname: new_url,
-							state: {
-								employeeList: ['test', 'test2', 'test3']
-							}
-						}}> {this.props.text} </Link>
+						<Link to={new_url}> {this.props.text} </Link>
 					</div>
 		        <div className="buttons">
 		        <Button 
