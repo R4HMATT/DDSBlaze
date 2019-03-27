@@ -206,10 +206,6 @@ class ContactList extends Component {
       // console.log(notCheckedInArray);
       // console.log(markedSafeArray);
     }
-    let tmp_contacts = this.state.contacts;
-    for(let i = 0; i < tmp_contacts.length; i++){
-      console.log(tmp_contacts[i]["fields"]);
-    }
 
    let notCheckedInFiltered = [];
    let markedSafeFiltered = [];    
