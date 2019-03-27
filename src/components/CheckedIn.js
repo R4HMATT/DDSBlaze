@@ -34,7 +34,7 @@ class CheckedIn extends Component {
 						}}> {this.props.text} </Link>
 	        </div>
 	        <div className="buttons">
-		         <Button className="btnCheckIn" variant="contained" color="primary" onClick={this.props.deleteMethod}>Check In
+		         <Button className="btnCheckIn" variant="contained" color="primary" >Check In
 		         </Button>
 
 						 <button className="btnContactPhone"
