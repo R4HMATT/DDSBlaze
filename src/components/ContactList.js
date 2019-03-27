@@ -43,10 +43,10 @@ class ContactList extends Component {
       let checkedInArr = [];
       for(var i = 1; i < contacts.length; i++) {
         if (contacts[i]["fields"]["Status"] === "NotCheckedIn") {
-          notCheckedInArr.push(contacts[i]["fields"]["Title"]);
+          notCheckedInArr.push(contacts[i]);
         }
         else if (contacts[i]["fields"]["Status"] === "CheckedIn") {
-          checkedInArr.push(contacts[i]["fields"]["Title"]);
+          checkedInArr.push(contacts[i]);
         }
       }
 
@@ -217,7 +217,7 @@ class ContactList extends Component {
       // Add user to tmp_notCheckedIn that match this.state.search
       for(let i = 0; i < notCheckedInArray.length; i++){
         //console.log("searching for: " + this.state.search + "; Current element: " + this.state.notCheckedIn[i]);
-        if(notCheckedInArray[i].toLowerCase().includes(this.state.search.toLowerCase())){
+        if(notCheckedInArray[i].fields.Title.toLowerCase().includes(this.state.search.toLowerCase())){
           //console.log("Found match in noCheckedIn: " + this.state.notCheckedIn[i]);
           notCheckedInFiltered.push(notCheckedInArray[i]);
         }  
@@ -226,7 +226,7 @@ class ContactList extends Component {
       // Same as above, but for users that are checked in
       for(let i = 0; i < markedSafeArray.length; i++){
         //console.log("searching for: " + this.state.search + "; Current element: " + this.state.markedSafe[i]);
-        if(markedSafeArray[i].toLowerCase().includes(this.state.search.toLowerCase())){
+        if(markedSafeArray[i].fields.Title.toLowerCase().includes(this.state.search.toLowerCase())){
           //console.log("Found match in markedSafe: " + this.state.markedSafe[i]);
           markedSafeFiltered.push(markedSafeArray[i]);
         }
@@ -242,12 +242,17 @@ class ContactList extends Component {
       notCheckedInFiltered.sort();
       markedSafeFiltered.sort();
       
-      let notCheckedIn = notCheckedInFiltered.map((val, key) => {
-        return <CheckedIn key={key} text={val} deleteMethod={ () => this.checkIn(key, val) } 
-        />
+      let notCheckedIn = notCheckedInFiltered.map( elem => {
+        // really need to change that last name thing
+        console.log(elem);
+        console.log(elem.id);
+        return <CheckedIn id={elem.id} text={elem.fields.Title} status={elem.fields.Status}/>
       });
-      let safepeople = markedSafeFiltered.map((val, key) => {
-        return <MarkedSafe key={key} text={val} deleteMethod={ () => this.undoCheckIn(key, val) } />
+      let safepeople = markedSafeFiltered.map(elem => {
+        // really need to change that last name thing
+        console.log(elem);
+        console.log(elem.id);
+        return <MarkedSafe id={elem.id} text={elem.fields.Title} status={elem.fields.Status}/>
       });
     
 
