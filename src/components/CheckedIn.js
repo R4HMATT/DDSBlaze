@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import './CheckedIn.css';
 import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
-import ButtonBase from '@material-ui/core/ButtonBase';
+import Avatar from '@material-ui/core/Avatar';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import { ListItemText, ListItemIcon, ListItemAvatar, ListItemSecondaryAction, IconButton } from '@material-ui/core';
 import {
   BrowserRouter as Router,
   Link,
@@ -18,37 +20,52 @@ class CheckedIn extends Component {
     super(props);
     this.state = {
     };
-  }
+	}
+	
+	handleClick(){
+		alert("clicked button");
+	}
 
 	render() {
 		let new_url = "/contactCard/" + this.props.text;
+		//<Link to={new_url}> {this.props.text} </Link>
 	    return (
 
 	      <div className="CheckedIn">
-	        <div className="userName">
-	        	<Link to={new_url}> {this.props.text} </Link>
-	        </div>
-	        <div className="buttons">
-		         <Button className="btnCheckIn" variant="contained" color="primary" >Check In
-		         </Button>
+					<List>
+							<ListItem button alignItems="center" onClick={this.handleClick}>
+								<ListItemText primary={this.props.text}></ListItemText>
 
-						 <button className="btnContactPhone"
-						 name="viewContactPhone"
-						 type="button"
-						 />
-						
-						 <button className="btnContactSMS"
-						 name="viewContactSMS"
-						 type="button"
-						 />
+								<ListItemSecondaryAction>
+								<button className="btnContactPhone"
+									name="viewContactPhone"
+									type="button"
+									href="tel:416-456-7890"
+									/>
+									
+									<button className="btnContactSMS"
+									name="viewContactSMS"
+									type="button"
+									href="sms:416-456-7890"
+									/>
+									<Button className="btnCheckIn" variant="contained" color="primary" >Check In
+									</Button>
+								</ListItemSecondaryAction>
 
-		         {/* <button
-		         	className="btnContactInfo"
-		         	name="viewContactInfo"
-		         	type="button"
-							 >
-		         </button> */}
-		    </div>
+								<div className="buttons">
+									
+
+									
+
+									{/* <button
+										className="btnContactInfo"
+										name="viewContactInfo"
+										type="button"
+										>
+									</button> */}
+									</div>
+							</ListItem>
+					</List>
 	      </div>
 	    );
 	  }
