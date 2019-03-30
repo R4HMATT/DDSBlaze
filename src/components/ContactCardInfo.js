@@ -46,8 +46,8 @@ class ContactCardInfo extends Component {
           className="backButton" 
           variant="outlined" 
           onClick={console.log("Clicked back button")}>
-            <img src={require("./assets/chevron_left.png")}/>
-            Back
+            {/* <img src={require("./assets/chevron_left.png")}/> */}
+            {"< Back"}
           </Button>
           <img src={require("./assets/default_profile_pic.png")}/>
           <h2 className="employeeName">{contactInformation["name"]}</h2>
@@ -124,14 +124,13 @@ class ContactCardInfo extends Component {
                   </ListItem>
                 </List>
               </DialogContentText>
-              
-              <DialogActions>
+            </DialogContent>
+            <DialogActions>
                 <Button
                   className="emergencyContactModalButton" 
-                  variant="outlined" 
+                  variant="text" 
                   onClick={this.handleModalClose}>Close</Button>
               </DialogActions>
-            </DialogContent>
           </Dialog>
         </div>
       </div>
