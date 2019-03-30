@@ -2,8 +2,8 @@
 	padding: 0;
     margin: 0;
 	border: 0;
-	font-weight: 300;
-	font-family: "Century Gothic", "Calibri", "Roboto", "Arial";
+	font-weight: 400;
+	font-family: "Roboto", "Century Gothic", "Calibri", "Arial";
 	overflow-wrap: break-word;
 }
 .ContactCardInfo{
@@ -29,6 +29,18 @@
 	-moz-box-shadow: 0px 0px 40px 0px rgba(0,0,0,0.1);
 }
 
+.ContactCardInfo .contactOverview .backButton{
+	position: absolute;
+	top: 40px;
+	left: 4px;
+	margin: auto;
+}
+
+.ContactCardInfo .contactOverview .backButton img{
+	width: 20px;
+	height: 20px;
+}
+
 /*Name of employee */
 .ContactCardInfo .contactOverview .employeeName{
 	font-family: 'Century Gothic', 'Calibri', 'Arial';
@@ -51,29 +63,36 @@
 
 /*Container for Detailed Info section*/
 .ContactCardInfo .detailedInfo{
-	padding: 10%;
+	display: inline-block;
+	justify-content: center;
+	padding-top: 10%;
+	padding-bottom: 5%;
+	width: 95%;
 }
 
 /*All children of above container*/
 .ContactCardInfo .detailedInfo .phoneInfo{
-
 	margin: auto;
-	padding: 5px;
+	padding: 5px;	
 }
 
-.ContactCardInfo .detailedInfo .emailInfo{
 
+.ContactCardInfo .detailedInfo .emailInfo{
 	margin: auto;
 	padding: 5px;
 }
 
 
 .ContactCardInfo .detailedInfo .locationInfo{
-
 	margin: auto;
 	padding: 5px;
 }
 
+ /*All <a href> tags inside detailed info section*/
+.ContactCardInfo .detailedInfo * a{
+	text-decoration: none;
+  	color: black;
+}
 
 /*All h2 tags inside detailedInfo flexbox*/
 .ContactCardInfo .detailedInfo * h2{
@@ -88,4 +107,20 @@
 .ContactCardInfo .detailedInfo * img{
 	width: 50px;
 	height: 50px;
+}
+
+.ContactCardInfo .emergencyContactInfo{
+	display: inline-block;
+	justify-content: center;
+	text-decoration: none;
+  	color: inherit;
+	
+	width: 95%;
+	padding-bottom: 10%;
+	padding-top: 5%;
+}
+
+.ContactCardInfo .emergencyContactInfo .emergencyContactProfilePic{
+	width: 100%;
+	height: 100%;
 }
