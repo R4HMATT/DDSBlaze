@@ -4,12 +4,6 @@ import HttpsRedirect from 'react-https-redirect';
 import getAccessToken from '../accessRequest.js';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
-import {
-  BrowserRouter as Router,
-  Link,
-  Switch,
-  Redirect
-} from 'react-router-dom';
 
 //var access = require('./accessRequest.js')
 const https = require('https');
@@ -168,21 +162,17 @@ class LoginPage extends Component {
           <h4>Click Login to get started.</h4>
         </div>
          <div className="buttonsContainer">
-         <div className='login-button'>
-          <Button onClick={this.handleClick} variant="contained" color="primary" classes={{containedPrimary: classes.Button}}>
-              Login
-          </Button>
-         </div>
+          <div className='login-button'>
+            <Button onClick={this.handleClick} variant="contained" color="primary" classes={{containedPrimary: classes.Button}}>
+                Login
+            </Button>
+          </div>
 
-         <div className='contactList-button'>
-          <Button variant="contained" href="/contactList">
-              Contact List
-          </Button>
-         </div>
-
-          {/* <button onClick={this.getSPlist} className='login-button'>
-          Yeet
-          </button> */}
+          <div className='contactList-button'>
+            <Button variant="contained" href="/contactList">
+                Contact List
+            </Button>
+          </div>
          </div>
       </HttpsRedirect>
       );
