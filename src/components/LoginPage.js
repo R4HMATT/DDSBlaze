@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import './LoginPage.css';
 import HttpsRedirect from 'react-https-redirect';
-
 import getAccessToken from '../accessRequest.js';
+import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles';
 
 //var access = require('./accessRequest.js')
 const https = require('https');
@@ -11,6 +12,12 @@ const https = require('https');
 //var sharepointSite = "https://rahmnik.sharepoint.com/sites/DDSBlazeWFH/_api/web/lists/getbytitle('DDSB Contacts Info')"
 var sharepointSite = "https://graph.microsoft.com/v1.0/sites/rahmnik.sharepoint.com/lists/testlist/items?expand=fields";
 
+// Styles applied to Login button
+const styles = theme => ({
+  Button: {
+    backgroundColor: '#4CAF50',
+  }
+});
 
 // this should probably be moved to a seperate file, cuz it
 // should be a different screen
@@ -147,23 +154,31 @@ class LoginPage extends Component {
   }
 
   render() {
+    const {classes} = this.props;
     return (
       <HttpsRedirect>
-         <React.Fragment>
-          <button onClick={this.handleClick} className='login-button'>
-          Login
-          </button>
+        <div className="header">
+          <h1>Welcome to <strong>DDSBlaze!</strong></h1>
+          <br/>
+          <h4>Click Login to get started.</h4>
+        </div>
+         <div className="buttonsContainer">
+          <div className='login-button'>
+            <Button onClick={this.handleClick} variant="contained" color="primary" classes={{containedPrimary: classes.Button}}>
+                Login
+            </Button>
+          </div>
 
-          <button onClick={this.getSPlist} className='login-button'>
-          Yeet
-          </button>
-          {this.state.list}
-          <DisplaySPInfo token={this.state.token}/>
-         </React.Fragment>
+          <div className='contactList-button'>
+            <Button variant="contained" href="/contactList">
+                Contact List
+            </Button>
+          </div>
+         </div>
       </HttpsRedirect>
       );
   }
 
 }
 
-export default LoginPage;
+export default withStyles(styles)(LoginPage);

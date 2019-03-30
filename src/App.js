@@ -12,11 +12,6 @@ class App extends Component{
   return (
 
       <div>
-        <ul>
-          <li><Link to="/">Login</Link></li>
-          <li><Link to="/contactList">Contact List</Link></li>
-        </ul>
-
         <Switch>
         <Route exact path="/" component={LoginPage}/>
         <Route path="/contactList" component={ContactList}/>

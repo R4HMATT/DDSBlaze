@@ -72,8 +72,8 @@ class ContactCardInfo extends Component {
           className="backButton" 
           variant="outlined" 
           onClick={console.log("Clicked back button")}>
-            <img src={require("./assets/chevron_left.png")}/>
-            Back
+            {/* <img src={require("./assets/chevron_left.png")}/> */}
+            {"< Back"}
           </Button>
           <img src={require("./assets/default_profile_pic.png")}/>
           <h2 className="employeeName">{contactInformation["name"]}</h2>
@@ -141,23 +141,18 @@ class ContactCardInfo extends Component {
 
             <DialogContent>
               <DialogContentText>
-                <List>
-                  <ListItem aria-label="Emergency Contact Phone Number">
                     Phone: 416-456-7890 ext. 12345
-                  </ListItem>
-                  <ListItem aria-label="Emergency Contact Email">
+                    <br/>
+                    <br/>
                     Email: emergency.contact@email.ca
-                  </ListItem>
-                </List>
               </DialogContentText>
-              
-              <DialogActions>
+            </DialogContent>
+            <DialogActions>
                 <Button
                   className="emergencyContactModalButton" 
-                  variant="outlined" 
+                  variant="text" 
                   onClick={this.handleModalClose}>Close</Button>
               </DialogActions>
-            </DialogContent>
           </Dialog>
         </div>
       </div>
