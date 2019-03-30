@@ -1,17 +1,29 @@
+.header{
+  text-align: center;
+  margin-top: 10%;
+}
 
-.login-div {
-    display: flex;
-    margin: 0px auto;
-    justify-content: center;
-    flex-direction: row;
-    width: 50%;
-  }
-  
-  .login-button {
-    text-align: center;
-    font-size: 2em;
-    color: white;
-    background: dodgerblue;
-    width: 5em;
-  }
-  
+.header h1 strong{
+  color: #f57c00;
+}
+
+.buttonsContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 5%;
+
+}
+
+.login-button {
+  justify-content: center;
+  background-color: #4CAF50; /* Green */
+  margin: 20px;
+}
+
+.contactList-button {
+  justify-content: center;
+  color: inherit;
+  text-decoration: inherit;
+}
