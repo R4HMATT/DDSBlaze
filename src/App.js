@@ -10,12 +10,12 @@ class App extends Component{
   render() {
   return (
       <div>
-        <ul>
+        {/* <ul>
           <li><Link to="/login">LoginPage</Link></li>
           <li><Link to="/contactList">Contact List</Link></li>
-        </ul>
+        </ul> */}
 
-        <Route path="/login" exact component={LoginPage}/>
+        <Route path="/" exact component={LoginPage}/>
         <Route path="/contactList" component={ContactList}/>
         <Route path="/contactCard/:id" component={ContactCard}/>
         <Route path="/emergencyContact/:id" component={ContactCard}/>
