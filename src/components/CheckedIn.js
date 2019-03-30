@@ -26,7 +26,13 @@ class CheckedIn extends Component {
 
 	      <div className="CheckedIn">
 	        <div className="userName">
-	        	<Link to={new_url}> {this.props.text} </Link>
+	        	<Link to={{
+							pathname: new_url,
+							state: {
+								employeeList: this.props.employeeList,
+								id: this.props.id,
+							}
+						}}> {this.props.text} </Link>
 	        </div>
 	        <div className="buttons">
 		         <Button className="btnCheckIn" variant="contained" color="primary" >Check In

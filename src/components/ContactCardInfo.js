@@ -19,36 +19,10 @@ class ContactCardInfo extends Component {
 
 	constructor(props) {
     super(props);
-    let contacts = require('../ContactInfo.json');
-    let employee = {
-        "id": this.props.user_id,
-        "name": "N/A",
-        "title": "N/A",
-        "location": "",
-        "phoneNumber": "",
-        "email": "",
-        "emergencyContact": ""
-    };
-
-    // Find the current user by ID and fill in their info
-    for(var i = 0; i < contacts.length; i++){
-      if(contacts[i]["B"] === this.props.user_id){
-        employee["id"] = this.props.user_id;
-        employee["location"] = contacts[i]["A"];
-        employee["name"] = contacts[i]["B"];
-        employee["email"] = contacts[i]["C"];
-        employee["phoneNumber"] = contacts[i]["D"];
-        employee["title"] = contacts[i]["K"];
-        employee["emergencyContact"] = contacts[i]["E"];
-        break;
-      }
-    }
 
     this.state = {
-      employee: employee,
-      employee_id: this.props.user_id,
-      primary_link: "/contactCard/" + this.props.user_id,
-      value: "/contactCard/" + this.props.user_id,
+      employee: this.props.employeeInfo,
+      emergencyContact: this.props.emergencyContactInfo,
       modalIsOpen: false,
     };
   }
@@ -63,7 +37,7 @@ class ContactCardInfo extends Component {
 
 	render() {
     let contactInformation = this.state.employee;
-    //console.log("This state value: " + this.state.value);
+    let emergencyContact = this.state.emergencyContact;
     
     return (
       <div className="ContactCardInfo">
@@ -111,16 +85,16 @@ class ContactCardInfo extends Component {
         <div className="emergencyContactInfo">
           <Paper>
             <List>
-              <ListItem button alignItems="center" aria-label="Emergency Contact Overview" disabled={this.props.emerg_contact_id === ''} onClick={this.handleModalOpen}>
+              <ListItem button alignItems="center" aria-label="Emergency Contact Overview" disabled={emergencyContact["name"] === ""} onClick={this.handleModalOpen}>
                 <Avatar>
                   <img className="emergencyContactProfilePic" src={require("./assets/default_profile_pic.png")}/>
                 </Avatar>
-                <ListItemText primary={this.props.emerg_contact_id} secondary={this.props.emerg_contact_id === '' ? 'No Emergency Contact on Record' : 'Emergency Contact - Tap for Info'}/>
+                <ListItemText primary={emergencyContact["name"]} secondary={emergencyContact["name"] === "" ? 'No Emergency Contact on Record' : 'Emergency Contact - Tap for Info'}/>
                 <ListItemSecondaryAction>
-                  <IconButton aria-label={"Call " + this.props.emerg_contact_id} href="tel:416-456-7890" disabled={this.props.emerg_contact_id === ''}>
+                  <IconButton aria-label={"Call " + emergencyContact["name"]} href={"tel:" + emergencyContact["phoneNumber"]} disabled={emergencyContact["phoneNumber"] === ""}>
                     <CallIcon/>
                   </IconButton>
-                  <IconButton aria-label={"Send SMS to " + this.props.emerg_contact_id} href="sms:416-456-7890" disabled={this.props.emerg_contact_id === ''}>
+                  <IconButton aria-label={"Send SMS to " + emergencyContact["name"]} href={"sms:" + emergencyContact["phoneNumber"]} disabled={emergencyContact["phoneNumber"] === ""}>
                     <SMSIcon/>
                   </IconButton>
                 </ListItemSecondaryAction>
@@ -135,16 +109,20 @@ class ContactCardInfo extends Component {
             onClose={this.handleModalClose}>
             
             <DialogTitle id="customized-dialog-title" onClose={this.handleClose}>
-              {this.props.emerg_contact_id}
+              {emergencyContact["name"]}
               <Divider variant="fullWidth"/>
             </DialogTitle>
 
             <DialogContent>
               <DialogContentText>
-                    Phone: 416-456-7890 ext. 12345
-                    <br/>
-                    <br/>
-                    Email: emergency.contact@email.ca
+                <List>
+                  <ListItem aria-label="Emergency Contact Phone Number">
+                    Phone: {emergencyContact["phoneNumber"]}
+                  </ListItem>
+                  <ListItem aria-label="Emergency Contact Email">
+                    Email: {emergencyContact["email"]}
+                  </ListItem>
+                </List>
               </DialogContentText>
             </DialogContent>
             <DialogActions>
