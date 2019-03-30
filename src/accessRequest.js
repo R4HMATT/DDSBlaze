@@ -78,4 +78,5 @@ var getAccessToken = function () {
        });
   }
 
+
 export default getAccessToken;
