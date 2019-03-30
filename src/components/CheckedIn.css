@@ -33,7 +33,6 @@
   color: black;
 
   padding: 3px;
-
   white-space: nowrap;
   overflow: hidden;
   
@@ -56,7 +55,7 @@
   flex-flow: nowrap;
   align-items: center;
   justify-content: space-between;
-
+  min-width: 170px;
   color: white;
   float: right;
   text-align: center;
