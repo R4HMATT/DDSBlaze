@@ -60,6 +60,10 @@ class ContactCardInfo extends Component {
   handleModalClose = () => {
     this.setState({modalIsOpen: false});
   }
+  
+  handleBackButton(){
+    window.history.back();
+  }
 
 	render() {
     let contactInformation = this.state.employee;
@@ -71,9 +75,8 @@ class ContactCardInfo extends Component {
         <Button
           className="backButton" 
           variant="outlined" 
-          onClick={console.log("Clicked back button")}>
-            {/* <img src={require("./assets/chevron_left.png")}/> */}
-            {"< Back"}
+          onClick={this.handleBackButton}>
+            {"Back"}
           </Button>
           <img src={require("./assets/default_profile_pic.png")}/>
           <h2 className="employeeName">{contactInformation["name"]}</h2>

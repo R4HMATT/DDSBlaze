@@ -31,30 +31,29 @@ class CheckedIn extends Component {
 	    return (
 
 	      <div className="CheckedIn">
-					<div className="userName">
+					<div className="employeeInfo">
 					<Link to={new_url}>
 							<ListItem button alignItems="center">
-								<Avatar>
-                  <img className="userProfilePic" src={require("./assets/default_profile_pic.png")}/>
-                </Avatar>
-								<ListItemText primary={this.props.text}></ListItemText>
+								<div className="userName">
+									{this.props.text}
+								</div>
 							</ListItem>
 					</Link>
 					</div>
 					<div className="buttons">
-
-					<button className="btnContactPhone"
-									name="viewContactPhone"
-									type="button"
-									href="tel:416-456-7890"
-									/>
-					
-					<button className="btnContactSMS"
-									name="viewContactSMS"
-									type="button"
-									href="sms:416-456-7890"
-									/>
-
+						<div className="call-sms">
+							<button className="btnContactPhone"
+											name="viewContactPhone"
+											type="button"
+											href="tel:416-456-7890"
+											/>
+							
+							<button className="btnContactSMS"
+											name="viewContactSMS"
+											type="button"
+											href="sms:416-456-7890"
+											/>
+						</div>
 					<Button className="btnCheckIn" variant="contained" color="primary" >Check In</Button>
 
 					</div>

@@ -1,6 +1,6 @@
 .CheckedIn {
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: nowrap;
   align-items: center;
   justify-content: space-between;
   
@@ -24,27 +24,40 @@
   transform: scale(1.02);
 } */
 
-/*Handles the names of people*/
-.CheckedIn .userName{
+/*Handles the names of people and profile pictures*/
+.CheckedIn .employeeInfo{
   flex-grow: 1;
-  flex-basis: auto;
   font-size: large;
   font-family: "Century Gothic";
+
   color: black;
+
   padding: 3px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  
+}
+
+.CheckedIn .employeeInfo .userName{
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   
 }
 
-.CheckedIn .userName .userProfilePic{
+.CheckedIn .employeeInfo .userProfilePic{
   width: 100%;
 	height: 100%;
 }
+
 .CheckedIn .buttons{
+  display: flex;
+  flex-flow: nowrap;
+  align-items: center;
+  justify-content: space-between;
+
   color: white;
-  display: block;
   float: right;
   text-align: center;
   align-items: center;
@@ -57,8 +70,8 @@
   background-color: #4CAF50; /* Green */
   border: none;
   color: white;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 8px;
+  padding-bottom: 8px;
   width: 90px;
   border-radius: 4px;
   float: right;
@@ -66,32 +79,20 @@
   font-size: 75%;
 }
 
-/*Info icon*/
-.CheckedIn .buttons .btnContactInfo {
-  border:none;
-  width:25px;
-  height:25px;
-  background: url('./assets/info_icon.png') no-repeat;
-  background-size: 25px 25px;
-  background-position: center;
-  margin-right: 15px;
-  margin-top: 11px;
-}
-
 /*SMS Icon*/
-.CheckedIn .buttons .btnContactSMS{
+.CheckedIn .buttons .call-sms .btnContactSMS{
   border: none;
   width:25px;
   height:25px;
   background: url('./assets/sms_icon.png') no-repeat;
   background-size: 25px 25px;
   background-position: center;
-  margin-right: 25px;
-  margin-top: 9px;
+  margin-right: 15px;
+  margin-top: 11px;
 }
 
 /*Phone Icon*/
-.CheckedIn .buttons .btnContactPhone{
+.CheckedIn .buttons .call-sms .btnContactPhone{
   border: none;
   width:25px;
   height:25px;

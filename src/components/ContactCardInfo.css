@@ -31,14 +31,9 @@
 
 .ContactCardInfo .contactOverview .backButton{
 	position: absolute;
-	top: 40px;
-	left: 4px;
+	top: 8px;
+	left: 6px;
 	margin: auto;
-}
-
-.ContactCardInfo .contactOverview .backButton img{
-	width: 20px;
-	height: 20px;
 }
 
 /*Name of employee */
