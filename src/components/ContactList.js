@@ -37,7 +37,7 @@ class ContactList extends Component {
       let contacts = JSON.parse(this.state.contacts);
       let notCheckedInArr = [];
       let checkedInArr = [];
-      for(var i = 1; i < contacts.length; i++) {
+      for(var i = 0; i < contacts.length; i++) {
         if (contacts[i]["fields"]["Status"] === "NotCheckedIn") {
           notCheckedInArr.push(contacts[i]);
         }
