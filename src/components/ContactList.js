@@ -17,6 +17,7 @@ class ContactList extends Component {
     super(props);
     this.getSPlist = this.getSPlist.bind(this);
     this.setUp = this.setUp.bind(this);
+    this.sortHelper = this.sortHelper.bind(this);
     // let contacts = require('./ContactInfo.json');
     //let contacts = JSON.parse(localStorage.getItem("contacts"));
     //console.log(contacts)
@@ -122,26 +123,6 @@ class ContactList extends Component {
     this.setState({ noteText: noteText.target.value })
   }
 
-  addNote() {
-    if (this.state.noteText === '') {return}
-
-    let notCheckedInArr = this.state.notCheckedIn;
-    notCheckedInArr.push(this.state.noteText);
-    this.setState( { noteText: ''});
-    this.textInput.focus();
-
-
-  }
-
-  handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      let notCheckedInArr = this.state.notCheckedIn;
-      notCheckedInArr.push(this.state.noteText);
-      this.setState( { noteText: ''});
-
-    }
-  }
-
   /* Move user with name "value" into the Checked-in list */
   checkIn(index, value) {
     let notCheckedInArr = this.state.notCheckedIn;
@@ -191,7 +172,25 @@ class ContactList extends Component {
   updateSearch(event) {
     this.setState({search: event.target.value});
 
-  } 
+  }
+  
+  /* A compare function for array.sort() that compares the username of two people given their IDs
+  (dict, dict) -> int */
+  sortHelper(id_1, id_2){
+
+    // Names of employees with given ID
+    let employee_1 = id_1.fields.Title + " " + id_1.fields.Last_x0020_Name;
+    let employee_2 = id_2.fields.Title + " " + id_2.fields.Last_x0020_Name;
+
+    // Compare the two names; return -1 if id_1 < id_2, 1 if id_1 > id_2, and 0 if id_1 === id_2
+    if(employee_1 < employee_2){
+      return -1;
+    } else if(employee_1 > employee_2){
+      return 1;
+    } else{
+      return 0;
+    }
+  }
 
   render() {
 
@@ -235,8 +234,8 @@ class ContactList extends Component {
       };
 
       // Sort the list of names
-      notCheckedInFiltered.sort();
-      markedSafeFiltered.sort();
+      notCheckedInFiltered.sort(this.sortHelper);
+      markedSafeFiltered.sort(this.sortHelper);
       
       let notCheckedIn = notCheckedInFiltered.map( elem => {
         // really need to change that last name thing
