@@ -4,6 +4,10 @@ import CheckedIn from './CheckedIn.js';
 import MarkedSafe from './MarkedSafe.js';
 import ContactCard from './ContactCard.js';
 import ContactListNavBar from './ContactListNavBar';
+import IconButton from '@material-ui/core/IconButton';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import SortIcon from '@material-ui/icons/Sort'
 import './ContactList.css';
 
 /**** This component displays all individuals that are checked-in and not checked-in, 
@@ -15,11 +19,14 @@ class ContactList extends Component {
 
   constructor(props) {
     super(props);
+
+    // Bind all functions to "this"
     this.getSPlist = this.getSPlist.bind(this);
     this.setUp = this.setUp.bind(this);
     this.sortHelper = this.sortHelper.bind(this);
-    // let contacts = require('./ContactInfo.json');
-    //let contacts = JSON.parse(localStorage.getItem("contacts"));
+    this.handleSearchFilterClick = this.handleSearchFilterClick.bind(this);
+    this.handleSearchFilterClose = this.handleSearchFilterClose.bind(this);
+
     this.state = {
       contacts: [],
       isLoading: true,
@@ -27,6 +34,8 @@ class ContactList extends Component {
       notCheckedIn: [],
       markedSafe: [],
       search: '',
+      filterMetric: 'name-increasing',
+      searchFilterOpen: {anchorEl: null},
       emergContacts: ContactCard
     }
   }
@@ -184,6 +193,15 @@ class ContactList extends Component {
     }
   }
 
+  handleSearchFilterClick(event){
+    this.setState({searchFilterOpen: {anchorEl: event.currentTarget}});
+  }
+
+  handleSearchFilterClose(event, metric){
+    this.setState({filterMetric: metric});
+    this.setState({searchFilterOpen: {anchorEl: null}});
+  }
+
   render() {
 
     let notCheckedInArray = [];
@@ -227,6 +245,10 @@ class ContactList extends Component {
       // Sort the list of names
       notCheckedInFiltered.sort(this.sortHelper);
       markedSafeFiltered.sort(this.sortHelper);
+      if(this.state.filterMetric === "name-decreasing"){
+        notCheckedInFiltered.reverse();
+        markedSafeFiltered.reverse();
+      }
       
       let notCheckedIn = notCheckedInFiltered.map( elem => {
         return <CheckedIn id={elem.id} text={elem.fields.Title + " " + elem.fields["Last_x0020_Name"]} employeeList={employeeList} status={elem.fields.Status}/>
@@ -237,12 +259,41 @@ class ContactList extends Component {
     
 
     let totalList = notCheckedIn.concat(safepeople);
+    const {anchorEl} = this.state.searchFilterOpen;
+    const open = Boolean(anchorEl);
+    const filterMetric = this.state.filterMetric;
     return (
       <div className="container">
           <div className="search-wrapper">
+            <IconButton onClick={this.handleSearchFilterClick}>
+              <SortIcon/>
+            </IconButton>
             <input type="text" className="searchBar" onChange={this.updateSearch.bind(this)} placeholder="Search a User..." value={this.state.search} />
           </div>
           <ContactListNavBar notCheckedIn={notCheckedIn} safepeople={safepeople}/>
+
+          {/* This Menu component handles which metric a user wants to sort the contact list by */}
+          <Menu 
+          anchorEl={anchorEl} 
+          open={open} 
+          PaperProps={{
+            style: {
+              maxHeight: 200,
+              width: 170,
+            },
+          }}>
+            <MenuItem 
+            onClick={event => this.handleSearchFilterClose(event, "name-increasing")} 
+            selected={filterMetric === "name-increasing"}>
+              Name: Ascending
+            </MenuItem>
+
+            <MenuItem 
+            onClick={event => this.handleSearchFilterClose(event, "name-decreasing")} 
+            selected={filterMetric === "name-decreasing"}>
+              Name: Descending
+            </MenuItem>
+          </Menu>
       </div>
     );
   }
