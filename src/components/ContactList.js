@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import SortIcon from '@material-ui/icons/Sort'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import './ContactList.css';
 
 /**** This component displays all individuals that are checked-in and not checked-in, 
@@ -193,17 +194,20 @@ class ContactList extends Component {
     }
   }
 
+  /*Handle opening the popup sorting  */
   handleSearchFilterClick(event){
     this.setState({searchFilterOpen: {anchorEl: event.currentTarget}});
   }
 
   handleSearchFilterClose(event, metric){
-    this.setState({filterMetric: metric});
+    if(metric !== "null"){
+      this.setState({filterMetric: metric});
+    }
     this.setState({searchFilterOpen: {anchorEl: null}});
   }
 
   render() {
-
+    console.log(this.state.filterMetric);
     let notCheckedInArray = [];
     let markedSafeArray = [];
     if (this.state.isLoading === false) {
@@ -273,6 +277,7 @@ class ContactList extends Component {
           <ContactListNavBar notCheckedIn={notCheckedIn} safepeople={safepeople}/>
 
           {/* This Menu component handles which metric a user wants to sort the contact list by */}
+          
           <Menu 
           anchorEl={anchorEl} 
           open={open} 
@@ -280,8 +285,10 @@ class ContactList extends Component {
             style: {
               maxHeight: 200,
               width: 170,
+              float: 'right',
             },
           }}>
+          <ClickAwayListener onClickAway={event => this.handleSearchFilterClose(event, this.state.filterMetric)}>
             <MenuItem 
             onClick={event => this.handleSearchFilterClose(event, "name-increasing")} 
             selected={filterMetric === "name-increasing"}>
@@ -293,7 +300,21 @@ class ContactList extends Component {
             selected={filterMetric === "name-decreasing"}>
               Name: Descending
             </MenuItem>
+
+            <MenuItem 
+            onClick={event => this.handleSearchFilterClose(event, "option3")} 
+            selected={filterMetric === "option3"}>
+              Option 3
+            </MenuItem>
+
+            <MenuItem 
+            onClick={event => this.handleSearchFilterClose(event, "option4")} 
+            selected={filterMetric === "option4"}>
+              Option 4
+            </MenuItem>
+            </ClickAwayListener>
           </Menu>
+          
       </div>
     );
   }
