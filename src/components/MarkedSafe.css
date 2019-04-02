@@ -1,16 +1,15 @@
 .MarkedSafe {
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: nowrap;
   align-items: center;
   justify-content: space-between;
-  color: #adadad;
+  
   padding: 10px;
-  font-size: large;
+  
   margin: 20px;
   background: #fff;
-  vertical-align: center;
+  /* vertical-align: center; */
   border: solid 2px #e9e9e9;
-  /* cursor: pointer; */
 
   /*Shadows*/
   box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.1);
@@ -25,61 +24,62 @@
   transform: scale(1.02);
 } */
 
-/*Handles the names of people*/
-.MarkedSafe .userName{
+/*Handles the names of people and profile pictures*/
+.MarkedSafe .employeeInfo{
+  flex-grow: 1;
   font-size: large;
   font-family: "Century Gothic";
+
   color: black;
+
   padding: 3px;
-  width: 40%;
+  white-space: nowrap;
+  overflow: hidden;
+  
+}
+
+.MarkedSafe .employeeInfo .userName{
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   
 }
 
+.MarkedSafe .employeeInfo .userProfilePic{
+  width: 100%;
+	height: 100%;
+}
+
 .MarkedSafe .buttons{
+  display: flex;
+  flex-flow: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 170px;
   color: white;
-  display: block;
   float: right;
   text-align: center;
   align-items: center;
   text-decoration: none;
+  /* vertical-align: center; */
 }
 
-/*Undo check-in button*/
+/*Check in button*/
 .MarkedSafe .buttons .btnUndoCheckIn {
   background-color: #e83c3c; /* Red */
   border: none;
   color: white;
-  float: right;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 8px;
+  padding-bottom: 8px;
   width: 90px;
   border-radius: 4px;
-  text-align: center;
-  align-items: center;
-  text-decoration: none;
+  float: right;
   display: block;
   font-size: 75%;
 }
 
-/*Info icon*/
-.MarkedSafe .buttons .btnContactInfo {
-  /* cursor:pointer; */
-  border:none;
-  width:25px;
-  height:25px;
-  vertical-align: center;
-  background: url("./assets/info_icon.png") no-repeat;
-  background-size: 25px 25px;
-  background-position: center;
-  margin-right: 15px;
-  margin-top: 11px;
-}
-
 /*SMS Icon*/
-.MarkedSafe .buttons .btnContactSMS{
+.MarkedSafe .buttons .call-sms .btnContactSMS{
   border: none;
   width:25px;
   height:25px;
@@ -91,7 +91,7 @@
 }
 
 /*Phone Icon*/
-.MarkedSafe .buttons .btnContactPhone{
+.MarkedSafe .buttons .call-sms .btnContactPhone{
   border: none;
   width:25px;
   height:25px;
@@ -108,5 +108,6 @@
   font-family: "Century Gothic";
   text-decoration: none;
   color: black;
+  font-weight: 300;
   width: 40%;
 }

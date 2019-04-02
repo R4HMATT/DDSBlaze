@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './MarkedSafe.css';
 import Button from '@material-ui/core/Button';
+import ListItem from '@material-ui/core/ListItem';
 import {
   BrowserRouter as Router,
   Route,
@@ -23,44 +24,34 @@ class MarkedSafe extends Component {
 	render() {
 		let new_url = "/contactCard/" + this.props.text;
 	    return (
-		      <div className="MarkedSafe" elevation={0.5}>
-					<div className="userName">
-					<Link to={{
-							pathname: new_url,
-							state: {
-								employeeList: this.props.employeeList,
-								id: this.props.id,
-							}
-						}}> {this.props.text} </Link>
+				<div className="MarkedSafe">
+				<div className="employeeInfo">
+				<Link to={new_url}>
+						<ListItem button alignItems="center">
+							<div className="userName">
+								{this.props.text}
+							</div>
+						</ListItem>
+				</Link>
+				</div>
+				<div className="buttons">
+					<div className="call-sms">
+						<button className="btnContactPhone"
+										name="viewContactPhone"
+										type="button"
+										href="tel:416-456-7890"
+										/>
+						
+						<button className="btnContactSMS"
+										name="viewContactSMS"
+										type="button"
+										href="sms:416-456-7890"
+										/>
 					</div>
-		        <div className="buttons">
-		        <Button 
-		         	className="btnUndoCheckIn" 
-		         	name="UndoCheckIn" 
-							variant="contained"
-							color="primary"
-		         	onClick={this.props.deleteMethod}>  Undo  
-		         </Button>
+				<Button className="btnUndoCheckIn" name="UndoCheckIn" variant="contained" color="primary" >Undo</Button>
 
-						 <button className="btnContactPhone"
-						 name="viewContactPhone"
-						 type="button"
-						 />
-
-						 <button className="btnContactSMS"
-						 name="viewContactSMS"
-						 type="button"
-						 />
-						 
-						 {/* <button
-			         	className="btnContactInfo"
-			         	name="viewContactInfo"
-			         	type="button"
-								 >
-			         	<Link to="/hello"></Link>
-			     		</button> */}
-			     </div>
-		      </div>
+				</div>
+			</div>
 	    );
 	  }
 }
