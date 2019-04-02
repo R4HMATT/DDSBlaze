@@ -20,7 +20,6 @@ class ContactList extends Component {
     this.sortHelper = this.sortHelper.bind(this);
     // let contacts = require('./ContactInfo.json');
     //let contacts = JSON.parse(localStorage.getItem("contacts"));
-    //console.log(contacts)
     this.state = {
       contacts: [],
       isLoading: true,
@@ -33,16 +32,13 @@ class ContactList extends Component {
   }
 
   setUp() {
-
     let notCheckedInArr = [];
     let checkedInArr = [];
     if (this.state.isLoading === false) {
-
       let contacts = JSON.parse(this.state.contacts);
-
       let notCheckedInArr = [];
       let checkedInArr = [];
-      for(var i = 1; i < contacts.length; i++) {
+      for(var i = 0; i < contacts.length; i++) {
         if (contacts[i]["fields"]["Status"] === "NotCheckedIn") {
           notCheckedInArr.push(contacts[i]);
         }
@@ -87,11 +83,7 @@ class ContactList extends Component {
     
     if (localStorage.getItem('accessToken')) {
 
- 
       var headers = new Headers();
-
-
-
 
       //var bearer = "Bearer " + this.state.token;
       var bearer = "Bearer " + localStorage.getItem('accessToken')
@@ -201,6 +193,9 @@ class ContactList extends Component {
       notCheckedInArray = sortedContacts[0];
       markedSafeArray = sortedContacts[1];
     }
+    
+    // Combine the list of notCheckeIn and checkedIn people to get total list
+    let employeeList = notCheckedInArray.concat(markedSafeArray);
 
    let notCheckedInFiltered = [];
    let markedSafeFiltered = [];    
@@ -211,18 +206,14 @@ class ContactList extends Component {
       // Create clone of notChekedIn and markedSafe arrays
       // Add user to tmp_notCheckedIn that match this.state.search
       for(let i = 0; i < notCheckedInArray.length; i++){
-        //console.log("searching for: " + this.state.search + "; Current element: " + this.state.notCheckedIn[i]);
         if(notCheckedInArray[i].fields.Title.toLowerCase().includes(this.state.search.toLowerCase())){
-          //console.log("Found match in noCheckedIn: " + this.state.notCheckedIn[i]);
           notCheckedInFiltered.push(notCheckedInArray[i]);
         }  
       }
 
       // Same as above, but for users that are checked in
       for(let i = 0; i < markedSafeArray.length; i++){
-        //console.log("searching for: " + this.state.search + "; Current element: " + this.state.markedSafe[i]);
         if(markedSafeArray[i].fields.Title.toLowerCase().includes(this.state.search.toLowerCase())){
-          //console.log("Found match in markedSafe: " + this.state.markedSafe[i]);
           markedSafeFiltered.push(markedSafeArray[i]);
         }
       }
@@ -238,14 +229,10 @@ class ContactList extends Component {
       markedSafeFiltered.sort(this.sortHelper);
       
       let notCheckedIn = notCheckedInFiltered.map( elem => {
-        // really need to change that last name thing
-
-        return <CheckedIn id={elem.id} text={elem.fields.Title} status={elem.fields.Status}/>
+        return <CheckedIn id={elem.id} text={elem.fields.Title + " " + elem.fields["Last_x0020_Name"]} employeeList={employeeList} status={elem.fields.Status}/>
       });
       let safepeople = markedSafeFiltered.map(elem => {
-        // really need to change that last name thing
-
-        return <MarkedSafe id={elem.id} text={elem.fields.Title} status={elem.fields.Status}/>
+        return <MarkedSafe id={elem.id} text={elem.fields.Title + " " + elem.fields["Last_x0020_Name"]} employeeList={employeeList} status={elem.fields.Status}/>
       });
     
 
