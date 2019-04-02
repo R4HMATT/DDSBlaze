@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import './CheckedIn.css';
 import Button from '@material-ui/core/Button';
-import Avatar from '@material-ui/core/Avatar';
 import ListItem from '@material-ui/core/ListItem';
-import {ListItemText} from '@material-ui/core';
 import {
   BrowserRouter as Router,
   Link,
@@ -19,10 +17,6 @@ class CheckedIn extends Component {
     super(props);
     this.state = {
     };
-	}
-	
-	handleClick(){
-		alert("clicked button");
 	}
 
 	render() {
