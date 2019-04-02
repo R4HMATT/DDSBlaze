@@ -26,7 +26,13 @@ class MarkedSafe extends Component {
 	    return (
 				<div className="MarkedSafe">
 				<div className="employeeInfo">
-				<Link to={new_url}>
+				<Link to={{
+							pathname: new_url,
+							state: {
+								employeeList: this.props.employeeList,
+								id: this.props.id,
+							}
+						}}>
 						<ListItem button alignItems="center">
 							<div className="userName">
 								{this.props.text}
