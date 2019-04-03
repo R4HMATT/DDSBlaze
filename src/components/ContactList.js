@@ -10,6 +10,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import SortIcon from '@material-ui/icons/Sort'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Typography from '@material-ui/core/Typography';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import './ContactList.css';
 
 /**** This component displays all individuals that are checked-in and not checked-in, 
@@ -266,6 +267,7 @@ class ContactList extends Component {
     const {anchorEl} = this.state.searchFilterOpen;
     const open = Boolean(anchorEl);
     const filterMetric = this.state.filterMetric;
+    const isLoading = this.state.isLoading;
     return (
       <div className="container">
           <div className="search-wrapper">
@@ -276,6 +278,12 @@ class ContactList extends Component {
             <input type="text" className="searchBar" onChange={this.updateSearch.bind(this)} placeholder="Search a User..." value={this.state.search} />
           </div>
           <ContactListNavBar notCheckedIn={notCheckedIn} safepeople={safepeople}/>
+          {isLoading && 
+          <div className="loadingCircle">
+            <CircularProgress color="primary" variant="indeterminate"/>
+            <br/>
+            <h4>Loading...</h4>
+          </div>}
 
           {/* This Menu component handles which metric a user wants to sort the contact list by */}
           
