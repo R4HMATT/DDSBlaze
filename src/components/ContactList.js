@@ -9,6 +9,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import SortIcon from '@material-ui/icons/Sort'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Typography from '@material-ui/core/Typography';
 import './ContactList.css';
 
 /**** This component displays all individuals that are checked-in and not checked-in, 
@@ -207,7 +208,6 @@ class ContactList extends Component {
   }
 
   render() {
-    console.log(this.state.filterMetric);
     let notCheckedInArray = [];
     let markedSafeArray = [];
     if (this.state.isLoading === false) {
@@ -272,13 +272,15 @@ class ContactList extends Component {
             <IconButton onClick={this.handleSearchFilterClick}>
               <SortIcon/>
             </IconButton>
+            <h4>Filtering by: {filterMetric}</h4>
             <input type="text" className="searchBar" onChange={this.updateSearch.bind(this)} placeholder="Search a User..." value={this.state.search} />
           </div>
           <ContactListNavBar notCheckedIn={notCheckedIn} safepeople={safepeople}/>
 
           {/* This Menu component handles which metric a user wants to sort the contact list by */}
           
-          <Menu 
+          <Menu
+          className="sortMenu" 
           anchorEl={anchorEl} 
           open={open} 
           PaperProps={{
@@ -289,28 +291,32 @@ class ContactList extends Component {
             },
           }}>
           <ClickAwayListener onClickAway={event => this.handleSearchFilterClose(event, this.state.filterMetric)}>
+
+          {/* Typography component is used for MenuItem text because it allows for ellipses on text-overflow */}
+
             <MenuItem 
             onClick={event => this.handleSearchFilterClose(event, "name-increasing")} 
             selected={filterMetric === "name-increasing"}>
-              Name: Ascending
+             <Typography variant="subheading" noWrap> Name: Ascending </Typography>
             </MenuItem>
 
             <MenuItem 
             onClick={event => this.handleSearchFilterClose(event, "name-decreasing")} 
             selected={filterMetric === "name-decreasing"}>
-              Name: Descending
+              <Typography variant="subheading" noWrap> Name: Descending </Typography>
             </MenuItem>
 
             <MenuItem 
-            onClick={event => this.handleSearchFilterClose(event, "option3")} 
-            selected={filterMetric === "option3"}>
-              Option 3
+            onClick={event => this.handleSearchFilterClose(event, "team-lead-levon")} 
+            selected={filterMetric === "team-lead-levon"}>
+             <Typography variant="subheading" noWrap> Team Lead: Levon </Typography>
             </MenuItem>
 
+            
             <MenuItem 
-            onClick={event => this.handleSearchFilterClose(event, "option4")} 
-            selected={filterMetric === "option4"}>
-              Option 4
+            onClick={event => this.handleSearchFilterClose(event, "team-lead-rahm")} 
+            selected={filterMetric === "team-lead-rahm"}>
+              <Typography variant="subheading" noWrap> Team Lead: Rahmatullah </Typography>
             </MenuItem>
             </ClickAwayListener>
           </Menu>
