@@ -5,24 +5,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import NoSsr from '@material-ui/core/NoSsr';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
+import Badge from '@material-ui/core/Badge';
 import SwipeableViews from 'react-swipeable-views';
-
-function TabContainer(props) {
-  return (
-    <Typography component="div" style={{ padding: 8 * 3 }}>
-      {props.children}
-    </Typography>
-  );
-}
-
-TabContainer.propTypes = {
-  children: PropTypes.node.isRequired,
-};
-
-function LinkTab(props) {
-  return <Tab component="a" onClick={event => event.preventDefault()} {...props} />;
-}
 
 const styles = theme => ({
   root: {
@@ -31,7 +15,10 @@ const styles = theme => ({
   },
   AppBar: {
     backgroundColor: '#0483e8',
-  }
+  },
+  padding: {
+    padding: "4px",
+  },
 });
 
 /*** This class handles switching between people who are Checked-In and NOT Checked-In ***/
@@ -51,14 +38,24 @@ class ContactListNavBar extends React.Component {
   render() {
     const { classes, theme } = this.props;
     const { value } = this.state;
+    const notCheckedInTotal = this.props.notCheckedIn.length;
+    const safePeopleTotal = this.props.safepeople.length;
 
     return (
       <NoSsr>
         <div className={classes.root}>
           <AppBar position="sticky" color="primary" classes={{colorPrimary: classes.AppBar}}>
             <Tabs variant="fullWidth" value={value} onChange={this.handleChange} indicatorColor="secondary">
-              <LinkTab label="Not Checked-In" />
-              <LinkTab label="Checked-In" />
+              <Tab label={
+                <Badge className={classes.padding} color="secondary" badgeContent={notCheckedInTotal} max={999}>
+                  Not Checked-In
+                </Badge>
+              } />
+
+              <Tab label={<Badge className={classes.padding} color="secondary" badgeContent={safePeopleTotal} max={999}>
+                  Checked-In
+                </Badge>
+              } />
             </Tabs>
           </AppBar>
           <SwipeableViews disabled={true} index={value} onChangeIndex={this.handleChange} axis={value === 0 ? 'x-reverse' : 'x'}>
