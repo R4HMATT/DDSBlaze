@@ -40,6 +40,7 @@ class ContactList extends Component {
     this.sortHelper = this.sortHelper.bind(this);
     this.handleSearchFilterClick = this.handleSearchFilterClick.bind(this);
     this.handleSearchFilterClose = this.handleSearchFilterClose.bind(this);
+    this.getNameByID = this.getNameByID.bind(this);
 
     this.state = {
       contacts: [],
@@ -69,7 +70,6 @@ class ContactList extends Component {
           checkedInArr.push(contacts[i]);
         }
       }
-
       return [notCheckedInArr, checkedInArr];
       /* 
       notCheckedInArr.sort();
@@ -219,67 +219,121 @@ class ContactList extends Component {
     this.setState({searchFilterOpen: {anchorEl: null}});
   }
 
+  /*A function to return the name of an employee given their ID 
+    (string, array) -> string */
+  getNameByID(employeeID, employeeList){
+    for(let i = 0; i < employeeList.length; i++){
+      if(employeeList[i]["id"] === employeeID){
+        return employeeList[i]["fields"]["Title"] + " " + employeeList[i]["fields"]["Last_x0020_Name"];
+      }
+    }
+    return '';
+  }
+
   render() {
+    // Get list of all employees
     let notCheckedInArray = [];
     let markedSafeArray = [];
+    let notCheckedInFiltered = [];
+    let markedSafeFiltered = [];
+    
+    let teamLeadsTemp = new Set();
+    let teamLeads = [];
+
+    let employeeList = []
+
     if (this.state.isLoading === false) {
       let sortedContacts = this.setUp();
       notCheckedInArray = sortedContacts[0];
       markedSafeArray = sortedContacts[1];
-    }
-    
-    // Combine the list of notCheckeIn and checkedIn people to get total list
-    let employeeList = notCheckedInArray.concat(markedSafeArray);
 
-   let notCheckedInFiltered = [];
-   let markedSafeFiltered = [];    
+      // Combine the list of notCheckeIn and checkedIn people to get total list
+      employeeList = notCheckedInArray.concat(markedSafeArray);
 
-    /* Filter which people are displayed in both Checked-in and Not Checked-in sections based on user search*/
-    if(this.state.search !== '') {
-
-      // Create clone of notChekedIn and markedSafe arrays
-      // Add user to tmp_notCheckedIn that match this.state.search
-      for(let i = 0; i < notCheckedInArray.length; i++){
-        if(notCheckedInArray[i].fields.Title.toLowerCase().includes(this.state.search.toLowerCase())){
-          notCheckedInFiltered.push(notCheckedInArray[i]);
-        }  
+      /* Get list of all Team Leads */
+      for(let i = 0; i < employeeList.length; i++){
+        teamLeadsTemp.add(employeeList[i]["fields"]["PrimaryLeadID"]);
+      }
+      // Go through teamLeadsTemp and add all ID and name of each tem lead into teamLeads
+      for(let elem of teamLeadsTemp){
+        teamLeads.push([elem, "Team Lead - " + this.getNameByID(elem, employeeList)]);
       }
 
-      // Same as above, but for users that are checked in
-      for(let i = 0; i < markedSafeArray.length; i++){
-        if(markedSafeArray[i].fields.Title.toLowerCase().includes(this.state.search.toLowerCase())){
-          markedSafeFiltered.push(markedSafeArray[i]);
+      /* Filter which people are displayed in both Checked-in and Not Checked-in sections based on user search */
+      if(this.state.search !== '') {
+  
+        // Create clone of notChekedIn and markedSafe arrays
+        // Add user to tmp_notCheckedIn that match this.state.search
+        for(let i = 0; i < notCheckedInArray.length; i++){
+          if(notCheckedInArray[i].fields.Title.toLowerCase().includes(this.state.search.toLowerCase())){
+            notCheckedInFiltered.push(notCheckedInArray[i]);
+          }  
         }
+  
+        // Same as above, but for users that are checked in
+        for(let i = 0; i < markedSafeArray.length; i++){
+          if(markedSafeArray[i].fields.Title.toLowerCase().includes(this.state.search.toLowerCase())){
+            markedSafeFiltered.push(markedSafeArray[i]);
+          }
+        }
+  
       }
-
-    }
-      else {
-        notCheckedInFiltered = notCheckedInArray;
-        markedSafeFiltered = markedSafeArray;
+        else {
+          notCheckedInFiltered = notCheckedInArray;
+          markedSafeFiltered = markedSafeArray;
       };
 
-      // Sort the list of names
+      /* Filter the list of names based on this.state.filterMetric[0] */
       notCheckedInFiltered.sort(this.sortHelper);
       markedSafeFiltered.sort(this.sortHelper);
-      if(this.state.filterMetric[0] === "name-decreasing"){
+      console.log({"filtering by": this.state.filterMetric[0]})
+      console.log({"before": markedSafeFiltered});
+      if(this.state.filterMetric[0] === "name-increasing"){
+        //Do nothing
+      }
+      else if(this.state.filterMetric[0] === "name-decreasing"){
         notCheckedInFiltered.reverse();
         markedSafeFiltered.reverse();
+      } else{
+        // Go through both lists and remove employees who don't have PrimaryLeadID as this.state.filterMetric[0]
+        for(let i = 0; i < notCheckedInFiltered.length; i++){
+          if(notCheckedInFiltered[i]["fields"]["PrimaryLeadID"].toString() !== this.state.filterMetric[0]){
+            console.log({"Removing from Not Checked-In": notCheckedInFiltered[i]["fields"]["Title"]})
+            notCheckedInFiltered.splice(i, 1);
+            i--;
+          }
+        }
+        for(let i = 0; i < markedSafeFiltered.length; i++){
+          if(markedSafeFiltered[i]["fields"]["PrimaryLeadID"].toString() !== this.state.filterMetric[0]){
+            console.log({"Removing from Checked-In": markedSafeFiltered[i]["fields"]["Title"]})
+            markedSafeFiltered.splice(i, 1);
+            i--;
+          }
+        }
       }
-      
-      let notCheckedIn = notCheckedInFiltered.map( elem => {
-        return <CheckedIn id={elem.id} text={elem.fields.Title + " " + elem.fields["Last_x0020_Name"]} employeeList={employeeList} status={elem.fields.Status}/>
-      });
-      let safepeople = markedSafeFiltered.map(elem => {
-        return <MarkedSafe id={elem.id} text={elem.fields.Title + " " + elem.fields["Last_x0020_Name"]} employeeList={employeeList} status={elem.fields.Status}/>
-      });
+    }
+    console.log({"afer": markedSafeFiltered});
+    let notCheckedIn = notCheckedInFiltered.map( elem => {
+      return <CheckedIn id={elem.id} text={elem.fields.Title + " " + elem.fields["Last_x0020_Name"]} employeeList={employeeList} status={elem.fields.Status}/>
+    });
+    let safepeople = markedSafeFiltered.map(elem => {
+      return <MarkedSafe id={elem.id} text={elem.fields.Title + " " + elem.fields["Last_x0020_Name"]} employeeList={employeeList} status={elem.fields.Status}/>
+    });
     
-
-    let totalList = notCheckedIn.concat(safepeople);
     const {anchorEl} = this.state.searchFilterOpen;
+    const { classes } = this.props;
     const open = Boolean(anchorEl);
     const filterMetric = this.state.filterMetric;
     const isLoading = this.state.isLoading;
-    const { classes } = this.props;
+
+    let menuItems = teamLeads.map(elem => {
+      return (<MenuItem
+                onClick={event => this.handleSearchFilterClose(event, elem)}
+                selected={filterMetric[0] === elem[0]}>
+                <Typography variant="subheading" noWrap> {elem[1]} </Typography>
+              </MenuItem>)
+    });
+
     return (
       <div className="container">
           <div className="search-wrapper">
@@ -307,7 +361,8 @@ class ContactList extends Component {
           PaperProps={{
             style: {
               maxHeight: 200,
-              width: 170,
+              width: "60%",
+              maxWidth: 300,
               float: 'right',
             },
           }}>
@@ -327,7 +382,8 @@ class ContactList extends Component {
                 <Typography variant="subheading" noWrap> Name: Descending </Typography>
               </MenuItem>
 
-              <MenuItem 
+              {menuItems}
+              {/* <MenuItem 
               onClick={event => this.handleSearchFilterClose(event, ["team-lead-levon", "Team Lead - Levon"])} 
               selected={filterMetric[0] === "team-lead-levon"}>
                 <Typography variant="subheading" noWrap> Team Lead: Levon </Typography>
@@ -338,7 +394,7 @@ class ContactList extends Component {
               onClick={event => this.handleSearchFilterClose(event, ["team-lead-rahm", "Team Lead - Rahmatullah"])} 
               selected={filterMetric[0] === "team-lead-rahm"}>
                 <Typography variant="subheading" noWrap> Team Lead: Rahmatullah </Typography>
-              </MenuItem>
+              </MenuItem> */}
             </ClickAwayListener>
           </Menu>
           
