@@ -6,13 +6,22 @@ import ContactCard from './ContactCard.js';
 import ContactListNavBar from './ContactListNavBar';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import MenuIcon from '@material-ui/icons/Menu';
+import SendIcon from '@material-ui/icons/Send';
 import { withStyles } from '@material-ui/core/styles';
 import './ContactList.css';
+import { Icon, Divider } from '@material-ui/core';
 
 /**** This component displays all individuals that are checked-in and not checked-in, 
    as well as the search bar and other main functionality ****/
@@ -40,6 +49,8 @@ class ContactList extends Component {
     this.sortHelper = this.sortHelper.bind(this);
     this.handleSearchFilterClick = this.handleSearchFilterClick.bind(this);
     this.handleSearchFilterClose = this.handleSearchFilterClose.bind(this);
+    this.handleNavDrawerOpen = this.handleNavDrawerOpen.bind(this);
+    this.handleNavDrawerClose = this.handleNavDrawerClose.bind(this);
     this.getNameByID = this.getNameByID.bind(this);
 
     this.state = {
@@ -51,7 +62,8 @@ class ContactList extends Component {
       search: '',
       filterMetric: ['name-increasing', 'Name Increasing'],
       searchFilterOpen: {anchorEl: null},
-      emergContacts: ContactCard
+      emergContacts: ContactCard,
+      navDrawerOpen: false,
     }
   }
 
@@ -219,6 +231,16 @@ class ContactList extends Component {
     this.setState({searchFilterOpen: {anchorEl: null}});
   }
 
+  /*A function to handle opening the side nav drawer */
+  handleNavDrawerOpen(){
+    this.setState({navDrawerOpen: true});
+  }
+
+  /*A function to handle closing the side navigation drawer */
+  handleNavDrawerClose(){
+    this.setState({navDrawerOpen: false});
+  }
+
   /*A function to return the name of an employee given their ID 
     (string, array) -> string */
   getNameByID(employeeID, employeeList){
@@ -334,7 +356,13 @@ class ContactList extends Component {
     return (
       <div className="container">
           <div className="search-wrapper">
-            <div className="sortFilterWrapper">
+            <div className="primaryOptions">
+              <div className="navMenu">
+                <IconButton onClick={this.handleNavDrawerOpen}>
+                    <MenuIcon/>
+                </IconButton>
+              </div>
+
               <Button size="small" variant="outlined" onClick={this.handleSearchFilterClick} classes={{root: 'sortButton'}}>
                 <h4>{"Sort by: " + filterMetric[1]}</h4>
                 <ExpandMoreIcon/>
@@ -394,6 +422,26 @@ class ContactList extends Component {
               </MenuItem> */}
             </ClickAwayListener>
           </Menu>
+
+          {/* Side navigation drawer */}
+          <Drawer anchor="left" open={this.state.navDrawerOpen} onClose={this.handleNavDrawerClose}>
+              <div tabIndex={0} role="button" onClick={this.handleNavDrawerClose}>
+                <List>
+                  <ListItem button>
+                    <ListItemIcon classes={{root: {margin: 0}}}>
+                      <SendIcon/>
+                    </ListItemIcon>
+                    <ListItemText primary="Bulk Message"/>
+                  </ListItem>
+
+                  <Divider/>
+
+                  <ListItem button>
+                    <ListItemText primary="Logout"/>
+                  </ListItem>
+                </List>
+              </div>
+          </Drawer>
           
       </div>
     );

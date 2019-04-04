@@ -74,22 +74,28 @@ body {
   background-color: #ffffff;
 }
 
-.search-wrapper .sortFilterWrapper{
+.search-wrapper .primaryOptions{
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
 
-  margin: auto;
   margin-bottom: 10px;
   margin-right: 0;
 }
 
-.search-wrapper .sortFilterWrapper .sortButton h4{
+.search-wrapper .primaryOptions .sortButton h4{
+  order: 1;
   font-weight: 700;
   text-transform: none;
   margin: none;
   padding: none;
+}
+
+.search-wrapper .primaryOptions .navMenu{
+  order: 0;
+  align-self: flex-start;
+  left: 0;
 }
 
 .container .loadingCircle{
