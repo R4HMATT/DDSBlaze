@@ -265,14 +265,14 @@ class ContactList extends Component {
         // Create clone of notChekedIn and markedSafe arrays
         // Add user to tmp_notCheckedIn that match this.state.search
         for(let i = 0; i < notCheckedInArray.length; i++){
-          if(notCheckedInArray[i].fields.Title.toLowerCase().includes(this.state.search.toLowerCase())){
+          if((notCheckedInArray[i].fields.Title.toLowerCase() + " " + notCheckedInArray[i].fields.Last_x0020_Name.toLowerCase()).includes(this.state.search.toLowerCase())){
             notCheckedInFiltered.push(notCheckedInArray[i]);
           }  
         }
   
         // Same as above, but for users that are checked in
         for(let i = 0; i < markedSafeArray.length; i++){
-          if(markedSafeArray[i].fields.Title.toLowerCase().includes(this.state.search.toLowerCase())){
+          if((markedSafeArray[i].fields.Title.toLowerCase() + " " + markedSafeArray[i].fields.Last_x0020_Name.toLowerCase()).includes(this.state.search.toLowerCase())){
             markedSafeFiltered.push(markedSafeArray[i]);
           }
         }
@@ -286,8 +286,7 @@ class ContactList extends Component {
       /* Filter the list of names based on this.state.filterMetric[0] */
       notCheckedInFiltered.sort(this.sortHelper);
       markedSafeFiltered.sort(this.sortHelper);
-      console.log({"filtering by": this.state.filterMetric[0]})
-      console.log({"before": markedSafeFiltered});
+
       if(this.state.filterMetric[0] === "name-increasing"){
         //Do nothing
       }
@@ -298,21 +297,19 @@ class ContactList extends Component {
         // Go through both lists and remove employees who don't have PrimaryLeadID as this.state.filterMetric[0]
         for(let i = 0; i < notCheckedInFiltered.length; i++){
           if(notCheckedInFiltered[i]["fields"]["PrimaryLeadID"].toString() !== this.state.filterMetric[0]){
-            console.log({"Removing from Not Checked-In": notCheckedInFiltered[i]["fields"]["Title"]})
             notCheckedInFiltered.splice(i, 1);
             i--;
           }
         }
         for(let i = 0; i < markedSafeFiltered.length; i++){
           if(markedSafeFiltered[i]["fields"]["PrimaryLeadID"].toString() !== this.state.filterMetric[0]){
-            console.log({"Removing from Checked-In": markedSafeFiltered[i]["fields"]["Title"]})
             markedSafeFiltered.splice(i, 1);
             i--;
           }
         }
       }
     }
-    console.log({"afer": markedSafeFiltered});
+
     let notCheckedIn = notCheckedInFiltered.map( elem => {
       return <CheckedIn id={elem.id} text={elem.fields.Title + " " + elem.fields["Last_x0020_Name"]} employeeList={employeeList} status={elem.fields.Status}/>
     });
