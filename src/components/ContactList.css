@@ -68,11 +68,6 @@ body {
   /* Rounded border */
   border: solid 2px #e5e5e5;
   border-radius: 25px;
-
-  /*Shadows*/
-  /* box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);
-  -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);
-  -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);  */
   
   background: url('./assets/search_icon.png') no-repeat scroll 98% 50%;
   background-size: 28px 28px;
@@ -95,10 +90,6 @@ body {
   text-transform: none;
   margin: none;
   padding: none;
-}
-
-.search-wrapper .sortFilterWrapper .sortButton .expandIcon{
-  margin-left: 3px;
 }
 
 .container .loadingCircle{

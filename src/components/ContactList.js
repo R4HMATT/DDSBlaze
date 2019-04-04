@@ -4,13 +4,8 @@ import CheckedIn from './CheckedIn.js';
 import MarkedSafe from './MarkedSafe.js';
 import ContactCard from './ContactCard.js';
 import ContactListNavBar from './ContactListNavBar';
-import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import SortIcon from '@material-ui/icons/Sort'
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Typography from '@material-ui/core/Typography';
@@ -289,18 +284,10 @@ class ContactList extends Component {
       <div className="container">
           <div className="search-wrapper">
             <div className="sortFilterWrapper">
-              {/* <List component="nav">
-                <ListItem button onClick={this.handleSearchFilterClick}>
-                  <ListItemText primary=/>
-                </ListItem>
-              </List> */}
               <Button size="small" variant="outlined" onClick={this.handleSearchFilterClick} classes={{root: 'sortButton'}}>
                 {"Sort by: " + filterMetric[1]}
-                <ExpandMoreIcon classes={{root: 'expandIcon'}}/>
+                <ExpandMoreIcon/>
               </Button>
-              {/* <IconButton onClick={this.handleSearchFilterClick}>
-                <SortIcon/>
-              </IconButton> */}
             </div>
             <input type="text" className="searchBar" onChange={this.updateSearch.bind(this)} placeholder="Search a User..." value={this.state.search} />
           </div>
