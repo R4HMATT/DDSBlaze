@@ -85,8 +85,8 @@ body {
   margin-right: 0;
 }
 
-.search-wrapper .sortFilterWrapper .sortButton{
-  font-size: 12px;
+.search-wrapper .sortFilterWrapper .sortButton h4{
+  font-weight: 700;
   text-transform: none;
   margin: none;
   padding: none;

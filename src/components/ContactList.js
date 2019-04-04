@@ -285,7 +285,7 @@ class ContactList extends Component {
           <div className="search-wrapper">
             <div className="sortFilterWrapper">
               <Button size="small" variant="outlined" onClick={this.handleSearchFilterClick} classes={{root: 'sortButton'}}>
-                {"Sort by: " + filterMetric[1]}
+                <h4>{"Sort by: " + filterMetric[1]}</h4>
                 <ExpandMoreIcon/>
               </Button>
             </div>
