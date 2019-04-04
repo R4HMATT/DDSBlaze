@@ -7,16 +7,32 @@ import ContactListNavBar from './ContactListNavBar';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import SortIcon from '@material-ui/icons/Sort'
+import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { withStyles } from '@material-ui/core/styles';
 import './ContactList.css';
 
 /**** This component displays all individuals that are checked-in and not checked-in, 
    as well as the search bar and other main functionality ****/
 
 const SP = require('../Connection.json');
+
+// Styles applied to the Loading Spinner
+const styles = theme => ({
+  CircularProgress: {
+    color: '#0483e8',
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit,
+  },
+});
 
 class ContactList extends Component {
 
@@ -37,7 +53,7 @@ class ContactList extends Component {
       notCheckedIn: [],
       markedSafe: [],
       search: '',
-      filterMetric: 'name-increasing',
+      filterMetric: ['name-increasing', 'Name Increasing'],
       searchFilterOpen: {anchorEl: null},
       emergContacts: ContactCard
     }
@@ -250,7 +266,7 @@ class ContactList extends Component {
       // Sort the list of names
       notCheckedInFiltered.sort(this.sortHelper);
       markedSafeFiltered.sort(this.sortHelper);
-      if(this.state.filterMetric === "name-decreasing"){
+      if(this.state.filterMetric[0] === "name-decreasing"){
         notCheckedInFiltered.reverse();
         markedSafeFiltered.reverse();
       }
@@ -268,25 +284,35 @@ class ContactList extends Component {
     const open = Boolean(anchorEl);
     const filterMetric = this.state.filterMetric;
     const isLoading = this.state.isLoading;
+    const { classes } = this.props;
     return (
       <div className="container">
           <div className="search-wrapper">
-            <IconButton onClick={this.handleSearchFilterClick}>
-              <SortIcon/>
-            </IconButton>
-            <h4>Filtering by: {filterMetric}</h4>
+            <div className="sortFilterWrapper">
+              {/* <List component="nav">
+                <ListItem button onClick={this.handleSearchFilterClick}>
+                  <ListItemText primary=/>
+                </ListItem>
+              </List> */}
+              <Button size="small" variant="outlined" onClick={this.handleSearchFilterClick} classes={{root: 'sortButton'}}>
+                {"Sort by: " + filterMetric[1]}
+                <ExpandMoreIcon classes={{root: 'expandIcon'}}/>
+              </Button>
+              {/* <IconButton onClick={this.handleSearchFilterClick}>
+                <SortIcon/>
+              </IconButton> */}
+            </div>
             <input type="text" className="searchBar" onChange={this.updateSearch.bind(this)} placeholder="Search a User..." value={this.state.search} />
           </div>
           <ContactListNavBar notCheckedIn={notCheckedIn} safepeople={safepeople}/>
           {isLoading && 
           <div className="loadingCircle">
-            <CircularProgress color="primary" variant="indeterminate"/>
+            <CircularProgress color="primary" variant="indeterminate" classes={{colorPrimary: classes.CircularProgress}}/>
             <br/>
             <h4>Loading...</h4>
           </div>}
 
           {/* This Menu component handles which metric a user wants to sort the contact list by */}
-          
           <Menu
           className="sortMenu" 
           anchorEl={anchorEl} 
@@ -302,30 +328,30 @@ class ContactList extends Component {
 
           {/* Typography component is used for MenuItem text because it allows for ellipses on text-overflow */}
 
-            <MenuItem 
-            onClick={event => this.handleSearchFilterClose(event, "name-increasing")} 
-            selected={filterMetric === "name-increasing"}>
-             <Typography variant="subheading" noWrap> Name: Ascending </Typography>
-            </MenuItem>
+              <MenuItem 
+              onClick={event => this.handleSearchFilterClose(event, ["name-increasing", "Name Increasing"])} 
+              selected={filterMetric[0] === "name-increasing"}>
+                <Typography variant="subheading" noWrap> Name: Ascending </Typography>
+              </MenuItem>
 
-            <MenuItem 
-            onClick={event => this.handleSearchFilterClose(event, "name-decreasing")} 
-            selected={filterMetric === "name-decreasing"}>
-              <Typography variant="subheading" noWrap> Name: Descending </Typography>
-            </MenuItem>
+              <MenuItem 
+              onClick={event => this.handleSearchFilterClose(event, ["name-decreasing", "Name Decreasing"])} 
+              selected={filterMetric[0] === "name-decreasing"}>
+                <Typography variant="subheading" noWrap> Name: Descending </Typography>
+              </MenuItem>
 
-            <MenuItem 
-            onClick={event => this.handleSearchFilterClose(event, "team-lead-levon")} 
-            selected={filterMetric === "team-lead-levon"}>
-             <Typography variant="subheading" noWrap> Team Lead: Levon </Typography>
-            </MenuItem>
+              <MenuItem 
+              onClick={event => this.handleSearchFilterClose(event, ["team-lead-levon", "Team Lead - Levon"])} 
+              selected={filterMetric[0] === "team-lead-levon"}>
+                <Typography variant="subheading" noWrap> Team Lead: Levon </Typography>
+              </MenuItem>
 
-            
-            <MenuItem 
-            onClick={event => this.handleSearchFilterClose(event, "team-lead-rahm")} 
-            selected={filterMetric === "team-lead-rahm"}>
-              <Typography variant="subheading" noWrap> Team Lead: Rahmatullah </Typography>
-            </MenuItem>
+              
+              <MenuItem 
+              onClick={event => this.handleSearchFilterClose(event, ["team-lead-rahm", "Team Lead - Rahmatullah"])} 
+              selected={filterMetric[0] === "team-lead-rahm"}>
+                <Typography variant="subheading" noWrap> Team Lead: Rahmatullah </Typography>
+              </MenuItem>
             </ClickAwayListener>
           </Menu>
           
@@ -334,4 +360,4 @@ class ContactList extends Component {
   }
 };
 
-export default ContactList;
+export default withStyles(styles)(ContactList);
