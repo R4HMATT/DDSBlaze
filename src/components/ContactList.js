@@ -4,6 +4,7 @@ import CheckedIn from './CheckedIn.js';
 import MarkedSafe from './MarkedSafe.js';
 import ContactCard from './ContactCard.js';
 import ContactListNavBar from './ContactListNavBar';
+import BulkMessageModal from './BulkMessageModal';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import List from '@material-ui/core/List';
@@ -19,6 +20,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MenuIcon from '@material-ui/icons/Menu';
 import SendIcon from '@material-ui/icons/Send';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { withStyles } from '@material-ui/core/styles';
 import './ContactList.css';
 import { Icon, Divider } from '@material-ui/core';
@@ -32,9 +34,6 @@ const SP = require('../Connection.json');
 const styles = theme => ({
   CircularProgress: {
     color: '#0483e8',
-  },
-  rightIcon: {
-    marginLeft: theme.spacing.unit,
   },
 });
 
@@ -56,6 +55,8 @@ class ContactList extends Component {
     this.state = {
       contacts: [],
       isLoading: true,
+      navDrawerOpen: false,
+      bulkMessageOpen: false,
       intervalIsSet: null,
       notCheckedIn: [],
       markedSafe: [],
@@ -63,7 +64,6 @@ class ContactList extends Component {
       filterMetric: ['name-increasing', 'Name Increasing'],
       searchFilterOpen: {anchorEl: null},
       emergContacts: ContactCard,
-      navDrawerOpen: false,
     }
   }
 
@@ -427,8 +427,8 @@ class ContactList extends Component {
           <Drawer anchor="left" open={this.state.navDrawerOpen} onClose={this.handleNavDrawerClose}>
               <div tabIndex={0} role="button" onClick={this.handleNavDrawerClose}>
                 <List>
-                  <ListItem button>
-                    <ListItemIcon classes={{root: {margin: 0}}}>
+                  <ListItem button onClick={event => this.setState({bulkMessageOpen: true})}>
+                    <ListItemIcon>
                       <SendIcon/>
                     </ListItemIcon>
                     <ListItemText primary="Bulk Message"/>
@@ -437,11 +437,15 @@ class ContactList extends Component {
                   <Divider/>
 
                   <ListItem button>
+                    <ListItemIcon>
+                      <ExitToAppIcon/>
+                    </ListItemIcon>
                     <ListItemText primary="Logout"/>
                   </ListItem>
                 </List>
               </div>
           </Drawer>
+          {this.state.bulkMessageOpen === true && <BulkMessageModal handleClose={event => this.setState({bulkMessageOpen: false})}/>}
           
       </div>
     );

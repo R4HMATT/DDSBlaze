@@ -17,7 +17,8 @@ const styles = theme => ({
     backgroundColor: '#0483e8',
   },
   padding: {
-    padding: "4px",
+    padding: "7px",
+    margin: "10px",
   },
 });
 
@@ -30,10 +31,6 @@ class ContactListNavBar extends React.Component {
   handleChange = (event, value) => {
     this.setState({ value });
   };
-
-  handleChangeIndex = index => {
-    this.setState({index,});
-  }
 
   render() {
     const { classes, theme } = this.props;
