@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import CheckedIn from './CheckedIn.js';
 import MarkedSafe from './MarkedSafe.js';
 import ContactCard from './ContactCard.js';
-import ContactListNavBar from './ContactListNavBar';
 import BulkMessageModal from './BulkMessageModal';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -12,9 +11,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Drawer from '@material-ui/core/Drawer';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import InputBase from '@material-ui/core/InputBase';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -24,7 +21,7 @@ import SendIcon from '@material-ui/icons/Send';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { withStyles } from '@material-ui/core/styles';
 import './ContactList.css';
-import { Icon, Divider, Input } from '@material-ui/core';
+import { Divider } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import NoSsr from '@material-ui/core/NoSsr';
@@ -375,6 +372,7 @@ class ContactList extends Component {
     const safePeopleTotal = safepeople.length;
     const isLoading = this.state.isLoading;
 
+    // menuItems contains one row for each Primary Lead in SP List
     let menuItems = teamLeads.map(elem => {
       return (<MenuItem
                 onClick={event => this.handleSearchFilterClose(event, elem)}
@@ -386,46 +384,37 @@ class ContactList extends Component {
     return (
       <div className="container">
         <NoSsr>
-        <div className={classes.root}>
-          <AppBar position="sticky" color="primary" classes={{colorPrimary: classes.AppBar}}>
-            <Toolbar>
+          <div className={classes.root}>
+            <AppBar position="sticky" color="primary" classes={{colorPrimary: classes.AppBar}}>
+              <Toolbar>
 
-              <IconButton onClick={this.handleNavDrawerOpen} color="inherit">
-                <MenuIcon/>
-              </IconButton>
+                <IconButton onClick={this.handleNavDrawerOpen} color="inherit">
+                  <MenuIcon/>
+                </IconButton>
 
-              <input type="text" className="searchBar" onChange={this.updateSearch.bind(this)} placeholder="Search a User..." value={this.state.search}/>
+                {/* SEARCH BAR */}
+                <input type="text" className="searchBar" onChange={this.updateSearch.bind(this)} placeholder="Search a User..." value={this.state.search}/>
+              </Toolbar>
 
-              {/* <Button size="small" variant="outlined" onClick={this.handleSearchFilterClick} color="inherit">
-                <h4>{"Filter: " + filterMetric[1]}</h4>
-                <ExpandMoreIcon/>
-              </Button> */}
-            </Toolbar>
+              <Tabs variant="fullWidth" value={value} onChange={this.handleTabChange} indicatorColor="secondary">
+                <Tab label={
+                  <Badge className={classes.padding} color="secondary" badgeContent={notCheckedInTotal} max={999}>
+                    Not Checked-In
+                  </Badge>
+                } />
 
-            <Tabs variant="fullWidth" value={value} onChange={this.handleTabChange} indicatorColor="secondary">
-              <Tab label={
-                <Badge className={classes.padding} color="secondary" badgeContent={notCheckedInTotal} max={999}>
-                  Not Checked-In
-                </Badge>
-              } />
-
-              <Tab label={<Badge className={classes.padding} color="secondary" badgeContent={safePeopleTotal} max={999}>
-                  Checked-In
-                </Badge>
-              } />
-            </Tabs>
-          </AppBar>
-          <SwipeableViews disabled={true} index={value} onChangeIndex={this.handleTabChange} axis={value === 0 ? 'x-reverse' : 'x'}>
-            {value === 0 && <div>{notCheckedIn}</div>}
-            {value === 1 && <div>{safepeople}</div>}
-          </SwipeableViews>
-        </div>
-      </NoSsr>
-
-          <div className="search-wrapper">
-            {/* <input type="text" className="searchBar" onChange={this.updateSearch.bind(this)} placeholder="Search a User..." value={this.state.search} /> */}
+                <Tab label={<Badge className={classes.padding} color="secondary" badgeContent={safePeopleTotal} max={999}>
+                    Checked-In
+                  </Badge>
+                } />
+              </Tabs>
+            </AppBar>
+            <SwipeableViews disabled={true} index={value} onChangeIndex={this.handleTabChange} axis={value === 0 ? 'x-reverse' : 'x'}>
+              {value === 0 && <div>{notCheckedIn}</div>}
+              {value === 1 && <div>{safepeople}</div>}
+            </SwipeableViews>
           </div>
-          {/* <ContactListNavBar notCheckedIn={notCheckedIn} safepeople={safepeople}/> */}
+        </NoSsr>
 
           {isLoading && 
           <div className="loadingCircle">
