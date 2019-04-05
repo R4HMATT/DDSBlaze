@@ -51,27 +51,27 @@ class BulkMessageModal extends React.Component{
                 </DialogTitle>
 
                 <DialogContent>
-                    <AppBar position="relative" color="primary" classes={{colorPrimary: {backgroundColor: "#ffffff"}}}>
-                        <Tabs value={value} onChange={this.handleChange} indicatorColor="secondary">
-                            <Tab disableRipple label="Email"/>
-                            <Tab disableRipple label="SMS"/>
-                        </Tabs>
-                    </AppBar>
+                    <Tabs value={value} onChange={this.handleChange} indicatorColor="secondary">
+                        <Tab disableRipple label="Email"/>
+                        <Tab disableRipple label="SMS"/>
+                    </Tabs>
                     {value === 0 && 
                     <div className="sendMessage">
                         <br/>
-                        <h4>Enter an Email below to send:</h4>
-                        <textarea className="messageInput" placeholder="Enter a Message..." 
-                        defaultValue="[ATTENTION] Emergency Alarm has been activated. Please proceed to your designated area."/>
+                        <h4>Subject/Body</h4>
+                        <br/>
+                        <input type="text" className="messageSubject" defaultValue="**FIRE ALARM ACTIVATED**" placeholder="Enter a Subject..."/>
+                        <textarea className="messageDetails" placeholder="Enter a Message..." 
+                        defaultValue={"**[ATTENTION]**\n\nEmergency Fire Alarm has been activated. Please navigate to the designated area."}/>
                     </div>}
 
-                    {value === 1 && 
+                    {/* {value === 1 && 
                     <div className="sendMessage">
                         <br/>
                         <h4>Enter SMS below to send:</h4>
                         <textarea className="messageInput" placeholder="Enter a Message..." 
                         defaultValue="[ATTENTION] Emergency Alarm has been activated. Please proceed to your designated area."/>
-                    </div>}
+                    </div>} */}
                 </DialogContent>
 
                 <DialogActions>

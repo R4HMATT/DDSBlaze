@@ -14,6 +14,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
+import InputBase from '@material-ui/core/InputBase';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -23,7 +24,14 @@ import SendIcon from '@material-ui/icons/Send';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { withStyles } from '@material-ui/core/styles';
 import './ContactList.css';
-import { Icon, Divider } from '@material-ui/core';
+import { Icon, Divider, Input } from '@material-ui/core';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import NoSsr from '@material-ui/core/NoSsr';
+import Tab from '@material-ui/core/Tab';
+import Badge from '@material-ui/core/Badge';
+import SwipeableViews from 'react-swipeable-views';
+import Toolbar from '@material-ui/core/Toolbar';
 
 /**** This component displays all individuals that are checked-in and not checked-in, 
    as well as the search bar and other main functionality ****/
@@ -34,6 +42,20 @@ const SP = require('../Connection.json');
 const styles = theme => ({
   CircularProgress: {
     color: '#0483e8',
+  },
+  root: {
+    flexGrow: 1,
+    backgroundColor: "white",
+  },
+  AppBar: {
+    backgroundColor: '#0483e8',
+  },
+  padding: {
+    padding: "7px",
+    margin: "10px",
+  },
+  grow: {
+    flexGrow: 1,
   },
 });
 
@@ -54,6 +76,7 @@ class ContactList extends Component {
 
     this.state = {
       contacts: [],
+      value: 0,
       isLoading: true,
       navDrawerOpen: false,
       bulkMessageOpen: false,
@@ -241,6 +264,10 @@ class ContactList extends Component {
     this.setState({navDrawerOpen: false});
   }
 
+  handleTabChange = (event, value) => {
+    this.setState({ value });
+  };
+
   /*A function to return the name of an employee given their ID 
     (string, array) -> string */
   getNameByID(employeeID, employeeList){
@@ -341,8 +368,11 @@ class ContactList extends Component {
     
     const {anchorEl} = this.state.searchFilterOpen;
     const { classes } = this.props;
+    const {value} = this.state;
     const open = Boolean(anchorEl);
     const filterMetric = this.state.filterMetric;
+    const notCheckedInTotal = notCheckedIn.length;
+    const safePeopleTotal = safepeople.length;
     const isLoading = this.state.isLoading;
 
     let menuItems = teamLeads.map(elem => {
@@ -355,22 +385,48 @@ class ContactList extends Component {
 
     return (
       <div className="container">
-          <div className="search-wrapper">
-            <div className="primaryOptions">
-              <div className="navMenu">
-                <IconButton onClick={this.handleNavDrawerOpen}>
-                    <MenuIcon/>
-                </IconButton>
-              </div>
+        <NoSsr>
+        <div className={classes.root}>
+          <AppBar position="sticky" color="primary" classes={{colorPrimary: classes.AppBar}}>
+            <Toolbar>
 
-              <Button size="small" variant="outlined" onClick={this.handleSearchFilterClick} classes={{root: 'sortButton'}}>
-                <h4>{"Sort by: " + filterMetric[1]}</h4>
+              <IconButton onClick={this.handleNavDrawerOpen} color="inherit">
+                <MenuIcon/>
+              </IconButton>
+
+              <input type="text" className="searchBar" onChange={this.updateSearch.bind(this)} placeholder="Search a User..." value={this.state.search}/>
+
+              {/* <Button size="small" variant="outlined" onClick={this.handleSearchFilterClick} color="inherit">
+                <h4>{"Filter: " + filterMetric[1]}</h4>
                 <ExpandMoreIcon/>
-              </Button>
-            </div>
-            <input type="text" className="searchBar" onChange={this.updateSearch.bind(this)} placeholder="Search a User..." value={this.state.search} />
+              </Button> */}
+            </Toolbar>
+
+            <Tabs variant="fullWidth" value={value} onChange={this.handleTabChange} indicatorColor="secondary">
+              <Tab label={
+                <Badge className={classes.padding} color="secondary" badgeContent={notCheckedInTotal} max={999}>
+                  Not Checked-In
+                </Badge>
+              } />
+
+              <Tab label={<Badge className={classes.padding} color="secondary" badgeContent={safePeopleTotal} max={999}>
+                  Checked-In
+                </Badge>
+              } />
+            </Tabs>
+          </AppBar>
+          <SwipeableViews disabled={true} index={value} onChangeIndex={this.handleTabChange} axis={value === 0 ? 'x-reverse' : 'x'}>
+            {value === 0 && <div>{notCheckedIn}</div>}
+            {value === 1 && <div>{safepeople}</div>}
+          </SwipeableViews>
+        </div>
+      </NoSsr>
+
+          <div className="search-wrapper">
+            {/* <input type="text" className="searchBar" onChange={this.updateSearch.bind(this)} placeholder="Search a User..." value={this.state.search} /> */}
           </div>
-          <ContactListNavBar notCheckedIn={notCheckedIn} safepeople={safepeople}/>
+          {/* <ContactListNavBar notCheckedIn={notCheckedIn} safepeople={safepeople}/> */}
+
           {isLoading && 
           <div className="loadingCircle">
             <CircularProgress color="primary" variant="indeterminate" classes={{colorPrimary: classes.CircularProgress}}/>
@@ -408,33 +464,27 @@ class ContactList extends Component {
               </MenuItem>
 
               {menuItems}
-              {/* <MenuItem 
-              onClick={event => this.handleSearchFilterClose(event, ["team-lead-levon", "Team Lead - Levon"])} 
-              selected={filterMetric[0] === "team-lead-levon"}>
-                <Typography variant="subheading" noWrap> Team Lead: Levon </Typography>
-              </MenuItem>
 
-              
-              <MenuItem 
-              onClick={event => this.handleSearchFilterClose(event, ["team-lead-rahm", "Team Lead - Rahmatullah"])} 
-              selected={filterMetric[0] === "team-lead-rahm"}>
-                <Typography variant="subheading" noWrap> Team Lead: Rahmatullah </Typography>
-              </MenuItem> */}
             </ClickAwayListener>
           </Menu>
 
           {/* Side navigation drawer */}
           <Drawer anchor="left" open={this.state.navDrawerOpen} onClose={this.handleNavDrawerClose}>
-              <div tabIndex={0} role="button" onClick={this.handleNavDrawerClose}>
+              <div tabIndex={0} role="button">
                 <List>
+                  <ListItem button onClick={this.handleSearchFilterClick} color="inherit">
+                    <ListItemText primary="Filter/Sort Metric" secondary={filterMetric[1]}/>
+                    <ExpandMoreIcon/>
+                  </ListItem>
+
+                  <Divider/>
+
                   <ListItem button onClick={event => this.setState({bulkMessageOpen: true})}>
                     <ListItemIcon>
                       <SendIcon/>
                     </ListItemIcon>
                     <ListItemText primary="Bulk Message"/>
                   </ListItem>
-
-                  <Divider/>
 
                   <ListItem button>
                     <ListItemIcon>
