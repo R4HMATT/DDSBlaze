@@ -68,11 +68,16 @@ class ContactList extends Component {
     this.getSPlist = this.getSPlist.bind(this);
     this.setUp = this.setUp.bind(this);
     this.sortHelper = this.sortHelper.bind(this);
+
     this.handleSearchFilterClick = this.handleSearchFilterClick.bind(this);
     this.handleSearchFilterClose = this.handleSearchFilterClose.bind(this);
+
     this.handleNavDrawerOpen = this.handleNavDrawerOpen.bind(this);
     this.handleNavDrawerClose = this.handleNavDrawerClose.bind(this);
+
+    this.handleBulkMessageModalOpen = this.handleBulkMessageModalOpen.bind(this);
     this.handleBulkMessageModalClose = this.handleBulkMessageModalClose.bind(this);
+
     this.getNameByID = this.getNameByID.bind(this);
 
     this.state = {
@@ -266,9 +271,13 @@ class ContactList extends Component {
     this.setState({navDrawerOpen: false});
   }
 
+  handleBulkMessageModalOpen(){
+    this.setState({bulkMessageOpen: true});
+    this.handleNavDrawerClose();
+  }
+
   handleBulkMessageModalClose(){
     this.setState({bulkMessageOpen: false});
-    this.handleNavDrawerClose();
   }
 
   handleTabChange = (event, value) => {
@@ -335,8 +344,9 @@ class ContactList extends Component {
   
       }
         else {
-          notCheckedInFiltered = notCheckedInArray;
-          markedSafeFiltered = markedSafeArray;
+          // Clone the two starting arrays
+          notCheckedInFiltered = notCheckedInArray.slice();
+          markedSafeFiltered = markedSafeArray.slice();
       };
 
       /* Filter the list of names based on this.state.filterMetric[0] */
@@ -447,10 +457,8 @@ class ContactList extends Component {
               float: 'right',
             },
           }}>
-          <ClickAwayListener onClickAway={event => this.handleSearchFilterClose(event, this.state.filterMetric)}>
 
           {/* Typography component is used for MenuItem text because it allows for ellipses on text-overflow */}
-
               <MenuItem 
               onClick={event => this.handleSearchFilterClose(event, ["name-increasing", "Name Increasing"])} 
               selected={filterMetric[0] === "name-increasing"}>
@@ -464,8 +472,6 @@ class ContactList extends Component {
               </MenuItem>
 
               {menuItems}
-
-            </ClickAwayListener>
           </Menu>
 
           {/* Side navigation drawer */}
@@ -473,13 +479,13 @@ class ContactList extends Component {
               <div tabIndex={0} role="button">
                 <List>
                   <ListItem button onClick={this.handleSearchFilterClick} color="inherit">
-                    <ListItemText primary="Filter/Sort Metric" secondary={filterMetric[1]}/>
+                    <ListItemText primary="Filter/Sort Contacts" secondary={filterMetric[1]}/>
                     <ExpandMoreIcon/>
                   </ListItem>
 
                   <Divider/>
 
-                  <ListItem button onClick={event => this.setState({bulkMessageOpen: true})}>
+                  <ListItem button onClick={this.handleBulkMessageModalOpen}>
                     <ListItemIcon>
                       <SendIcon/>
                     </ListItemIcon>
@@ -495,7 +501,7 @@ class ContactList extends Component {
                 </List>
               </div>
           </Drawer>
-          {this.state.bulkMessageOpen === true && <BulkMessageModal handleClose={this.handleBulkMessageModalClose}/>}
+          {this.state.bulkMessageOpen === true && <BulkMessageModal handleClose={this.handleBulkMessageModalClose} notCheckedIn={notCheckedInArray}/>}
           
       </div>
     );
