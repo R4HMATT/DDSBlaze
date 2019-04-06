@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './CheckedIn.css';
+import './ContactSummary.css';
 import Button from '@material-ui/core/Button';
 import ListItem from '@material-ui/core/ListItem';
 import {
@@ -11,17 +11,29 @@ import {
 
 /**** This component is used to generate entries for indivdualds that are NOT checked in ****/
 
-class CheckedIn extends Component {
+class ContactSummary extends Component {
 
 	constructor(props) {
-    super(props);
+		super(props);
+		this.handleButtonClick = this.handleButtonClick.bind(this);
     this.state = {
+			employeeName: this.props.text,
+			employeeStatus: this.props.status,
     };
 	}
 
+	handleButtonClick(){
+		if(this.state.employeeStatus === "CheckedIn"){
+			alert("Checked-out: " + this.state.employeeName);
+		} else{
+			alert("Checked-in: " + this.state.employeeName);
+		}
+	}
+
 	render() {
-		let new_url = "/contactCard/" + this.props.text;			
-		
+		let new_url = "/contactCard/" + this.props.text;
+		const employeeName = this.state.employeeName;
+		const employeeStatus = this.state.employeeStatus;
 	    return (
 
 	      <div className="CheckedIn">
@@ -35,7 +47,7 @@ class CheckedIn extends Component {
 						}}>
 							<ListItem button alignItems="center">
 								<div className="userName">
-									{this.props.text}
+									{employeeName}
 								</div>
 							</ListItem>
 					</Link>
@@ -54,7 +66,12 @@ class CheckedIn extends Component {
 											href="sms:416-456-7890"
 											/>
 						</div>
-					<Button className="btnCheckIn" variant="contained" color="primary" >Check In</Button>
+					<Button className={employeeStatus === "CheckedIn" ? "btnUndoCheckIn" : "btnCheckIn"}
+					onClick={this.handleButtonClick}
+					variant="contained" 
+					color="primary">
+						{employeeStatus === "CheckedIn" ? "Undo" : "Check In"}
+					</Button>
 
 					</div>
 	      </div>
@@ -62,4 +79,4 @@ class CheckedIn extends Component {
 	  }
 }
 
-export default CheckedIn;
+export default ContactSummary;

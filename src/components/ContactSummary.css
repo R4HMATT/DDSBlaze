@@ -78,6 +78,20 @@
   font-size: 75%;
 }
 
+/*Undo Check-In button*/
+.CheckedIn .buttons .btnUndoCheckIn {
+  background-color: #e83c3c; /* Red */
+  border: none;
+  color: white;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  width: 90px;
+  border-radius: 4px;
+  float: right;
+  display: block;
+  font-size: 75%;
+}
+
 /*SMS Icon*/
 .CheckedIn .buttons .call-sms .btnContactSMS{
   border: none;
