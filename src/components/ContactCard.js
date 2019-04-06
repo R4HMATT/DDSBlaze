@@ -10,16 +10,17 @@ class ContactCard extends Component {
     
     // List of all employees
     let employeeList = this.props.location.state.employeeList;
+    let employeeInfo = this.props.location.state.employeeInfo;
 
     // This employee's information
     let employee = {
-        "id": this.props.location.state.id,
-        "name": "",
-        "title": "",
-        "location": "",
-        "phoneNumber": "",
-        "email": "",
-        "emergencyContact": ""
+        "id": employeeInfo["id"],
+        "name": employeeInfo["name"],
+        "title": employeeInfo["employeePosition"],
+        "location": employeeInfo["employeeLocation"],
+        "phoneNumber": employeeInfo["employeePhoneNumber"],
+        "email": employeeInfo["employeeEmail"],
+        "emergencyContactID": employeeInfo["emergencyContactID"],
     };
 
     // Employee emergency contact information
@@ -29,19 +30,6 @@ class ContactCard extends Component {
       "phoneNumber": "",
       "email": "",
     };
-
-    // Find the current user by ID and fill in their info
-    for(var i = 0; i < employeeList.length; i++){
-      if(employeeList[i]["fields"]["id"] === employee["id"]){
-        employee["location"] = employeeList[i]["fields"]["Work_x0020_Location_x0020_"];
-        employee["name"] = employeeList[i]["fields"]["Title"] + " " + employeeList[i]["fields"]["Last_x0020_Name"];
-        employee["email"] = employeeList[i]["fields"]["Personal_x0020_Email"];
-        employee["phoneNumber"] = employeeList[i]["fields"]["_x0066_pv8"];
-        employee["title"] = employeeList[i]["fields"][""];
-        employee["emergencyContactID"] = employeeList[i]["fields"]["EmergencyContactID"].toString();
-        break;
-      }
-    }
 
     //Find emergency contact information and fill it in
     for(var i = 0; i < employeeList.length; i++){

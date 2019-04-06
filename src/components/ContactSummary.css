@@ -1,4 +1,4 @@
-.CheckedIn {
+.ContactSummary {
   display: flex;
   flex-flow: nowrap;
   align-items: center;
@@ -12,20 +12,20 @@
   border: solid 2px #e9e9e9;
 
   /*Shadows*/
-  box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.1);
+  /* box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.1);
   -webkit-box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.1);
-  -moz-box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.1);
+  -moz-box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.1); */
 
   transition: transform .2s ease;
 }
 
 /*Make the element pop-out of the screen upon mouse hover*/
-/* .CheckedIn:hover {
+/* .ContactSummary:hover {
   transform: scale(1.02);
 } */
 
 /*Handles the names of people and profile pictures*/
-.CheckedIn .employeeInfo{
+.ContactSummary .employeeInfo{
   flex-grow: 1;
   font-size: large;
   font-family: "Century Gothic";
@@ -38,24 +38,23 @@
   
 }
 
-.CheckedIn .employeeInfo .userName{
+.ContactSummary .employeeInfo .userName{
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   
 }
 
-.CheckedIn .employeeInfo .userProfilePic{
+.ContactSummary .employeeInfo .userProfilePic{
   width: 100%;
 	height: 100%;
 }
 
-.CheckedIn .buttons{
+.ContactSummary .buttons{
   display: flex;
   flex-flow: nowrap;
   align-items: center;
   justify-content: space-between;
-  min-width: 170px;
   color: white;
   float: right;
   text-align: center;
@@ -65,7 +64,8 @@
 }
 
 /*Check in button*/
-.CheckedIn .buttons .btnCheckIn {
+.ContactSummary .buttons .btnCheckIn {
+  align-self: flex-end;
   background-color: #4CAF50; /* Green */
   border: none;
   color: white;
@@ -73,13 +73,12 @@
   padding-bottom: 8px;
   width: 90px;
   border-radius: 4px;
-  float: right;
-  display: block;
+
   font-size: 75%;
 }
 
 /*Undo Check-In button*/
-.CheckedIn .buttons .btnUndoCheckIn {
+.ContactSummary .buttons .btnUndoCheckIn {
   background-color: #e83c3c; /* Red */
   border: none;
   color: white;
@@ -93,7 +92,7 @@
 }
 
 /*SMS Icon*/
-.CheckedIn .buttons .call-sms .btnContactSMS{
+.ContactSummary .buttons .call-sms .btnContactSMS{
   border: none;
   width:25px;
   height:25px;
@@ -105,7 +104,7 @@
 }
 
 /*Phone Icon*/
-.CheckedIn .buttons .call-sms .btnContactPhone{
+.ContactSummary .buttons .call-sms .btnContactPhone{
   border: none;
   width:25px;
   height:25px;
@@ -117,7 +116,7 @@
 }
 
 /*Modify default styling of the <Link> attribute from react router*/
-.CheckedIn a {
+.ContactSummary a {
   font-size: large;
   font-family: "Century Gothic";
   text-decoration: none;

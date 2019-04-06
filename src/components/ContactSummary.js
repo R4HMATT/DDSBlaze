@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './ContactSummary.css';
 import Button from '@material-ui/core/Button';
 import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import {
   BrowserRouter as Router,
   Link,
@@ -17,8 +18,9 @@ class ContactSummary extends Component {
 		super(props);
 		this.handleButtonClick = this.handleButtonClick.bind(this);
     this.state = {
-			employeeName: this.props.text,
-			employeeStatus: this.props.status,
+			employeeName: this.props.employeeInfo["name"],
+			employeeStatus: this.props.employeeInfo["status"],
+			employeePosition: this.props.employeeInfo["employeePosition"],
     };
 	}
 
@@ -31,29 +33,31 @@ class ContactSummary extends Component {
 	}
 
 	render() {
-		let new_url = "/contactCard/" + this.props.text;
+		let new_url = "/contactCard/" + this.state.employeeName;
 		const employeeName = this.state.employeeName;
 		const employeeStatus = this.state.employeeStatus;
+		const employeePosition = this.state.employeePosition;
 	    return (
 
-	      <div className="CheckedIn">
+	      <div className="ContactSummary">
 					<div className="employeeInfo">
 					<Link to={{
 							pathname: new_url,
 							state: {
 								employeeList: this.props.employeeList,
-								id: this.props.id,
+								employeeInfo: this.props.employeeInfo,
 							}
 						}}>
 							<ListItem button alignItems="center">
 								<div className="userName">
 									{employeeName}
+									<ListItemText secondary={employeePosition}/>
 								</div>
 							</ListItem>
 					</Link>
 					</div>
 					<div className="buttons">
-						<div className="call-sms">
+						{/* <div className="call-sms">
 							<button className="btnContactPhone"
 											name="viewContactPhone"
 											type="button"
@@ -65,7 +69,7 @@ class ContactSummary extends Component {
 											type="button"
 											href="sms:416-456-7890"
 											/>
-						</div>
+						</div> */}
 					<Button className={employeeStatus === "CheckedIn" ? "btnUndoCheckIn" : "btnCheckIn"}
 					onClick={this.handleButtonClick}
 					variant="contained" 

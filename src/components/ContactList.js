@@ -376,10 +376,35 @@ class ContactList extends Component {
     }
     console.log(notCheckedInFiltered);
     let notCheckedIn = notCheckedInFiltered.map( elem => {
-      return <ContactSummary id={elem.id} text={elem.fields.Title + " " + elem.fields["Last_x0020_Name"]} employeeList={employeeList} status={elem.fields.Status}/>
+      return <ContactSummary employeeList={employeeList} 
+      employeeInfo={
+        {
+          "id": elem.id,
+          "name": elem.fields.Title + " " + elem.fields["Last_x0020_Name"],
+          "status": elem.fields.Status,
+          "employeePosition": elem.fields.nlrj,
+          "employeeLocation": elem.fields.Work_x0020_Location_x0020_,
+          "employeePhoneNumber": elem.fields._x0066_pv8,
+          "employeeEmail": elem.fields.Work_x0020_Email,
+          "emergencyContactID": elem.fields.EmergencyContactID.toString(),
+        }
+      }/>
     });
+
     let safepeople = markedSafeFiltered.map(elem => {
-      return <ContactSummary id={elem.id} text={elem.fields.Title + " " + elem.fields["Last_x0020_Name"]} employeeList={employeeList} status={elem.fields.Status}/>
+      return <ContactSummary employeeList={employeeList} 
+      employeeInfo={
+        {
+          "id": elem.id,
+          "name": elem.fields.Title + " " + elem.fields["Last_x0020_Name"],
+          "status": elem.fields.Status,
+          "employeePosition": elem.fields.nlrj,
+          "employeeLocation": elem.fields.Work_x0020_Location_x0020_,
+          "employeePhoneNumber": elem.fields._x0066_pv8,
+          "employeeEmail": elem.fields.Work_x0020_Email,
+          "emergencyContactID": elem.fields.EmergencyContactID.toString(),
+        }
+      }/>
     });
     
     const {anchorEl} = this.state.searchFilterOpen;
