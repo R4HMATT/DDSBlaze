@@ -1,8 +1,37 @@
-.sendMessage .messageSubject{
+.sendMessage .to{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.sendMessage .to h5{
+    margin-right: 8px;
+    font-size: 90%;
+    font-weight: 700;
+    width: 100%;
+}
+
+.sendMessage .subject{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.sendMessage .subject .subjectMessage{
+    flex-grow: 1;
     width: 80%;
     border: solid 2px #e5e5e5;
     margin: auto;
     margin-bottom: 5px;
+}
+
+.sendMessage .subject h5{
+    margin-right: 8px;
+    font-size: 90%;
+    font-weight: 700;
 }
 
 .sendMessage .messageDetails{

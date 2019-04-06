@@ -47,6 +47,9 @@ const styles = theme => ({
   AppBar: {
     backgroundColor: '#0483e8',
   },
+  Badge: {
+    backgroundColor: "#4CAF50"
+  },
   padding: {
     padding: "7px",
     margin: "10px",
@@ -69,6 +72,7 @@ class ContactList extends Component {
     this.handleSearchFilterClose = this.handleSearchFilterClose.bind(this);
     this.handleNavDrawerOpen = this.handleNavDrawerOpen.bind(this);
     this.handleNavDrawerClose = this.handleNavDrawerClose.bind(this);
+    this.handleBulkMessageModalClose = this.handleBulkMessageModalClose.bind(this);
     this.getNameByID = this.getNameByID.bind(this);
 
     this.state = {
@@ -249,6 +253,7 @@ class ContactList extends Component {
       this.setState({filterMetric: metric});
     }
     this.setState({searchFilterOpen: {anchorEl: null}});
+    this.handleNavDrawerClose();
   }
 
   /*A function to handle opening the side nav drawer */
@@ -259,6 +264,11 @@ class ContactList extends Component {
   /*A function to handle closing the side navigation drawer */
   handleNavDrawerClose(){
     this.setState({navDrawerOpen: false});
+  }
+
+  handleBulkMessageModalClose(){
+    this.setState({bulkMessageOpen: false});
+    this.handleNavDrawerClose();
   }
 
   handleTabChange = (event, value) => {
@@ -393,7 +403,7 @@ class ContactList extends Component {
                 </IconButton>
 
                 {/* SEARCH BAR */}
-                <input type="text" className="searchBar" onChange={this.updateSearch.bind(this)} placeholder="Search a User..." value={this.state.search}/>
+                <input type="text" className="searchBar" onChange={this.updateSearch.bind(this)} placeholder="Search User..." value={this.state.search}/>
               </Toolbar>
 
               <Tabs variant="fullWidth" value={value} onChange={this.handleTabChange} indicatorColor="secondary">
@@ -403,7 +413,8 @@ class ContactList extends Component {
                   </Badge>
                 } />
 
-                <Tab label={<Badge className={classes.padding} color="secondary" badgeContent={safePeopleTotal} max={999}>
+                <Tab label={
+                  <Badge className={classes.padding} color="primary" badgeContent={safePeopleTotal} max={999} classes={{colorPrimary: classes.Badge}}>
                     Checked-In
                   </Badge>
                 } />
@@ -484,7 +495,7 @@ class ContactList extends Component {
                 </List>
               </div>
           </Drawer>
-          {this.state.bulkMessageOpen === true && <BulkMessageModal handleClose={event => this.setState({bulkMessageOpen: false})}/>}
+          {this.state.bulkMessageOpen === true && <BulkMessageModal handleClose={this.handleBulkMessageModalClose}/>}
           
       </div>
     );

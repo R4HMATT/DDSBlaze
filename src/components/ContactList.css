@@ -25,6 +25,12 @@ body {
   padding-bottom: 0px;
 }
 
+.container h3{
+  white-space: nowrap;
+  overflow: hidden;
+  /* text-overflow: ellipsis; */
+}
+
 /*Search bar*/
 .searchBar {
   
@@ -34,17 +40,32 @@ body {
   padding: 10px;
   margin: auto;
   margin-top: 8px;
+  margin-right: 0;
 
   font-size: 15px;
-  width: 100%;
+  width: 50%;
   height: 80%;
+
+  /* Prevent text overflow in search bar */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   /* Rounded border */
   border-radius: 25px;
   
-  background: url('./assets/search_icon.png') no-repeat scroll 98% 50%;
-  background-size: 28px 28px;
+  /* background: url('./assets/search_icon.png') no-repeat scroll 2% 50%;
+  background-size: 28px 28px; */
   background-color: #ffffff;
+
+  /* Grow animation */
+  -webkit-transition: width 0.3s ease-in-out;
+  transition: width 0.3s ease-in-out;
+}
+
+/* Search bar: on focus, expand*/
+.searchBar:focus{
+  width: 100%;
 }
 
 .sortButton h4{
