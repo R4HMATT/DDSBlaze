@@ -2,7 +2,6 @@
     font-family: "Century Gothic", sans-serif;
 }
 
-
 .ContactList {
   text-align: center;
   margin: 0px;
@@ -25,6 +24,18 @@ body {
   padding-bottom: 0px;
 }
 
+.container .filterMessage{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  margin-top: 20px;
+}
+
+.container .filterMessage h4{
+  font-weight: 500;
+}
 .container h3{
   white-space: nowrap;
   overflow: hidden;

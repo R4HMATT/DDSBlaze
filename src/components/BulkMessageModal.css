@@ -11,7 +11,7 @@
     margin: auto;
 }
 
-.sendMessage .to{
+.dialogContent .sendMessage .to{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -21,19 +21,14 @@
     margin-bottom: 25px;
     margin-top: 50px;
     width: 100%;
+
+    border: solid 1px #c4c4c4;
+    border-radius: 4px;
 }
 
-.sendMessage .to .toHeading{
-    font-size: 400%;
-    font-weight: 700;
+.dialogContent .sendMessage .to h7{
+    font-family: "Arial";
 }
-
-/* .sendMessage .to h5{
-    margin-right: 8px;
-    font-size: 90%;
-    font-weight: 700;
-    width: 100%;
-} */
 
 .sendMessage .subject{
     display: flex;
@@ -41,17 +36,6 @@
     justify-content: flex-start;
     align-items: center;
     margin-bottom: 25px;
-}
-
-.sendMessage .subject .subjectMessage{
-    flex-grow: 1;
-    width: 80%;
-    margin: auto;
-}
-
-.sendMessage .messageDetails{
-    width: 100%;
-    height: 140px;
 }
 
 .sendMessage .to .chips{

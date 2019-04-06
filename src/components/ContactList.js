@@ -430,6 +430,14 @@ class ContactList extends Component {
                 } />
               </Tabs>
             </AppBar>
+            {((filterMetric[0] !== "name-increasing") && (filterMetric[0] !== "name-decreasing")) && 
+              <div className="filterMessage">
+                <h3>
+                  {filterMetric[1]}
+                </h3>
+                
+              </div>}
+            <Divider variant="middle"/>
             <SwipeableViews disabled={true} index={value} onChangeIndex={this.handleTabChange} axis={value === 0 ? 'x-reverse' : 'x'}>
               {value === 0 && <div>{notCheckedIn}</div>}
               {value === 1 && <div>{safepeople}</div>}

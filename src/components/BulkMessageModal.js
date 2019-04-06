@@ -1,11 +1,8 @@
 import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Divider from '@material-ui/core/Divider';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -40,30 +37,47 @@ class BulkMessageModal extends React.Component{
             contacts: [],
             dialogOpen: true,
             value: 0,
-            subjectValue: "**FIRE ALARM ACTIVATED**",
-            bodyValue: "**[ATTENTION]**\n\nEmergency Fire Alarm has been activated. Please navigate to the designated area.",
+            subjectValue: "**Fire Alarm Activated**",
+            emailBodyValue: "**[ATTENTION]**\n\nEmergency Fire Alarm has been activated. Please navigate to the designated area.",
+            smsBodyValue: "**[ATTENTION]**\n\nEmergency Fire Alarm has been activated. Please navigate to the designated area.",
         }
     }
 
+    /* Handle tab change between Email and SMS */
     handleChange = (event, new_val) => {
         this.setState({ value: new_val });
     };
 
+    /* Close the current bulk message dialog*/
     handleDialogClose(){
         this.setState({dialogOpen: false});
         this.handleClose();
     }
 
+    /* Send the Email/SMS user has written */
     handleMessageSend(){
-        alert("Sent the following email/sms: \n\n" + this.state.bodyValue);
+        // If user is in the SMS tab
+        if(this.state.value){
+            alert("Sent SMS: \n\n" + this.state.smsBodyValue);
+        } else{
+            alert("Sent the following Email: \n\n" + "Subject: " + this.state.subjectValue + " \n\nBody: \n" + this.state.emailBodyValue);
+        }
+        
     }
 
+    /* Update the Subject field in Email tab */
     updateSubject(event) {
         this.setState({subjectValue: event.target.value});
     }
     
+    /* Update the Body field in Email/SMS tab */
     updateBody(event) {
-        this.setState({bodyValue: event.target.value});
+        // If user is in the SMS Tab
+        if(this.state.value){
+            this.setState({smsBodyValue: event.target.value});
+        } else{
+            this.setState({emailBodyValue: event.target.value});
+        }
     }
 
     render(){
@@ -76,7 +90,7 @@ class BulkMessageModal extends React.Component{
         const { value } = this.state;
         const numEmployees = notCheckedIn.length;
         return (
-            <Dialog fullScreen open={this.state.dialogOpen} onClose={this.handleClose} TransitionComponent={Transition}>
+            <Dialog fullScreen open={this.state.dialogOpen} onClose={this.handleClose} TransitionComponent={Transition} scroll="paper">
                 <AppBar position="static" color="default">
                     <Toolbar>
                         <div className="heading">
@@ -98,11 +112,9 @@ class BulkMessageModal extends React.Component{
                 <div className="dialogContent">
                     <div className="sendMessage">
                         <div className="to">
-                            {/* <h5>To: Not Checked-In Employees</h5> */}
-                            <ExpansionPanel>
+                            <ExpansionPanel elevation="0">
                                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
-                                    <Typography className={{root: "toHeading"}}> To: </Typography>
-                                    <Typography> {numEmployees + " Not Checked-In Employee(s)"} </Typography>
+                                    <h7>{"To: " + numEmployees + " Employee(s)"}</h7>
                                 </ExpansionPanelSummary>
                                 <ExpansionPanelDetails>
                                     <div>
@@ -111,14 +123,15 @@ class BulkMessageModal extends React.Component{
                                 </ExpansionPanelDetails>
                             </ExpansionPanel>
                         </div>
+
                         {value === 0 && <div className="subject">
-                            <TextField hidden dense classes={{root: "subjectMessage"}} variant="outlined" label="Subject" 
+                            <TextField hidden dense variant="outlined" label="Subject" 
                             margin="none" onChange={this.updateSubject} value={this.state.subjectValue}/>
                         </div>}
                         
                         <div className="message">
-                            <TextField fullWidth multiline rows="7" classes={{root: "messageDetails"}} inputProps={{}} variant="outlined" label="Body" 
-                            margin="none" onChange={this.updateBody} value={this.state.bodyValue}/>
+                            <TextField fullWidth multiline rows="7" inputProps={{}} variant="outlined" label="Body" 
+                            margin="none" onChange={this.updateBody} value={value === 1 ? this.state.smsBodyValue : this.state.emailBodyValue}/>
                         </div>
                     </div>
                 </div>
