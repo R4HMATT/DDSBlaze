@@ -3,16 +3,32 @@ import React, { Component } from 'react';
 import CheckedIn from './CheckedIn.js';
 import MarkedSafe from './MarkedSafe.js';
 import ContactCard from './ContactCard.js';
-import ContactListNavBar from './ContactListNavBar';
+import BulkMessageModal from './BulkMessageModal';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import Button from '@material-ui/core/Button';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import Drawer from '@material-ui/core/Drawer';
+import IconButton from '@material-ui/core/IconButton';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import MenuIcon from '@material-ui/icons/Menu';
+import SendIcon from '@material-ui/icons/Send';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { withStyles } from '@material-ui/core/styles';
 import './ContactList.css';
+import { Divider } from '@material-ui/core';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import NoSsr from '@material-ui/core/NoSsr';
+import Tab from '@material-ui/core/Tab';
+import Badge from '@material-ui/core/Badge';
+import SwipeableViews from 'react-swipeable-views';
+import Toolbar from '@material-ui/core/Toolbar';
 
 /**** This component displays all individuals that are checked-in and not checked-in, 
    as well as the search bar and other main functionality ****/
@@ -24,8 +40,22 @@ const styles = theme => ({
   CircularProgress: {
     color: '#0483e8',
   },
-  rightIcon: {
-    marginLeft: theme.spacing.unit,
+  root: {
+    flexGrow: 1,
+    backgroundColor: "white",
+  },
+  AppBar: {
+    backgroundColor: '#0483e8',
+  },
+  Badge: {
+    backgroundColor: "#4CAF50"
+  },
+  padding: {
+    padding: "7px",
+    margin: "10px",
+  },
+  grow: {
+    flexGrow: 1,
   },
 });
 
@@ -38,20 +68,31 @@ class ContactList extends Component {
     this.getSPlist = this.getSPlist.bind(this);
     this.setUp = this.setUp.bind(this);
     this.sortHelper = this.sortHelper.bind(this);
+
     this.handleSearchFilterClick = this.handleSearchFilterClick.bind(this);
     this.handleSearchFilterClose = this.handleSearchFilterClose.bind(this);
+
+    this.handleNavDrawerOpen = this.handleNavDrawerOpen.bind(this);
+    this.handleNavDrawerClose = this.handleNavDrawerClose.bind(this);
+
+    this.handleBulkMessageModalOpen = this.handleBulkMessageModalOpen.bind(this);
+    this.handleBulkMessageModalClose = this.handleBulkMessageModalClose.bind(this);
+
     this.getNameByID = this.getNameByID.bind(this);
 
     this.state = {
       contacts: [],
+      value: 0,
       isLoading: true,
+      navDrawerOpen: false,
+      bulkMessageOpen: false,
       intervalIsSet: null,
       notCheckedIn: [],
       markedSafe: [],
       search: '',
       filterMetric: ['name-increasing', 'Name Increasing'],
       searchFilterOpen: {anchorEl: null},
-      emergContacts: ContactCard
+      emergContacts: ContactCard,
     }
   }
 
@@ -217,7 +258,31 @@ class ContactList extends Component {
       this.setState({filterMetric: metric});
     }
     this.setState({searchFilterOpen: {anchorEl: null}});
+    this.handleNavDrawerClose();
   }
+
+  /*A function to handle opening the side nav drawer */
+  handleNavDrawerOpen(){
+    this.setState({navDrawerOpen: true});
+  }
+
+  /*A function to handle closing the side navigation drawer */
+  handleNavDrawerClose(){
+    this.setState({navDrawerOpen: false});
+  }
+
+  handleBulkMessageModalOpen(){
+    this.setState({bulkMessageOpen: true});
+    this.handleNavDrawerClose();
+  }
+
+  handleBulkMessageModalClose(){
+    this.setState({bulkMessageOpen: false});
+  }
+
+  handleTabChange = (event, value) => {
+    this.setState({ value });
+  };
 
   /*A function to return the name of an employee given their ID 
     (string, array) -> string */
@@ -279,8 +344,9 @@ class ContactList extends Component {
   
       }
         else {
-          notCheckedInFiltered = notCheckedInArray;
-          markedSafeFiltered = markedSafeArray;
+          // Clone the two starting arrays
+          notCheckedInFiltered = notCheckedInArray.slice();
+          markedSafeFiltered = markedSafeArray.slice();
       };
 
       /* Filter the list of names based on this.state.filterMetric[0] */
@@ -319,10 +385,14 @@ class ContactList extends Component {
     
     const {anchorEl} = this.state.searchFilterOpen;
     const { classes } = this.props;
+    const {value} = this.state;
     const open = Boolean(anchorEl);
     const filterMetric = this.state.filterMetric;
+    const notCheckedInTotal = notCheckedIn.length;
+    const safePeopleTotal = safepeople.length;
     const isLoading = this.state.isLoading;
 
+    // menuItems contains one row for each Primary Lead in SP List
     let menuItems = teamLeads.map(elem => {
       return (<MenuItem
                 onClick={event => this.handleSearchFilterClose(event, elem)}
@@ -333,16 +403,48 @@ class ContactList extends Component {
 
     return (
       <div className="container">
-          <div className="search-wrapper">
-            <div className="sortFilterWrapper">
-              <Button size="small" variant="outlined" onClick={this.handleSearchFilterClick} classes={{root: 'sortButton'}}>
-                <h4>{"Sort by: " + filterMetric[1]}</h4>
-                <ExpandMoreIcon/>
-              </Button>
-            </div>
-            <input type="text" className="searchBar" onChange={this.updateSearch.bind(this)} placeholder="Search a User..." value={this.state.search} />
+        <NoSsr>
+          <div className={classes.root}>
+            <AppBar position="sticky" color="primary" classes={{colorPrimary: classes.AppBar}}>
+              <Toolbar>
+
+                <IconButton onClick={this.handleNavDrawerOpen} color="inherit">
+                  <MenuIcon/>
+                </IconButton>
+
+                {/* SEARCH BAR */}
+                <input type="text" className="searchBar" onChange={this.updateSearch.bind(this)} placeholder="Search User..." value={this.state.search}/>
+              </Toolbar>
+
+              <Tabs variant="fullWidth" value={value} onChange={this.handleTabChange} indicatorColor="secondary">
+                <Tab label={
+                  <Badge className={classes.padding} color="secondary" badgeContent={notCheckedInTotal} max={999}>
+                    Not Checked-In
+                  </Badge>
+                } />
+
+                <Tab label={
+                  <Badge className={classes.padding} color="primary" badgeContent={safePeopleTotal} max={999} classes={{colorPrimary: classes.Badge}}>
+                    Checked-In
+                  </Badge>
+                } />
+              </Tabs>
+            </AppBar>
+            {((filterMetric[0] !== "name-increasing") && (filterMetric[0] !== "name-decreasing")) && 
+              <div className="filterMessage">
+                <h3>
+                  {filterMetric[1]}
+                </h3>
+                
+              </div>}
+            <Divider variant="middle"/>
+            <SwipeableViews disabled={true} index={value} onChangeIndex={this.handleTabChange} axis={value === 0 ? 'x-reverse' : 'x'}>
+              {value === 0 && <div>{notCheckedIn}</div>}
+              {value === 1 && <div>{safepeople}</div>}
+            </SwipeableViews>
           </div>
-          <ContactListNavBar notCheckedIn={notCheckedIn} safepeople={safepeople}/>
+        </NoSsr>
+
           {isLoading && 
           <div className="loadingCircle">
             <CircularProgress color="primary" variant="indeterminate" classes={{colorPrimary: classes.CircularProgress}}/>
@@ -363,10 +465,8 @@ class ContactList extends Component {
               float: 'right',
             },
           }}>
-          <ClickAwayListener onClickAway={event => this.handleSearchFilterClose(event, this.state.filterMetric)}>
 
           {/* Typography component is used for MenuItem text because it allows for ellipses on text-overflow */}
-
               <MenuItem 
               onClick={event => this.handleSearchFilterClose(event, ["name-increasing", "Name Increasing"])} 
               selected={filterMetric[0] === "name-increasing"}>
@@ -380,20 +480,36 @@ class ContactList extends Component {
               </MenuItem>
 
               {menuItems}
-              {/* <MenuItem 
-              onClick={event => this.handleSearchFilterClose(event, ["team-lead-levon", "Team Lead - Levon"])} 
-              selected={filterMetric[0] === "team-lead-levon"}>
-                <Typography variant="subheading" noWrap> Team Lead: Levon </Typography>
-              </MenuItem>
-
-              
-              <MenuItem 
-              onClick={event => this.handleSearchFilterClose(event, ["team-lead-rahm", "Team Lead - Rahmatullah"])} 
-              selected={filterMetric[0] === "team-lead-rahm"}>
-                <Typography variant="subheading" noWrap> Team Lead: Rahmatullah </Typography>
-              </MenuItem> */}
-            </ClickAwayListener>
           </Menu>
+
+          {/* Side navigation drawer */}
+          <Drawer anchor="left" open={this.state.navDrawerOpen} onClose={this.handleNavDrawerClose}>
+              <div tabIndex={0} role="button">
+                <List>
+                  <ListItem button onClick={this.handleSearchFilterClick} color="inherit">
+                    <ListItemText primary="Filter/Sort Contacts" secondary={filterMetric[1]}/>
+                    <ExpandMoreIcon/>
+                  </ListItem>
+
+                  <Divider/>
+
+                  <ListItem button onClick={this.handleBulkMessageModalOpen}>
+                    <ListItemIcon>
+                      <SendIcon/>
+                    </ListItemIcon>
+                    <ListItemText primary="Bulk Message"/>
+                  </ListItem>
+
+                  <ListItem button>
+                    <ListItemIcon>
+                      <ExitToAppIcon/>
+                    </ListItemIcon>
+                    <ListItemText primary="Logout"/>
+                  </ListItem>
+                </List>
+              </div>
+          </Drawer>
+          {this.state.bulkMessageOpen === true && <BulkMessageModal handleClose={this.handleBulkMessageModalClose} notCheckedIn={notCheckedInArray}/>}
           
       </div>
     );

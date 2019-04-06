@@ -1,0 +1,43 @@
+.heading{
+    flex-grow: 1;
+    font-size: 20px;
+}
+
+.dialogContent{
+    width: 90%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}
+
+.dialogContent .sendMessage .to{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+
+    margin-bottom: 25px;
+    margin-top: 50px;
+    width: 100%;
+
+    border: solid 1px #c4c4c4;
+    border-radius: 4px;
+}
+
+.dialogContent .sendMessage .to h7{
+    font-family: "Arial";
+}
+
+.sendMessage .subject{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.sendMessage .to .chips{
+    margin: 3px;
+}
