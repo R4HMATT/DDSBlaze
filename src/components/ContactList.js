@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 //import getSPlist from accessRequest.js;
-import CheckedIn from './CheckedIn.js';
-import MarkedSafe from './MarkedSafe.js';
+import ContactSummary from './ContactSummary.js';
 import ContactCard from './ContactCard.js';
 import BulkMessageModal from './BulkMessageModal';
 import Menu from '@material-ui/core/Menu';
@@ -20,7 +19,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SendIcon from '@material-ui/icons/Send';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { withStyles } from '@material-ui/core/styles';
-import './ContactList.css';
 import { Divider } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -29,6 +27,7 @@ import Tab from '@material-ui/core/Tab';
 import Badge from '@material-ui/core/Badge';
 import SwipeableViews from 'react-swipeable-views';
 import Toolbar from '@material-ui/core/Toolbar';
+import './ContactList.css';
 
 /**** This component displays all individuals that are checked-in and not checked-in, 
    as well as the search bar and other main functionality ****/
@@ -375,12 +374,37 @@ class ContactList extends Component {
         }
       }
     }
-
+    console.log(notCheckedInFiltered);
     let notCheckedIn = notCheckedInFiltered.map( elem => {
-      return <CheckedIn id={elem.id} text={elem.fields.Title + " " + elem.fields["Last_x0020_Name"]} employeeList={employeeList} status={elem.fields.Status}/>
+      return <ContactSummary employeeList={employeeList} 
+      employeeInfo={
+        {
+          "id": elem.id,
+          "name": elem.fields.Title + " " + elem.fields["Last_x0020_Name"],
+          "status": elem.fields.Status,
+          "employeePosition": elem.fields.nlrj,
+          "employeeLocation": elem.fields.Work_x0020_Location_x0020_,
+          "employeePhoneNumber": elem.fields._x0066_pv8,
+          "employeeEmail": elem.fields.Work_x0020_Email,
+          "emergencyContactID": elem.fields.EmergencyContactID.toString(),
+        }
+      }/>
     });
+
     let safepeople = markedSafeFiltered.map(elem => {
-      return <MarkedSafe id={elem.id} text={elem.fields.Title + " " + elem.fields["Last_x0020_Name"]} employeeList={employeeList} status={elem.fields.Status}/>
+      return <ContactSummary employeeList={employeeList} 
+      employeeInfo={
+        {
+          "id": elem.id,
+          "name": elem.fields.Title + " " + elem.fields["Last_x0020_Name"],
+          "status": elem.fields.Status,
+          "employeePosition": elem.fields.nlrj,
+          "employeeLocation": elem.fields.Work_x0020_Location_x0020_,
+          "employeePhoneNumber": elem.fields._x0066_pv8,
+          "employeeEmail": elem.fields.Work_x0020_Email,
+          "emergencyContactID": elem.fields.EmergencyContactID.toString(),
+        }
+      }/>
     });
     
     const {anchorEl} = this.state.searchFilterOpen;
