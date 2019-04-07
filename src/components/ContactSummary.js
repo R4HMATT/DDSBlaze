@@ -4,6 +4,7 @@ import Dialog from '@material-ui/core/Dialog';
 import Button from '@material-ui/core/Button';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import { withSnackbar } from 'notistack';
 import './ContactSummary.css';
 
 /**** This component is used to generate entries for indivdualds that are NOT checked in ****/
@@ -24,10 +25,25 @@ class ContactSummary extends Component {
 	}
 
 	handleButtonClick(){
+		let message=["Checked In: ", "Checked-Out: "];
+		let timeout = 3000;
+
 		if(this.state.employeeStatus === "CheckedIn"){
-			alert("Checked-out: " + this.state.employeeName);
+			this.props.enqueueSnackbar(message[1] + this.state.employeeName, {
+				variant: "warning",
+				autoHideDuration: timeout,
+				action: (
+					<Button size="small" variant="outlined" color="inherit">Undo</Button>
+				),
+			});
 		} else{
-			alert("Checked-in: " + this.state.employeeName);
+			this.props.enqueueSnackbar(message[0] + this.state.employeeName, {
+				variant: "success",
+				autoHideDuration: timeout,
+				action: (
+					<Button size="small" variant="outlined" color="inherit">Undo</Button>
+				),
+			});
 		}
 	}
 
@@ -95,4 +111,4 @@ class ContactSummary extends Component {
 	  }
 }
 
-export default ContactSummary;
+export default withSnackbar(ContactSummary);
