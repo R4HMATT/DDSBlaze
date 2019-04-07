@@ -19,10 +19,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CloseIcon from '@material-ui/icons/Close';
 import './BulkMessageModal.css';
 
-function Transition(props){
-    return <Slide direction="up" {...props}/>;
-}
-
 class BulkMessageModal extends React.Component{
 
     constructor(props){
@@ -90,7 +86,7 @@ class BulkMessageModal extends React.Component{
         const { value } = this.state;
         const numEmployees = notCheckedIn.length;
         return (
-            <Dialog fullScreen open={this.state.dialogOpen} onClose={this.handleClose} TransitionComponent={Transition} scroll="paper">
+            <div>
                 <AppBar position="static" color="default">
                     <Toolbar>
                         <div className="heading">
@@ -142,7 +138,7 @@ class BulkMessageModal extends React.Component{
                         <SendIcon/>
                     </Button>
                 </DialogActions>
-            </Dialog>
+            </div>
         );
     }
 }

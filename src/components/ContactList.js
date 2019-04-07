@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import ContactSummary from './ContactSummary.js';
 import ContactCard from './ContactCard.js';
 import BulkMessageModal from './BulkMessageModal';
+import Dialog from '@material-ui/core/Dialog';
+import Slide from '@material-ui/core/Slide';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import List from '@material-ui/core/List';
@@ -57,6 +59,10 @@ const styles = theme => ({
     flexGrow: 1,
   },
 });
+
+function Transition(props){
+  return <Slide direction="up" {...props}/>;
+}
 
 class ContactList extends Component {
 
@@ -533,7 +539,11 @@ class ContactList extends Component {
                 </List>
               </div>
           </Drawer>
-          {this.state.bulkMessageOpen === true && <BulkMessageModal handleClose={this.handleBulkMessageModalClose} notCheckedIn={notCheckedInArray}/>}
+
+          {/* Pop-up dialog for sending bulk messages */}
+          <Dialog fullScreen open={this.state.bulkMessageOpen} onClose={this.handleBulkMessageModalClose} TransitionComponent={Transition} scroll="paper">
+            <BulkMessageModal handleClose={this.handleBulkMessageModalClose} notCheckedIn={notCheckedInArray}/>
+          </Dialog>
           
       </div>
     );
