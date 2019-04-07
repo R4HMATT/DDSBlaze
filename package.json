@@ -4,8 +4,10 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^3.9.2",
+    "@material-ui/icons": "^3.0.2",
     "json-parser": "^1.1.5",
     "material-ui-search-bar": "^0.4.2",
+    "micromodal": "^0.3.2",
     "msal": "^0.2.4",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
@@ -18,7 +20,7 @@
     "react-swipeable-views": "^0.13.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "set HTTPS=true&&react-scripts start",
     "stop": "node server.stop.js",
     "build": "react-scripts build",
     "test": "react-scripts test",

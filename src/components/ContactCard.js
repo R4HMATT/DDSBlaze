@@ -1,39 +1,50 @@
 import React, { Component } from 'react';
 import './ContactCard.css';
-import EmergencyContactsNavBar from "./EmergencyContactsNavBar"
+import ContactCardInfo from "./ContactCardInfo"
 
 class ContactCard extends Component {
 
 	constructor(props) {
     super(props);
-    let contacts = require('../ContactInfo.json');
+    //let contacts = require('../ContactInfo.json');
+    
+    // List of all employees
+    let employeeList = this.props.location.state.employeeList;
+    let employeeInfo = this.props.location.state.employeeInfo;
+
+    // This employee's information
     let employee = {
-        "id": this.props.match.params.id,
-        "name": "",
-        "title": "",
-        "location": "",
-        "phoneNumber": [],
-        "email": [],
-        "emergencyContact": ""
+        "id": employeeInfo["id"],
+        "name": employeeInfo["name"],
+        "title": employeeInfo["employeePosition"],
+        "location": employeeInfo["employeeLocation"],
+        "phoneNumber": employeeInfo["employeePhoneNumber"],
+        "email": employeeInfo["employeeEmail"],
+        "emergencyContactID": employeeInfo["emergencyContactID"],
     };
 
-    // Find the current user by ID and fill in their info
-    for(var i = 0; i < contacts.length; i++){
-      if(contacts[i]["B"] === this.props.match.params.id){
-        employee["id"] = this.props.match.params.id;
-        employee["location"] = contacts[i]["A"];
-        employee["name"] = contacts[i]["B"];
-        employee["email"] = contacts[i]["C"];
-        employee["phoneNumber"] = contacts[i]["D"];
-        employee["title"] = contacts[i]["K"];
-        employee["emergencyContact"] = contacts[i]["E"];
+    // Employee emergency contact information
+    let emergencyContact = {
+      "id": "",
+      "name": "",
+      "phoneNumber": "",
+      "email": "",
+    };
+
+    //Find emergency contact information and fill it in
+    for(var i = 0; i < employeeList.length; i++){
+      if(employeeList[i]["fields"]["id"] === employee["emergencyContactID"]){
+        emergencyContact["name"] = employeeList[i]["fields"]["Title"] + " " + employeeList[i]["fields"]["Last_x0020_Name"];
+        emergencyContact["email"] = employeeList[i]["fields"]["Personal_x0020_Email"];
+        emergencyContact["phoneNumber"] = employeeList[i]["fields"]["_x0066_pv8"];
         break;
       }
     }
+    emergencyContact["id"] = employee["emergencyContactID"];
 
     this.state = {
       employee: employee,
-      employee_id: this.props.match.params.id,
+      emergencyContact: emergencyContact,
       primary_link: "/contactCard/" + this.props.match.params.id,
       value: "/contactCard/" + this.props.match.params.id
     };
@@ -45,10 +56,9 @@ class ContactCard extends Component {
 
 	render() {
     let contactInformation = this.state.employee;
-
     return (
       <div className="ContactCard">
-        <EmergencyContactsNavBar user_id={this.props.match.params.id} emerg_contact_id={this.state.employee["emergencyContact"]}/>
+        <ContactCardInfo employeeInfo={this.state.employee} emergencyContactInfo={this.state.emergencyContact}/>
       </div>
     );
   }
