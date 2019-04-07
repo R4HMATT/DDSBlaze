@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
-import './ContactSummary.css';
+import ContactCard from './ContactCard';
+import Dialog from '@material-ui/core/Dialog';
 import Button from '@material-ui/core/Button';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import {
-  BrowserRouter as Router,
-  Link,
-  Switch,
-  Redirect
-} from 'react-router-dom';
+import './ContactSummary.css';
 
 /**** This component is used to generate entries for indivdualds that are NOT checked in ****/
 
@@ -17,10 +13,13 @@ class ContactSummary extends Component {
 	constructor(props) {
 		super(props);
 		this.handleButtonClick = this.handleButtonClick.bind(this);
+		this.handleContactCardOpen = this.handleContactCardOpen.bind(this);
+		this.handleContactCardClose = this.handleContactCardClose.bind(this);
     this.state = {
 			employeeName: this.props.employeeInfo["name"],
 			employeeStatus: this.props.employeeInfo["status"],
 			employeePosition: this.props.employeeInfo["employeePosition"],
+			contatCardOpen: false,
     };
 	}
 
@@ -32,6 +31,14 @@ class ContactSummary extends Component {
 		}
 	}
 
+	handleContactCardOpen(){
+		this.setState({contatCardOpen: true});
+	}
+
+	handleContactCardClose(){
+		this.setState({contatCardOpen: false});
+	}
+
 	render() {
 		let new_url = "/contactCard/" + this.state.employeeName;
 		const employeeName = this.state.employeeName;
@@ -41,20 +48,20 @@ class ContactSummary extends Component {
 
 	      <div className="ContactSummary">
 					<div className="employeeInfo">
-					<Link to={{
+					{/* <Link to={{
 							pathname: new_url,
 							state: {
 								employeeList: this.props.employeeList,
 								employeeInfo: this.props.employeeInfo,
 							}
-						}}>
-							<ListItem button alignItems="center">
+						}}> */}
+							<ListItem button alignItems="center" onClick={this.handleContactCardOpen}>
 								<div className="userName">
 									{employeeName}
 									<ListItemText secondary={employeePosition}/>
 								</div>
 							</ListItem>
-					</Link>
+					{/* </Link> */}
 					</div>
 					<div className="buttons">
 						{/* <div className="call-sms">
@@ -78,6 +85,11 @@ class ContactSummary extends Component {
 					</Button>
 
 					</div>
+					<Dialog fullScreen open={this.state.contatCardOpen} onClose={this.handleContactCardClose} scroll="paper">
+						<div>
+							<ContactCard employeeList={this.props.employeeList} employeeInfo={this.props.employeeInfo} closeDialog={this.handleContactCardClose}/>
+						</div>
+					</Dialog>
 	      </div>
 	    );
 	  }
