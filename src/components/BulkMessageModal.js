@@ -134,7 +134,7 @@ class BulkMessageModal extends React.Component{
 
                 <DialogActions>
                     <Button variant="text" onClick={this.handleMessageSend} color="primary">
-                        Send
+                        <h3>Send</h3>
                         <SendIcon/>
                     </Button>
                 </DialogActions>

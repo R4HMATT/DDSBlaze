@@ -60,7 +60,7 @@ const styles = theme => ({
   },
 });
 
-function Transition(props){
+function TransitionUp(props){
   return <Slide direction="up" {...props}/>;
 }
 
@@ -170,12 +170,6 @@ class ContactList extends Component {
         .then(res => this.setState({
           contacts: JSON.stringify(res.value),
           isLoading: false}));
-      
-        // contacts: JSON.stringify(res.value),
-
-        //localStorage.se tItem("contacts", res.value)
-
-    
     }
   }
 
@@ -541,7 +535,7 @@ class ContactList extends Component {
           </Drawer>
 
           {/* Pop-up dialog for sending bulk messages */}
-          <Dialog fullScreen open={this.state.bulkMessageOpen} onClose={this.handleBulkMessageModalClose} TransitionComponent={Transition} scroll="paper">
+          <Dialog fullScreen open={this.state.bulkMessageOpen} onClose={this.handleBulkMessageModalClose} TransitionComponent={TransitionUp} scroll="paper">
             <BulkMessageModal handleClose={this.handleBulkMessageModalClose} notCheckedIn={notCheckedInArray}/>
           </Dialog>
           

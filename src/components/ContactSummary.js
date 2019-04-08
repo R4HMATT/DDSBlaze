@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import ContactCard from './ContactCard';
 import Dialog from '@material-ui/core/Dialog';
+import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { withSnackbar } from 'notistack';
 import './ContactSummary.css';
+
+function TransitionLeft(props){
+  return <Slide direction="left" {...props}/>;
+}
 
 /**** This component is used to generate entries for indivdualds that are NOT checked in ****/
 
@@ -20,7 +25,7 @@ class ContactSummary extends Component {
 			employeeName: this.props.employeeInfo["name"],
 			employeeStatus: this.props.employeeInfo["status"],
 			employeePosition: this.props.employeeInfo["employeePosition"],
-			contatCardOpen: false,
+			contactCardOpen: false,
     };
 	}
 
@@ -48,11 +53,19 @@ class ContactSummary extends Component {
 	}
 
 	handleContactCardOpen(){
-		this.setState({contatCardOpen: true});
+		this.setState({contactCardOpen: true});
 	}
 
 	handleContactCardClose(){
-		this.setState({contatCardOpen: false});
+		this.setState({contactCardOpen: false});
+	}
+
+	componentWillReceiveProps(nextProps){
+		this.setState({
+			employeeName: nextProps.employeeInfo["name"],
+			employeeStatus: nextProps.employeeInfo["status"],
+			employeePosition: nextProps.employeeInfo["employeePosition"],
+		})
 	}
 
 	render() {
@@ -101,7 +114,7 @@ class ContactSummary extends Component {
 					</Button>
 
 					</div>
-					<Dialog fullScreen open={this.state.contatCardOpen} onClose={this.handleContactCardClose} scroll="paper">
+					<Dialog fullScreen open={this.state.contactCardOpen} onClose={this.handleContactCardClose} TransitionComponent={TransitionLeft} scroll="paper">
 						<div>
 							<ContactCard employeeList={this.props.employeeList} employeeInfo={this.props.employeeInfo} closeDialog={this.handleContactCardClose}/>
 						</div>

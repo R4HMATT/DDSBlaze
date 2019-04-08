@@ -13,6 +13,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CallIcon from '@material-ui/icons/Call'
 import SMSIcon from '@material-ui/icons/Sms'
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 
 
 class ContactCardInfo extends Component {
@@ -46,7 +47,8 @@ class ContactCardInfo extends Component {
           className="backButton" 
           variant="outlined" 
           onClick={this.props.closeDialog}>
-            {"Back"}
+            <ChevronLeftIcon/>
+            <h4>Back</h4>
           </Button>
           <img src={require("./assets/default_profile_pic.png")}/>
           <h2 className="employeeName">{contactInformation["name"]}</h2>
