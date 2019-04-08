@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import './ContactSummary.css';
+import ContactCard from './ContactCard';
+import Dialog from '@material-ui/core/Dialog';
+import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import {
-  BrowserRouter as Router,
-  Link,
-  Switch,
-  Redirect
-} from 'react-router-dom';
+import { withSnackbar } from 'notistack';
+import './ContactSummary.css';
+
+function TransitionLeft(props){
+  return <Slide direction="left" {...props}/>;
+}
 
 /**** This component is used to generate entries for indivdualds that are NOT checked in ****/
 
@@ -17,19 +19,53 @@ class ContactSummary extends Component {
 	constructor(props) {
 		super(props);
 		this.handleButtonClick = this.handleButtonClick.bind(this);
+		this.handleContactCardOpen = this.handleContactCardOpen.bind(this);
+		this.handleContactCardClose = this.handleContactCardClose.bind(this);
     this.state = {
 			employeeName: this.props.employeeInfo["name"],
 			employeeStatus: this.props.employeeInfo["status"],
 			employeePosition: this.props.employeeInfo["employeePosition"],
+			contactCardOpen: false,
     };
 	}
 
 	handleButtonClick(){
+		let message=["Checked In: ", "Checked-Out: "];
+		let timeout = 3000;
+
 		if(this.state.employeeStatus === "CheckedIn"){
-			alert("Checked-out: " + this.state.employeeName);
+			this.props.enqueueSnackbar(message[1] + this.state.employeeName, {
+				variant: "warning",
+				autoHideDuration: timeout,
+				action: (
+					<Button size="small" variant="outlined" color="inherit">Undo</Button>
+				),
+			});
 		} else{
-			alert("Checked-in: " + this.state.employeeName);
+			this.props.enqueueSnackbar(message[0] + this.state.employeeName, {
+				variant: "success",
+				autoHideDuration: timeout,
+				action: (
+					<Button size="small" variant="outlined" color="inherit">Undo</Button>
+				),
+			});
 		}
+	}
+
+	handleContactCardOpen(){
+		this.setState({contactCardOpen: true});
+	}
+
+	handleContactCardClose(){
+		this.setState({contactCardOpen: false});
+	}
+
+	componentWillReceiveProps(nextProps){
+		this.setState({
+			employeeName: nextProps.employeeInfo["name"],
+			employeeStatus: nextProps.employeeInfo["status"],
+			employeePosition: nextProps.employeeInfo["employeePosition"],
+		})
 	}
 
 	render() {
@@ -41,20 +77,20 @@ class ContactSummary extends Component {
 
 	      <div className="ContactSummary">
 					<div className="employeeInfo">
-					<Link to={{
+					{/* <Link to={{
 							pathname: new_url,
 							state: {
 								employeeList: this.props.employeeList,
 								employeeInfo: this.props.employeeInfo,
 							}
-						}}>
-							<ListItem button alignItems="center">
+						}}> */}
+							<ListItem button alignItems="center" onClick={this.handleContactCardOpen}>
 								<div className="userName">
 									{employeeName}
 									<ListItemText secondary={employeePosition}/>
 								</div>
 							</ListItem>
-					</Link>
+					{/* </Link> */}
 					</div>
 					<div className="buttons">
 						{/* <div className="call-sms">
@@ -78,9 +114,14 @@ class ContactSummary extends Component {
 					</Button>
 
 					</div>
+					<Dialog fullScreen open={this.state.contactCardOpen} onClose={this.handleContactCardClose} TransitionComponent={TransitionLeft} scroll="paper">
+						<div>
+							<ContactCard employeeList={this.props.employeeList} employeeInfo={this.props.employeeInfo} closeDialog={this.handleContactCardClose}/>
+						</div>
+					</Dialog>
 	      </div>
 	    );
 	  }
 }
 
-export default ContactSummary;
+export default withSnackbar(ContactSummary);

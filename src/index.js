@@ -2,10 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import HttpsRedirect from 'react-https-redirect';
-
-import './index.css';
+import { SnackbarProvider } from 'notistack';
 import App from './App';
-
+import './index.css';
 import * as serviceWorker from './serviceWorker';
 
 
@@ -15,9 +14,15 @@ import * as serviceWorker from './serviceWorker';
 ReactDOM.render(
     //<App />,
     <Router>
-    <HttpsRedirect>
-    <App/>
-    </HttpsRedirect>
+        <HttpsRedirect>
+            <SnackbarProvider dense maxSnack={2}
+            anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "center"
+            }}>
+                <App/>
+            </SnackbarProvider>
+        </HttpsRedirect>
     </Router>,
 
     document.getElementById('root')

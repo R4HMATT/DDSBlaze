@@ -9,6 +9,7 @@
     "material-ui-search-bar": "^0.4.2",
     "micromodal": "^0.3.2",
     "msal": "^0.2.4",
+    "notistack": "^0.6.1",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-https-redirect": "^1.0.11",
