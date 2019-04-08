@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import './ContactCard.css';
 import ContactCardInfo from "./ContactCardInfo"
+import './ContactCard.css';
 
 class ContactCard extends Component {
 
@@ -9,8 +9,8 @@ class ContactCard extends Component {
     //let contacts = require('../ContactInfo.json');
     
     // List of all employees
-    let employeeList = this.props.location.state.employeeList;
-    let employeeInfo = this.props.location.state.employeeInfo;
+    let employeeList = this.props.employeeList;
+    let employeeInfo = this.props.employeeInfo;
 
     // This employee's information
     let employee = {
@@ -45,8 +45,6 @@ class ContactCard extends Component {
     this.state = {
       employee: employee,
       emergencyContact: emergencyContact,
-      primary_link: "/contactCard/" + this.props.match.params.id,
-      value: "/contactCard/" + this.props.match.params.id
     };
 }
 
@@ -58,7 +56,7 @@ class ContactCard extends Component {
     let contactInformation = this.state.employee;
     return (
       <div className="ContactCard">
-        <ContactCardInfo employeeInfo={this.state.employee} emergencyContactInfo={this.state.emergencyContact}/>
+        <ContactCardInfo employeeInfo={this.state.employee} emergencyContactInfo={this.state.emergencyContact} closeDialog={this.props.closeDialog}/>
       </div>
     );
   }
