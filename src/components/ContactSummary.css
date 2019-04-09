@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: space-between;
   
-  margin: 20px;
+  margin: 15px;
   background: #fff;
   /* vertical-align: center; */
   border: solid 1px #c4c4c4;
@@ -71,7 +71,7 @@
   padding-bottom: 8px;
   padding-left: 8px;
   padding-right: 8px;
-  margin-right: 20px;
+  margin-right: 10px;
 
   width: 90px;
   height: 45px;
@@ -91,7 +91,7 @@
   padding-bottom: 8px;
   padding-left: 8px;
   padding-right: 8px;
-  margin-right: 20px;
+  margin-right: 10px;
 
   width: 90px;
   height: 45px;

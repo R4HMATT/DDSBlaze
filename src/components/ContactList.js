@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import ContactSummary from './ContactSummary.js';
 import ContactCard from './ContactCard.js';
 import BulkMessageModal from './BulkMessageModal';
+import Paper from '@material-ui/core/Paper';
 import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
 import Menu from '@material-ui/core/Menu';
@@ -12,6 +13,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Drawer from '@material-ui/core/Drawer';
+import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Typography from '@material-ui/core/Typography';
@@ -427,17 +429,21 @@ class ContactList extends Component {
 
     return (
       <div className="container">
+
+        {/* 1. Render all Checked-In and Not Checked-In employees */}
         <NoSsr>
           <div className={classes.root}>
             <AppBar position="sticky" color="primary" classes={{colorPrimary: classes.AppBar}}>
               <Toolbar>
+                <Paper elevation={1} className="searchWrapper">
+                  <IconButton onClick={this.handleNavDrawerOpen} color="black">
+                    <MenuIcon/>
+                  </IconButton>
 
-                <IconButton onClick={this.handleNavDrawerOpen} color="inherit">
-                  <MenuIcon/>
-                </IconButton>
-
-                {/* SEARCH BAR */}
-                <input type="text" className="searchBar" onChange={this.updateSearch.bind(this)} placeholder="Search User..." value={this.state.search}/>
+                  {/* SEARCH BAR */}
+                  <InputBase type="search" className="searchBar" onChange={this.updateSearch.bind(this)} placeholder="Search User..." value={this.state.search}/>
+                  <img src={require('./assets/search_icon.png')} className="searchIcon" height="28px" width="28px"/>
+                </Paper>
               </Toolbar>
 
               <Tabs variant="fullWidth" value={value} onChange={this.handleTabChange} indicatorColor="secondary">
@@ -454,6 +460,8 @@ class ContactList extends Component {
                 } />
               </Tabs>
             </AppBar>
+
+            {/* 1.1 If user is filtering by team leads, show the name at the top */}
             {((filterMetric[0] !== "name-increasing") && (filterMetric[0] !== "name-decreasing")) && 
               <div className="filterMessage">
                 <h3>
@@ -469,75 +477,76 @@ class ContactList extends Component {
           </div>
         </NoSsr>
 
-          {isLoading && 
-          <div className="loadingCircle">
-            <CircularProgress color="primary" variant="indeterminate" classes={{colorPrimary: classes.CircularProgress}}/>
-            <br/>
-            <h4>Loading...</h4>
-          </div>}
+        {/* 1.2 Loading Circle while SharePoint data is being recieved */}
+        {isLoading && 
+        <div className="loadingCircle">
+          <CircularProgress color="primary" variant="indeterminate" classes={{colorPrimary: classes.CircularProgress}}/>
+          <br/>
+          <h4>Loading...</h4>
+        </div>}
 
-          {/* This Menu component handles which metric a user wants to sort the contact list by */}
-          <Menu
-          className="sortMenu" 
-          anchorEl={anchorEl} 
-          open={open} 
-          PaperProps={{
-            style: {
-              maxHeight: 200,
-              width: "60%",
-              maxWidth: 300,
-              float: 'right',
-            },
-          }}>
+        {/* 2. This Menu component handles which metric a user wants to sort the contact list by */}
+        <Menu
+        className="sortMenu" 
+        anchorEl={anchorEl} 
+        open={open} 
+        PaperProps={{
+          style: {
+            maxHeight: 200,
+            width: "60%",
+            maxWidth: 300,
+            float: 'right',
+          },
+        }}>
 
-          {/* Typography component is used for MenuItem text because it allows for ellipses on text-overflow */}
-              <MenuItem 
-              onClick={event => this.handleSearchFilterClose(event, ["name-increasing", "Name Increasing"])} 
-              selected={filterMetric[0] === "name-increasing"}>
-                <Typography variant="subheading" noWrap> Name: Ascending </Typography>
-              </MenuItem>
+        {/* Typography component is used for MenuItem text because it allows for ellipses on text-overflow */}
+            <MenuItem 
+            onClick={event => this.handleSearchFilterClose(event, ["name-increasing", "Name Increasing"])} 
+            selected={filterMetric[0] === "name-increasing"}>
+              <Typography variant="subheading" noWrap> Name: Ascending </Typography>
+            </MenuItem>
 
-              <MenuItem 
-              onClick={event => this.handleSearchFilterClose(event, ["name-decreasing", "Name Decreasing"])} 
-              selected={filterMetric[0] === "name-decreasing"}>
-                <Typography variant="subheading" noWrap> Name: Descending </Typography>
-              </MenuItem>
+            <MenuItem 
+            onClick={event => this.handleSearchFilterClose(event, ["name-decreasing", "Name Decreasing"])} 
+            selected={filterMetric[0] === "name-decreasing"}>
+              <Typography variant="subheading" noWrap> Name: Descending </Typography>
+            </MenuItem>
 
-              {menuItems}
-          </Menu>
+            {menuItems}
+        </Menu>
 
-          {/* Side navigation drawer */}
-          <Drawer anchor="left" open={this.state.navDrawerOpen} onClose={this.handleNavDrawerClose}>
-              <div tabIndex={0} role="button">
-                <List>
-                  <ListItem button onClick={this.handleSearchFilterClick} color="inherit">
-                    <ListItemText primary="Filter/Sort Contacts" secondary={filterMetric[1]}/>
-                    <ExpandMoreIcon/>
-                  </ListItem>
+        {/* 3. Side navigation drawer */}
+        <Drawer anchor="left" open={this.state.navDrawerOpen} onClose={this.handleNavDrawerClose}>
+            <div tabIndex={0} role="button">
+              <List>
+                <ListItem button onClick={this.handleSearchFilterClick} color="inherit">
+                  <ListItemText primary="Filter/Sort Contacts" secondary={filterMetric[1]}/>
+                  <ExpandMoreIcon/>
+                </ListItem>
 
-                  <Divider/>
+                <Divider/>
 
-                  <ListItem button onClick={this.handleBulkMessageModalOpen}>
-                    <ListItemIcon>
-                      <SendIcon/>
-                    </ListItemIcon>
-                    <ListItemText primary="Bulk Message"/>
-                  </ListItem>
+                <ListItem button onClick={this.handleBulkMessageModalOpen}>
+                  <ListItemIcon>
+                    <SendIcon/>
+                  </ListItemIcon>
+                  <ListItemText primary="Bulk Message"/>
+                </ListItem>
 
-                  <ListItem button>
-                    <ListItemIcon>
-                      <ExitToAppIcon/>
-                    </ListItemIcon>
-                    <ListItemText primary="Logout"/>
-                  </ListItem>
-                </List>
-              </div>
-          </Drawer>
+                <ListItem button>
+                  <ListItemIcon>
+                    <ExitToAppIcon/>
+                  </ListItemIcon>
+                  <ListItemText primary="Logout"/>
+                </ListItem>
+              </List>
+            </div>
+        </Drawer>
 
-          {/* Pop-up dialog for sending bulk messages */}
-          <Dialog fullScreen open={this.state.bulkMessageOpen} onClose={this.handleBulkMessageModalClose} TransitionComponent={TransitionUp} scroll="paper">
-            <BulkMessageModal handleClose={this.handleBulkMessageModalClose} notCheckedIn={notCheckedInArray}/>
-          </Dialog>
+        {/* 4. Pop-up dialog for sending bulk messages */}
+        <Dialog fullScreen open={this.state.bulkMessageOpen} onClose={this.handleBulkMessageModalClose} TransitionComponent={TransitionUp} scroll="paper">
+          <BulkMessageModal handleClose={this.handleBulkMessageModalClose} notCheckedIn={notCheckedInArray}/>
+        </Dialog>
           
       </div>
     );

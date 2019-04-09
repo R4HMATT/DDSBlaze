@@ -33,57 +33,46 @@ body {
   margin-top: 20px;
 }
 
-.container .filterMessage h4{
-  font-weight: 500;
-}
 .container h3{
   white-space: nowrap;
   overflow: hidden;
   /* text-overflow: ellipsis; */
 }
 
-/*Search bar*/
-.searchBar {
-  
-  font-family: "Century Gothic";
-  object-fit: stretch;
+.searchWrapper{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
 
-  padding: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
   margin: auto;
-  margin-top: 8px;
-  margin-right: 0;
+  margin-top: 20px;
 
-  font-size: 15px;
-  width: 50%;
-  height: 80%;
+  width: 100%;
+  background-color: white;
+}
+
+/*Search bar*/
+.searchWrapper .searchBar {
+  flex-grow: 1;
+  font-family: "Century Gothic";
 
   /* Prevent text overflow in search bar */
-  white-space: nowrap;
+  /* white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+  text-overflow: ellipsis; */
 
   /* Rounded border */
   border-radius: 25px;
   
-  /* background: url('./assets/search_icon.png') no-repeat scroll 2% 50%;
-  background-size: 28px 28px; */
   background-color: #ffffff;
-
-  /* Grow animation */
-  -webkit-transition: width 0.3s ease-in-out;
-  transition: width 0.3s ease-in-out;
 }
 
-/* Search bar: on focus, expand*/
-.searchBar:focus{
-  width: 100%;
-}
-
-.sortButton h4{
-  font-weight: 700;
-  text-transform: none;
-  margin: none;
-  padding: none;
+.searchWrapper .searchIcon{
+  margin-left: 10px;
 }
 
 .container .loadingCircle{
