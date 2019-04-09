@@ -8,8 +8,9 @@ import {
   Switch,
   Redirect
 } from 'react-router-dom';
+import updateStatus from '../spCalls';
 
-/**** This component is used to generate entries for indivdualds that are NOT checked in ****/
+/**** This component is used to generate en tries for indivdualds that are NOT checked in ****/
 
 class CheckedIn extends Component {
 
@@ -54,7 +55,7 @@ class CheckedIn extends Component {
 											href="sms:416-456-7890"
 											/>
 						</div>
-					<Button className="btnCheckIn" variant="contained" color="primary" >Check In</Button>
+					<Button className="btnCheckIn" onClick={() => updateStatus('CheckedIn', 1)} variant="contained" color="primary" >Check In</Button>
 
 					</div>
 	      </div>
