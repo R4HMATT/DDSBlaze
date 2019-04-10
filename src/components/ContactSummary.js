@@ -3,8 +3,10 @@ import ContactCard from './ContactCard';
 import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
+import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import { withSnackbar } from 'notistack';
 import './ContactSummary.css';
 
@@ -69,51 +71,34 @@ class ContactSummary extends Component {
 	}
 
 	render() {
-		let new_url = "/contactCard/" + this.state.employeeName;
 		const employeeName = this.state.employeeName;
 		const employeeStatus = this.state.employeeStatus;
 		const employeePosition = this.state.employeePosition;
 	    return (
 
 	      <div className="ContactSummary">
-					<div className="employeeInfo">
-					{/* <Link to={{
-							pathname: new_url,
-							state: {
-								employeeList: this.props.employeeList,
-								employeeInfo: this.props.employeeInfo,
-							}
-						}}> */}
-							<ListItem button alignItems="center" onClick={this.handleContactCardOpen}>
-								<div className="userName">
-									{employeeName}
-									<ListItemText secondary={employeePosition}/>
-								</div>
-							</ListItem>
-					{/* </Link> */}
-					</div>
-					<div className="buttons">
-						{/* <div className="call-sms">
-							<button className="btnContactPhone"
-											name="viewContactPhone"
-											type="button"
-											href="tel:416-456-7890"
-											/>
-							
-							<button className="btnContactSMS"
-											name="viewContactSMS"
-											type="button"
-											href="sms:416-456-7890"
-											/>
-						</div> */}
-					<Button className={employeeStatus === "CheckedIn" ? "btnUndoCheckIn" : "btnCheckIn"}
-					onClick={this.handleButtonClick}
-					variant="contained" 
-					color="primary">
-						{employeeStatus === "CheckedIn" ? "Undo" : "Check In"}
-					</Button>
+					<List disablePadding>
+						<ListItem button alignItems="center" onClick={this.handleContactCardOpen}>
+								<ListItemText>
+									<div className="userName">
+										{employeeName}
+									</div>
+									<div className="userPosition">
+										{employeePosition}
+									</div>
+								</ListItemText>
 
-					</div>
+								<ListItemSecondaryAction>
+									<Button className={employeeStatus === "CheckedIn" ? "btnUndoCheckIn" : "btnCheckIn"}
+									onClick={this.handleButtonClick}
+									variant="contained" 
+									color="primary">
+										{employeeStatus === "CheckedIn" ? "Undo" : "Check In"}
+									</Button>
+								</ListItemSecondaryAction>
+						</ListItem>
+					</List>
+
 					<Dialog fullScreen open={this.state.contactCardOpen} onClose={this.handleContactCardClose} TransitionComponent={TransitionLeft} scroll="paper">
 						<div>
 							<ContactCard employeeList={this.props.employeeList} employeeInfo={this.props.employeeInfo} closeDialog={this.handleContactCardClose}/>
