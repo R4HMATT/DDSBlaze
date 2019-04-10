@@ -48,6 +48,14 @@ class ContactSummary extends Component {
 		})
 	}
 
+	handleButtonClick(){
+		if(this.state.employeeStatus === "CheckedIn"){
+			this.props.undoCheckIn(this.state.employee_id, this.state.employeeName);
+		} else{
+			this.props.checkIn(this.state.employee_id, this.state.employeeName);
+		}
+	}
+
 	render() {
 		const employeeName = this.state.employeeName;
 		const employeeStatus = this.state.employeeStatus;
