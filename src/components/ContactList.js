@@ -458,8 +458,8 @@ class ContactList extends Component {
               </div>}
             <Divider variant="middle"/>
             <SwipeableViews disabled={true} index={value} onChangeIndex={this.handleTabChange} axis={value === 0 ? 'x-reverse' : 'x'}>
-              {value === 0 && <div>{notCheckedIn}</div>}
-              {value === 1 && <div>{safepeople}</div>}
+              <div>{notCheckedIn}</div>
+              <div>{safepeople}</div>
             </SwipeableViews>
           </div>
         </NoSsr>
