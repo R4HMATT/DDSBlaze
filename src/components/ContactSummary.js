@@ -22,34 +22,12 @@ class ContactSummary extends Component {
 		this.handleContactCardOpen = this.handleContactCardOpen.bind(this);
 		this.handleContactCardClose = this.handleContactCardClose.bind(this);
     this.state = {
+			employee_id: this.props.employeeInfo["id"],
 			employeeName: this.props.employeeInfo["name"],
 			employeeStatus: this.props.employeeInfo["status"],
 			employeePosition: this.props.employeeInfo["employeePosition"],
 			contactCardOpen: false,
     };
-	}
-
-	handleButtonClick(){
-		let message=["Checked In: ", "Checked-Out: "];
-		let timeout = 3000;
-
-		if(this.state.employeeStatus === "CheckedIn"){
-			this.props.enqueueSnackbar(message[1] + this.state.employeeName, {
-				variant: "warning",
-				autoHideDuration: timeout,
-				action: (
-					<Button size="small" variant="outlined" color="inherit">Undo</Button>
-				),
-			});
-		} else{
-			this.props.enqueueSnackbar(message[0] + this.state.employeeName, {
-				variant: "success",
-				autoHideDuration: timeout,
-				action: (
-					<Button size="small" variant="outlined" color="inherit">Undo</Button>
-				),
-			});
-		}
 	}
 
 	handleContactCardOpen(){

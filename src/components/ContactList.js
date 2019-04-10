@@ -6,6 +6,7 @@ import BulkMessageModal from './BulkMessageModal';
 import Paper from '@material-ui/core/Paper';
 import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
+import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import List from '@material-ui/core/List';
@@ -23,6 +24,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SendIcon from '@material-ui/icons/Send';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { withStyles } from '@material-ui/core/styles';
+import { withSnackbar } from 'notistack';
 import { Divider } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -75,6 +77,9 @@ class ContactList extends Component {
     this.getSPlist = this.getSPlist.bind(this);
     this.setUp = this.setUp.bind(this);
     this.sortHelper = this.sortHelper.bind(this);
+
+    this.checkIn = this.checkIn.bind(this);
+    this.undoCheckIn = this.undoCheckIn.bind(this);
 
     this.handleSearchFilterClick = this.handleSearchFilterClick.bind(this);
     this.handleSearchFilterClose = this.handleSearchFilterClose.bind(this);
@@ -181,49 +186,31 @@ class ContactList extends Component {
   }
 
   /* Move user with name "value" into the Checked-in list */
-  checkIn(index, value) {
-    let notCheckedInArr = this.state.notCheckedIn;
-    let markedSafeArr = this.state.markedSafe;
-    let temp = notCheckedInArr[index];
+  checkIn(employee_id, employee_name) {
+    let message = "Checked In: " + employee_name;
+    let timeout = 3000;
 
-    // Special case where name is being searched
-    if(this.state.search !== ''){
-      temp = value;
-      index = notCheckedInArr.indexOf(value);
-    }
-    notCheckedInArr.splice(index, 1);
-    markedSafeArr.push(temp);
-
-    // Sort the two lists of names
-    notCheckedInArr.sort();
-    markedSafeArr.sort();
-
-    this.setState({ markedSafe: markedSafeArr })
-    this.setState({ notCheckedIn: notCheckedInArr })
-    
+    this.props.enqueueSnackbar(message, {
+      variant: "success",
+      autoHideDuration: timeout,
+      action: (
+        <Button size="small" variant="outlined" color="inherit">Undo</Button>
+      ),
+    });
   }
 
   /* Move user with name "value" into the Not Checked-in list */
-  undoCheckIn(index, value) {
-    let notCheckedInArr = this.state.notCheckedIn;
-    let markedSafeArr = this.state.markedSafe;
-    let temp = markedSafeArr[index];
+  undoCheckIn(employee_id, employee_name) {
+    let message = "Checked-Out: " + employee_name;
+    let timeout = 3000;
 
-    // Special case where a name is being searched
-    if(this.state.search !== ''){
-      temp = value;
-      index = markedSafeArr.indexOf(value);
-
-    }
-    markedSafeArr.splice(index, 1);
-    notCheckedInArr.push(temp);
-
-    // Sort the two lists of names
-    notCheckedInArr.sort();
-    markedSafeArr.sort();
-
-    this.setState({ markedSafe: markedSafeArr })
-    this.setState({ notCheckedIn: notCheckedInArr })
+    this.props.enqueueSnackbar(message, {
+      variant: "warning",
+      autoHideDuration: timeout,
+      action: (
+        <Button size="small" variant="outlined" color="inherit">Undo</Button>
+      ),
+    });
   }
 
   updateSearch(event) {
@@ -378,7 +365,7 @@ class ContactList extends Component {
     }
     console.log(notCheckedInFiltered);
     let notCheckedIn = notCheckedInFiltered.map( elem => {
-      return <ContactSummary employeeList={employeeList} 
+      return <ContactSummary employeeList={employeeList} checkIn={this.checkIn} undoCheckIn={this.undoCheckIn}
       employeeInfo={
         {
           "id": elem.id,
@@ -394,7 +381,7 @@ class ContactList extends Component {
     });
 
     let safepeople = markedSafeFiltered.map(elem => {
-      return <ContactSummary employeeList={employeeList} 
+      return <ContactSummary employeeList={employeeList} checkIn={this.checkIn} undoCheckIn={this.undoCheckIn}
       employeeInfo={
         {
           "id": elem.id,
@@ -553,4 +540,4 @@ class ContactList extends Component {
   }
 };
 
-export default withStyles(styles)(ContactList);
+export default withSnackbar(withStyles(styles)(ContactList));
