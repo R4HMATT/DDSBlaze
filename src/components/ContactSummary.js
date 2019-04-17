@@ -42,6 +42,7 @@ class ContactSummary extends Component {
 
 	componentWillReceiveProps(nextProps){
 		this.setState({
+			employee_id : nextProps.employeeInfo["id"],
 			employeeName: nextProps.employeeInfo["name"],
 			employeeStatus: nextProps.employeeInfo["status"],
 			employeePosition: nextProps.employeeInfo["employeePosition"],

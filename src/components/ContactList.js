@@ -139,7 +139,7 @@ class ContactList extends Component {
   componentDidMount() {
     this.getSPlist();
     if (!this.state.intervalIsSet) {
-      let interval = setInterval(this.getSPlist, 1000);
+      let interval = setInterval(this.getSPlist, 200);
       this.setState({ intervalIsSet: interval });
     }
   };
@@ -187,30 +187,99 @@ class ContactList extends Component {
 
   /* Move user with name "value" into the Checked-in list */
   checkIn(employee_id, employee_name) {
-    let message = "Checked In: " + employee_name;
-    let timeout = 3000;
 
-    this.props.enqueueSnackbar(message, {
-      variant: "success",
-      autoHideDuration: timeout,
-      action: (
-        <Button size="small" variant="outlined" color="inherit">Undo</Button>
-      ),
-    });
+    const fetch = require('node-fetch');
+
+    let message = "Checked-In: " + employee_name;
+    let timeout = 6000;
+
+    // If we have the user's access token, continue
+    if (localStorage.getItem('accessToken')) {
+      var bearer = "Bearer " + this.state.token;
+      var endpoint = "https://graph.microsoft.com/v1.0/sites/rahmnik.sharepoint.com/lists/testlist/items/" + employee_id + "/fields"
+      var body = {
+        "Status": "CheckedIn",
+      };
+
+      // Headers and body of request we want to send
+      var options = {
+          method: "PATCH",
+          headers: {
+            "Authorization": bearer,
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          body: JSON.stringify(body),
+      };
+
+      try{
+        fetch(endpoint, options)
+        .then(response => response.json())
+        .then(this.props.enqueueSnackbar(message, {
+          variant: "success",
+          autoHideDuration: timeout,
+          action: (
+            <Button size="small" variant="outlined" color="inherit" onClick={event => this.undoCheckIn(employee_id, employee_name)}>Undo</Button>
+          ),
+        }));
+      } catch(e){
+        this.props.enqueueSnackbar("Failed to Check-in " + employee_name, {
+          variant: "error",
+          autoHideDuration: timeout,
+        });
+        console.log(e);
+      }
+      
+    }
   }
 
   /* Move user with name "value" into the Not Checked-in list */
   undoCheckIn(employee_id, employee_name) {
-    let message = "Checked-Out: " + employee_name;
-    let timeout = 3000;
 
-    this.props.enqueueSnackbar(message, {
-      variant: "warning",
-      autoHideDuration: timeout,
-      action: (
-        <Button size="small" variant="outlined" color="inherit">Undo</Button>
-      ),
-    });
+    let employee_idTemp = employee_id + "";
+
+    const fetch = require('node-fetch');
+    console.log([employee_id, employee_name]);
+    let message = "Checked-Out: " + employee_name;
+    let timeout = 6000;
+
+    // If we have the user's access token, continue
+    if (localStorage.getItem('accessToken')) {
+      var bearer = "Bearer " + this.state.token;
+      var endpoint = "https://graph.microsoft.com/v1.0/sites/rahmnik.sharepoint.com/lists/testlist/items/" + employee_id + "/fields"
+      var body = {
+        "Status": "NotCheckedIn",
+      }
+
+      // Headers and body of request we want to send
+      var options = {
+          method: "PATCH",
+          headers: {
+            "Authorization": bearer,
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          body: JSON.stringify(body),
+      };
+
+      try{
+      fetch(endpoint, options)
+        .then(response => response.json())
+        .then(this.props.enqueueSnackbar(message, {
+          variant: "warning",
+          autoHideDuration: timeout,
+          action: (
+            <Button size="small" variant="outlined" color="inherit" onClick={event => this.checkIn(employee_id, employee_name)}>Undo</Button>
+          ),
+        }));
+      } catch(e){
+        this.props.enqueueSnackbar("Failed to Check-Out " + employee_name, {
+          variant: "error",
+          autoHideDuration: timeout,
+        });
+        console.log(e);
+      }
+    }
   }
 
   updateSearch(event) {
@@ -363,7 +432,7 @@ class ContactList extends Component {
         }
       }
     }
-    console.log(notCheckedInFiltered);
+
     let notCheckedIn = notCheckedInFiltered.map( elem => {
       return <ContactSummary employeeList={employeeList} checkIn={this.checkIn} undoCheckIn={this.undoCheckIn}
       employeeInfo={
