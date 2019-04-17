@@ -17,6 +17,7 @@ import IconButton from '@material-ui/core/IconButton';
 import SendIcon from '@material-ui/icons/Send';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CloseIcon from '@material-ui/icons/Close';
+import { withSnackbar } from 'notistack';
 import './BulkMessageModal.css';
 
 class BulkMessageModal extends React.Component{
@@ -50,13 +51,93 @@ class BulkMessageModal extends React.Component{
         this.handleClose();
     }
 
+    /** Handle reponse from MS Graph POST request
+     * (object) => <Snackbar/>
+     */
+    handleResponse(response){
+        if(response.ok){
+            // Return success snackbar since the POST request went through
+            return(
+                this.props.enqueueSnackbar("Sent Email", {
+                variant: "success",
+                autoHideDuration: 5000,
+                action: (
+                    <Button size="small" variant="outlined" color="inherit">Dismiss</Button>
+                ),
+                })
+            );
+        }
+        return (
+            this.props.enqueueSnackbar(response.error.message, {
+            variant: "error",
+            autoHideDuration: 10000,
+            action: (
+                <Button size="small" variant="outlined" color="inherit">Dismiss</Button>
+            ),
+            })
+        );
+    }
+
     /* Send the Email/SMS user has written */
     handleMessageSend(){
+        const fetch = require('node-fetch');
+        let endpoint = "https://graph.microsoft.com/v1.0/me/sendMail";
+
         // If user is in the SMS tab
         if(this.state.value){
             alert("Sent SMS: \n\n" + this.state.smsBodyValue);
         } else{
-            alert("Sent the following Email: \n\n" + "Subject: " + this.state.subjectValue + " \n\nBody: \n" + this.state.emailBodyValue);
+            let subjectValue = this.state.subjectValue;
+            let emailBodyValue = this.state.emailBodyValue;
+
+            if (localStorage.getItem('accessToken')) {
+                var bearer = "Bearer " + localStorage.getItem("accessToken");
+                var body = {
+                "message": {
+                    "subject": "ms graph email",
+                    "body": {
+                        "contentType": "Text",
+                        "content": "body content"
+                    },
+                    "toRecipients": [
+                        {
+                        "emailAddress": {
+                            "address": "bilal.009@hotmail.com"
+                        }
+                        },
+                        {
+                        "emailAddress": {
+                            "address": "bahmed4343@gmail.com"
+                        }
+                        }
+                    ],
+                    },
+                };
+          
+                // Headers and body of request we want to send
+                var options = {
+                    method: "POST",
+                    headers: {
+                      "Authorization": bearer,
+                      'Content-Type': 'application/json',
+                      'Accept': 'application/json',
+                    },
+                    body: JSON.stringify(body),
+                };
+          
+                fetch(endpoint, options)
+                .then(response => response.json())
+                .then(response => this.handleResponse(response));
+
+                // this.props.enqueueSnackbar("Sent Email", {
+                //     variant: "success",
+                //     autoHideDuration: 5000,
+                //     action: (
+                //         <Button size="small" variant="outlined" color="inherit">Dismiss</Button>
+                //     ),
+                //     })
+              }
+            // alert("Sent the following Email: \n\n" + "Subject: " + this.state.subjectValue + " \n\nBody: \n" + this.state.emailBodyValue);
         }
         
     }
@@ -121,7 +202,7 @@ class BulkMessageModal extends React.Component{
                         </div>
 
                         {value === 0 && <div className="subject">
-                            <TextField hidden dense variant="outlined" label="Subject" 
+                            <TextField hidden dense="true" variant="outlined" label="Subject" 
                             margin="none" onChange={this.updateSubject} value={this.state.subjectValue}/>
                         </div>}
                         
@@ -143,4 +224,4 @@ class BulkMessageModal extends React.Component{
     }
 }
 
-export default BulkMessageModal;
+export default withSnackbar(BulkMessageModal);
