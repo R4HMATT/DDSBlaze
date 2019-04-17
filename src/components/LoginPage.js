@@ -4,13 +4,14 @@ import HttpsRedirect from 'react-https-redirect';
 import getAccessToken from '../accessRequest.js';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
+import { withSnackbar } from 'notistack';
 
 //var access = require('./accessRequest.js')
 const https = require('https');
-
+const SP = require(".././Connection.json");
 
 //var sharepointSite = "https://rahmnik.sharepoint.com/sites/DDSBlazeWFH/_api/web/lists/getbytitle('DDSB Contacts Info')"
-var sharepointSite = "https://graph.microsoft.com/v1.0/sites/rahmnik.sharepoint.com/lists/testlist/items?expand=fields";
+var sharepointSite = SP.sharepoint.list_address;
 
 // Styles applied to Login button
 const styles = theme => ({
@@ -19,49 +20,6 @@ const styles = theme => ({
   }
 });
 
-// this should probably be moved to a seperate file, cuz it
-// should be a different screen
-// probably dont need this, its just a container
-// dont think it actually does anything tbh
-class DisplaySPInfo extends Component {
-  // initialization
-  constructor(props) {
-    //default initializer
-    let currText = localStorage.getItem("accessToken");
-    if (currText === null) {
-      currText = "Not Logged in yet"
-    }
-    super(props);
-    this.state = {
-      text: currText,
-    };
-  }
-
-  componentDidUpdate(prevProps) {
-      /*// Typical usage (don't forget to compare props):
-    if (this.props.token !== prevProps.token) {
-      this.fetchData(this.props.token);
-      console.log(this.props.token);
-    }*/
-
-    console.log('display info updated'); 
-    console.log(this.props.token);
-    if (this.props.token) {
-
-      //fetch
-      console.log("make the sp request!")
-
-    }
-  }
-
-  render() {
-    return (
-    <div className='sp-display'>
-      <p>{this.state.text}</p>
-    </div>);
-  }
-}
-
 class LoginPage extends Component {
 
   constructor(props) {
@@ -69,38 +27,20 @@ class LoginPage extends Component {
   super(props);
   this.state = {
     token: false,
+    isAuth: false,
     list: '',
+    intervalIsSet: null,
     };
 
     this.handleClick = this.handleClick.bind(this);
-    this.getSPlist = this.getSPlist.bind(this);
+    this.verifyAuth = this.verifyAuth.bind(this);
+    this.handleResponse = this.handleResponse.bind(this);
+    this.deleteCookies = this.deleteCookies.bind(this);
   }
 
   // triggers the accesstoken granting flow
   handleClick() {
     let currToken = getAccessToken();
-    // trying conventional http request
-    /* https.get('https://rahmnik.sharepoint.com/_layouts/15/OAuthorize.aspx' +
-      '?IsDlg=1&amp;client_id=d162fed4-64b5-495d-8f10-e3bb4c0b9290' +
-      '&amp;scope=list.read;response_type=code' + 
-      '&amp;redirect_uri=https://localhost:3000/', (resp) => {
-
-      let data = '';
-
-      resp.on('data', (chunk) => {
-
-        data += chunk;
-      });
-
-      resp.on('end', () => {
-        console.log(JSON.parse(data).explanation);
-
-      });
-
-    }).on("error", (err) => {
-      console.log("Error: " + err.message);
-    });
-    */
 
     console.log('token after callback is' + currToken)
     this.setState({token: currToken})
@@ -115,41 +55,78 @@ class LoginPage extends Component {
     console.log(dataFromChild);
   }
 
-  componentDidUpdate() {
-    console.log('page updated')
-    if (this.state.token) {
-      //console.log(this.state.token);
+  componentDidMount() {
+    this.verifyAuth();
+    if (!this.state.intervalIsSet) {
+      let interval = setInterval(this.verifyAuth, 500);
+      this.setState({ intervalIsSet: interval });
     }
-  }
+  };
 
-  getSPlist() {
+  /** Allow a user to enter if they are authenticated with MS Graph */
+  verifyAuth() {
     console.log({token: localStorage.getItem('accessToken')})
     this.setState({token: localStorage.getItem('accessToken')})
     
     if (localStorage.getItem('accessToken')) {
 
-      console.log("token validation done");
       var headers = new Headers();
-      console.log(typeof(this.state.token));
 
-
-      console.log({token: localStorage.getItem('accessToken')})
-      //var bearer = "Bearer " + this.state.token;
       var bearer = "Bearer " + localStorage.getItem('accessToken')
-      console.log({"bearer": bearer});
+
       headers.append("Authorization", bearer);
+      headers.append('Content-Type', 'application/json');
+      headers.append('Accept', 'application/json');
       var options = {
           method: "GET",
           headers: headers
       };
-      var list;
-      fetch(sharepointSite, options)
-        .then(response => response.json())
-        .then( res => localStorage.setItem("contacts", JSON.stringify(res.value)));
 
-        //localStorage.setItem("contacts", res.value)
-        console.log("got the sp info");
-    
+      fetch(SP.sharepoint.list_address, options)
+        .then(response => this.handleResponse(response));
+    }
+  }
+
+  /** Check if HTTP response is good or not
+   * (object) => null
+   */
+  handleResponse(response){
+    if(response.ok){
+      this.setState({isAuth: true});
+      this.props.enqueueSnackbar("Successfully Logged-in", {
+        variant: "success",
+        autoHideDuration: 10000,
+        preventDuplicate: true,
+        persist: true,
+      });
+
+    } else{
+      
+      // Remove all cookies and access token
+      localStorage.removeItem("accessToken");
+      this.deleteCookies();
+
+      this.props.enqueueSnackbar("You are not authorized to access this resource", {
+        variant: "error",
+        autoHideDuration: 10000,
+        preventDuplicate: true,
+        persist: true,
+        action: (
+            <Button size="small" variant="outlined" color="inherit">Dismiss</Button>
+        ),
+      });
+    }
+  }
+
+  /** Remove all cookies from client side */
+  deleteCookies(){
+    let cookies = document.cookie.split(";");
+
+    for(let i = 0; i < cookies.length; i++){
+      let cookie = cookies[i];
+      let eqPos = cookies.indexOf("=");
+      let name = eqPos > -1 ? cookies.substr(0, eqPos) : cookies;
+      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
     }
   }
 
@@ -157,22 +134,24 @@ class LoginPage extends Component {
     const {classes} = this.props;
     return (
       <HttpsRedirect>
-        <div className="header">
-          <h1>Welcome to <strong>DDSBlaze!</strong></h1>
-          <br/>
-          <h4>Click Login to get started.</h4>
-        </div>
-         <div className="buttonsContainer">
-          <div className='login-button'>
-            <Button onClick={this.handleClick} variant="contained" color="primary" classes={{containedPrimary: classes.Button}}>
-                Login
-            </Button>
+        <div className="container">
+          <div className="header">
+            <h1>Welcome to <strong>DDSBlaze!</strong></h1>
+            <br/>
+            <h4>Click Login to get started.</h4>
           </div>
+          <div className="buttonsContainer">
+            <div className='login-button'>
+              <Button onClick={this.handleClick} variant="contained" color="primary" classes={{containedPrimary: classes.Button}}>
+                  Login
+              </Button>
+            </div>
 
-          <div className='contactList-button'>
-            <Button variant="contained" href="/contactList">
-                Contact List
-            </Button>
+            <div className='contactList-button'>
+              <Button variant="contained" href="/contactList" disabled={!this.state.isAuth}>
+                  Contact List
+              </Button>
+            </div>
           </div>
          </div>
       </HttpsRedirect>
@@ -181,4 +160,4 @@ class LoginPage extends Component {
 
 }
 
-export default withStyles(styles)(LoginPage);
+export default withSnackbar(withStyles(styles)(LoginPage));

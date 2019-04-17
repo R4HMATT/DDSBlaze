@@ -15,7 +15,7 @@ ReactDOM.render(
     //<App />,
     <Router>
         <HttpsRedirect>
-            <SnackbarProvider dense maxSnack={2}
+            <SnackbarProvider dense preventDuplicate maxSnack={2}
             anchorOrigin={{
                 vertical: "bottom",
                 horizontal: "center"

@@ -90,7 +90,10 @@ class ContactList extends Component {
     this.handleBulkMessageModalOpen = this.handleBulkMessageModalOpen.bind(this);
     this.handleBulkMessageModalClose = this.handleBulkMessageModalClose.bind(this);
 
-    this.handleResponse = this.handleResponse.bind(this);
+		this.handleResponse = this.handleResponse.bind(this);
+		
+		this.deleteCookies = this.deleteCookies.bind(this);
+		this.handleLogOut = this.handleLogOut.bind(this);
 
     this.getNameByID = this.getNameByID.bind(this);
 
@@ -281,7 +284,19 @@ class ContactList extends Component {
     } else{
       return 0;
     }
-  }
+	}
+	
+	/** Remove all cookies from client side */
+	deleteCookies(){
+		let cookies = document.cookie.split(";");
+
+		for(let i = 0; i < cookies.length; i++){
+			let cookie = cookies[i];
+			let eqPos = cookies.indexOf("=");
+			let name = eqPos > -1 ? cookies.substr(0, eqPos) : cookies;
+			document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+		}
+	}
 
   /** Handle opening the popup sorting list 
    * (object) => null
@@ -355,7 +370,13 @@ class ContactList extends Component {
         ),
       })
     );
-  }
+	}
+	
+	handleLogOut(){
+		this.deleteCookies();
+		localStorage.removeItem("accessToken");
+		window.location.assign("/");
+	}
 
   /** A function to return the name of an employee given their ID 
    * (string, array) -> string 
@@ -610,7 +631,7 @@ class ContactList extends Component {
                   <ListItemIcon>
                     <ExitToAppIcon/>
                   </ListItemIcon>
-                  <ListItemText primary="Logout"/>
+                  <ListItemText primary="Logout" onClick={this.handleLogOut}/>
                 </ListItem>
               </List>
             </div>
