@@ -3,8 +3,10 @@ import React, { Component } from 'react';
 import ContactSummary from './ContactSummary.js';
 import ContactCard from './ContactCard.js';
 import BulkMessageModal from './BulkMessageModal';
+import Paper from '@material-ui/core/Paper';
 import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
+import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import List from '@material-ui/core/List';
@@ -12,6 +14,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Drawer from '@material-ui/core/Drawer';
+import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Typography from '@material-ui/core/Typography';
@@ -21,6 +24,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SendIcon from '@material-ui/icons/Send';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { withStyles } from '@material-ui/core/styles';
+import { withSnackbar } from 'notistack';
 import { Divider } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -73,6 +77,9 @@ class ContactList extends Component {
     this.getSPlist = this.getSPlist.bind(this);
     this.setUp = this.setUp.bind(this);
     this.sortHelper = this.sortHelper.bind(this);
+
+    this.checkIn = this.checkIn.bind(this);
+    this.undoCheckIn = this.undoCheckIn.bind(this);
 
     this.handleSearchFilterClick = this.handleSearchFilterClick.bind(this);
     this.handleSearchFilterClose = this.handleSearchFilterClose.bind(this);
@@ -132,7 +139,7 @@ class ContactList extends Component {
   componentDidMount() {
     this.getSPlist();
     if (!this.state.intervalIsSet) {
-      let interval = setInterval(this.getSPlist, 1000);
+      let interval = setInterval(this.getSPlist, 200);
       this.setState({ intervalIsSet: interval });
     }
   };
@@ -179,49 +186,100 @@ class ContactList extends Component {
   }
 
   /* Move user with name "value" into the Checked-in list */
-  checkIn(index, value) {
-    let notCheckedInArr = this.state.notCheckedIn;
-    let markedSafeArr = this.state.markedSafe;
-    let temp = notCheckedInArr[index];
+  checkIn(employee_id, employee_name) {
 
-    // Special case where name is being searched
-    if(this.state.search !== ''){
-      temp = value;
-      index = notCheckedInArr.indexOf(value);
+    const fetch = require('node-fetch');
+
+    let message = "Checked-In: " + employee_name;
+    let timeout = 6000;
+
+    // If we have the user's access token, continue
+    if (localStorage.getItem('accessToken')) {
+      var bearer = "Bearer " + this.state.token;
+      var endpoint = "https://graph.microsoft.com/v1.0/sites/rahmnik.sharepoint.com/lists/testlist/items/" + employee_id + "/fields"
+      var body = {
+        "Status": "CheckedIn",
+      };
+
+      // Headers and body of request we want to send
+      var options = {
+          method: "PATCH",
+          headers: {
+            "Authorization": bearer,
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          body: JSON.stringify(body),
+      };
+
+      try{
+        fetch(endpoint, options)
+        .then(response => response.json())
+        .then(this.props.enqueueSnackbar(message, {
+          variant: "success",
+          autoHideDuration: timeout,
+          action: (
+            <Button size="small" variant="outlined" color="inherit" onClick={event => this.undoCheckIn(employee_id, employee_name)}>Undo</Button>
+          ),
+        }));
+      } catch(e){
+        this.props.enqueueSnackbar("Failed to Check-in " + employee_name, {
+          variant: "error",
+          autoHideDuration: timeout,
+        });
+        console.log(e);
+      }
+      
     }
-    notCheckedInArr.splice(index, 1);
-    markedSafeArr.push(temp);
-
-    // Sort the two lists of names
-    notCheckedInArr.sort();
-    markedSafeArr.sort();
-
-    this.setState({ markedSafe: markedSafeArr })
-    this.setState({ notCheckedIn: notCheckedInArr })
-    
   }
 
   /* Move user with name "value" into the Not Checked-in list */
-  undoCheckIn(index, value) {
-    let notCheckedInArr = this.state.notCheckedIn;
-    let markedSafeArr = this.state.markedSafe;
-    let temp = markedSafeArr[index];
+  undoCheckIn(employee_id, employee_name) {
 
-    // Special case where a name is being searched
-    if(this.state.search !== ''){
-      temp = value;
-      index = markedSafeArr.indexOf(value);
+    let employee_idTemp = employee_id + "";
 
+    const fetch = require('node-fetch');
+    console.log([employee_id, employee_name]);
+    let message = "Checked-Out: " + employee_name;
+    let timeout = 6000;
+
+    // If we have the user's access token, continue
+    if (localStorage.getItem('accessToken')) {
+      var bearer = "Bearer " + this.state.token;
+      var endpoint = "https://graph.microsoft.com/v1.0/sites/rahmnik.sharepoint.com/lists/testlist/items/" + employee_id + "/fields"
+      var body = {
+        "Status": "NotCheckedIn",
+      }
+
+      // Headers and body of request we want to send
+      var options = {
+          method: "PATCH",
+          headers: {
+            "Authorization": bearer,
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          body: JSON.stringify(body),
+      };
+
+      try{
+      fetch(endpoint, options)
+        .then(response => response.json())
+        .then(this.props.enqueueSnackbar(message, {
+          variant: "warning",
+          autoHideDuration: timeout,
+          action: (
+            <Button size="small" variant="outlined" color="inherit" onClick={event => this.checkIn(employee_id, employee_name)}>Undo</Button>
+          ),
+        }));
+      } catch(e){
+        this.props.enqueueSnackbar("Failed to Check-Out " + employee_name, {
+          variant: "error",
+          autoHideDuration: timeout,
+        });
+        console.log(e);
+      }
     }
-    markedSafeArr.splice(index, 1);
-    notCheckedInArr.push(temp);
-
-    // Sort the two lists of names
-    notCheckedInArr.sort();
-    markedSafeArr.sort();
-
-    this.setState({ markedSafe: markedSafeArr })
-    this.setState({ notCheckedIn: notCheckedInArr })
   }
 
   updateSearch(event) {
@@ -374,9 +432,9 @@ class ContactList extends Component {
         }
       }
     }
-    console.log(notCheckedInFiltered);
+
     let notCheckedIn = notCheckedInFiltered.map( elem => {
-      return <ContactSummary employeeList={employeeList} 
+      return <ContactSummary employeeList={employeeList} checkIn={this.checkIn} undoCheckIn={this.undoCheckIn}
       employeeInfo={
         {
           "id": elem.id,
@@ -392,7 +450,7 @@ class ContactList extends Component {
     });
 
     let safepeople = markedSafeFiltered.map(elem => {
-      return <ContactSummary employeeList={employeeList} 
+      return <ContactSummary employeeList={employeeList} checkIn={this.checkIn} undoCheckIn={this.undoCheckIn}
       employeeInfo={
         {
           "id": elem.id,
@@ -427,17 +485,21 @@ class ContactList extends Component {
 
     return (
       <div className="container">
+
+        {/* 1. Render all Checked-In and Not Checked-In employees */}
         <NoSsr>
           <div className={classes.root}>
             <AppBar position="sticky" color="primary" classes={{colorPrimary: classes.AppBar}}>
               <Toolbar>
+                <Paper elevation={1} className="searchWrapper">
+                  <IconButton onClick={this.handleNavDrawerOpen} color="black">
+                    <MenuIcon/>
+                  </IconButton>
 
-                <IconButton onClick={this.handleNavDrawerOpen} color="inherit">
-                  <MenuIcon/>
-                </IconButton>
-
-                {/* SEARCH BAR */}
-                <input type="text" className="searchBar" onChange={this.updateSearch.bind(this)} placeholder="Search User..." value={this.state.search}/>
+                  {/* SEARCH BAR */}
+                  <InputBase type="search" className="searchBar" onChange={this.updateSearch.bind(this)} placeholder="Search User..." value={this.state.search}/>
+                  <img src={require('./assets/search_icon.png')} className="searchIcon" height="28px" width="28px"/>
+                </Paper>
               </Toolbar>
 
               <Tabs variant="fullWidth" value={value} onChange={this.handleTabChange} indicatorColor="secondary">
@@ -454,6 +516,8 @@ class ContactList extends Component {
                 } />
               </Tabs>
             </AppBar>
+
+            {/* 1.1 If user is filtering by team leads, show the name at the top */}
             {((filterMetric[0] !== "name-increasing") && (filterMetric[0] !== "name-decreasing")) && 
               <div className="filterMessage">
                 <h3>
@@ -463,85 +527,86 @@ class ContactList extends Component {
               </div>}
             <Divider variant="middle"/>
             <SwipeableViews disabled={true} index={value} onChangeIndex={this.handleTabChange} axis={value === 0 ? 'x-reverse' : 'x'}>
-              {value === 0 && <div>{notCheckedIn}</div>}
-              {value === 1 && <div>{safepeople}</div>}
+              <div>{notCheckedIn}</div>
+              <div>{safepeople}</div>
             </SwipeableViews>
           </div>
         </NoSsr>
 
-          {isLoading && 
-          <div className="loadingCircle">
-            <CircularProgress color="primary" variant="indeterminate" classes={{colorPrimary: classes.CircularProgress}}/>
-            <br/>
-            <h4>Loading...</h4>
-          </div>}
+        {/* 1.2 Loading Circle while SharePoint data is being recieved */}
+        {isLoading && 
+        <div className="loadingCircle">
+          <CircularProgress color="primary" variant="indeterminate" classes={{colorPrimary: classes.CircularProgress}}/>
+          <br/>
+          <h4>Loading...</h4>
+        </div>}
 
-          {/* This Menu component handles which metric a user wants to sort the contact list by */}
-          <Menu
-          className="sortMenu" 
-          anchorEl={anchorEl} 
-          open={open} 
-          PaperProps={{
-            style: {
-              maxHeight: 200,
-              width: "60%",
-              maxWidth: 300,
-              float: 'right',
-            },
-          }}>
+        {/* 2. This Menu component handles which metric a user wants to sort the contact list by */}
+        <Menu
+        className="sortMenu" 
+        anchorEl={anchorEl} 
+        open={open} 
+        PaperProps={{
+          style: {
+            maxHeight: 200,
+            width: "60%",
+            maxWidth: 300,
+            float: 'right',
+          },
+        }}>
 
-          {/* Typography component is used for MenuItem text because it allows for ellipses on text-overflow */}
-              <MenuItem 
-              onClick={event => this.handleSearchFilterClose(event, ["name-increasing", "Name Increasing"])} 
-              selected={filterMetric[0] === "name-increasing"}>
-                <Typography variant="subheading" noWrap> Name: Ascending </Typography>
-              </MenuItem>
+        {/* Typography component is used for MenuItem text because it allows for ellipses on text-overflow */}
+            <MenuItem 
+            onClick={event => this.handleSearchFilterClose(event, ["name-increasing", "Name Increasing"])} 
+            selected={filterMetric[0] === "name-increasing"}>
+              <Typography variant="subheading" noWrap> Name: Ascending </Typography>
+            </MenuItem>
 
-              <MenuItem 
-              onClick={event => this.handleSearchFilterClose(event, ["name-decreasing", "Name Decreasing"])} 
-              selected={filterMetric[0] === "name-decreasing"}>
-                <Typography variant="subheading" noWrap> Name: Descending </Typography>
-              </MenuItem>
+            <MenuItem 
+            onClick={event => this.handleSearchFilterClose(event, ["name-decreasing", "Name Decreasing"])} 
+            selected={filterMetric[0] === "name-decreasing"}>
+              <Typography variant="subheading" noWrap> Name: Descending </Typography>
+            </MenuItem>
 
-              {menuItems}
-          </Menu>
+            {menuItems}
+        </Menu>
 
-          {/* Side navigation drawer */}
-          <Drawer anchor="left" open={this.state.navDrawerOpen} onClose={this.handleNavDrawerClose}>
-              <div tabIndex={0} role="button">
-                <List>
-                  <ListItem button onClick={this.handleSearchFilterClick} color="inherit">
-                    <ListItemText primary="Filter/Sort Contacts" secondary={filterMetric[1]}/>
-                    <ExpandMoreIcon/>
-                  </ListItem>
+        {/* 3. Side navigation drawer */}
+        <Drawer anchor="left" open={this.state.navDrawerOpen} onClose={this.handleNavDrawerClose}>
+            <div tabIndex={0} role="button">
+              <List>
+                <ListItem button onClick={this.handleSearchFilterClick} color="inherit">
+                  <ListItemText primary="Filter/Sort Contacts" secondary={filterMetric[1]}/>
+                  <ExpandMoreIcon/>
+                </ListItem>
 
-                  <Divider/>
+                <Divider/>
 
-                  <ListItem button onClick={this.handleBulkMessageModalOpen}>
-                    <ListItemIcon>
-                      <SendIcon/>
-                    </ListItemIcon>
-                    <ListItemText primary="Bulk Message"/>
-                  </ListItem>
+                <ListItem button onClick={this.handleBulkMessageModalOpen}>
+                  <ListItemIcon>
+                    <SendIcon/>
+                  </ListItemIcon>
+                  <ListItemText primary="Bulk Message"/>
+                </ListItem>
 
-                  <ListItem button>
-                    <ListItemIcon>
-                      <ExitToAppIcon/>
-                    </ListItemIcon>
-                    <ListItemText primary="Logout"/>
-                  </ListItem>
-                </List>
-              </div>
-          </Drawer>
+                <ListItem button>
+                  <ListItemIcon>
+                    <ExitToAppIcon/>
+                  </ListItemIcon>
+                  <ListItemText primary="Logout"/>
+                </ListItem>
+              </List>
+            </div>
+        </Drawer>
 
-          {/* Pop-up dialog for sending bulk messages */}
-          <Dialog fullScreen open={this.state.bulkMessageOpen} onClose={this.handleBulkMessageModalClose} TransitionComponent={TransitionUp} scroll="paper">
-            <BulkMessageModal handleClose={this.handleBulkMessageModalClose} notCheckedIn={notCheckedInArray}/>
-          </Dialog>
+        {/* 4. Pop-up dialog for sending bulk messages */}
+        <Dialog fullScreen open={this.state.bulkMessageOpen} onClose={this.handleBulkMessageModalClose} TransitionComponent={TransitionUp} scroll="paper">
+          <BulkMessageModal handleClose={this.handleBulkMessageModalClose} notCheckedIn={notCheckedInArray}/>
+        </Dialog>
           
       </div>
     );
   }
 };
 
-export default withStyles(styles)(ContactList);
+export default withSnackbar(withStyles(styles)(ContactList));
