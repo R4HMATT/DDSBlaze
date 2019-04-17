@@ -108,9 +108,9 @@ class BulkMessageModal extends React.Component{
                 <div className="dialogContent">
                     <div className="sendMessage">
                         <div className="to">
-                            <ExpansionPanel elevation="0">
+                            <ExpansionPanel elevation={0}>
                                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
-                                    <h7>{"To: " + numEmployees + " Employee(s)"}</h7>
+                                    <h4>{"To: " + numEmployees + " Employee(s)"}</h4>
                                 </ExpansionPanelSummary>
                                 <ExpansionPanelDetails>
                                     <div>
