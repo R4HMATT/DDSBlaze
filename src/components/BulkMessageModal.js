@@ -1,17 +1,14 @@
 import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Chip from '@material-ui/core/Chip';
-import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import SendIcon from '@material-ui/icons/Send';
@@ -67,6 +64,7 @@ class BulkMessageModal extends React.Component{
                 })
             );
         }
+        console.log(response);
         return (
             this.props.enqueueSnackbar(response.error.message, {
             variant: "error",
@@ -78,8 +76,10 @@ class BulkMessageModal extends React.Component{
         );
     }
 
-    /* Send the Email/SMS user has written */
-    handleMessageSend(){
+    /** Send the Email/SMS user has written 
+     * (array) => null
+    */
+    handleMessageSend(recipients){
         const fetch = require('node-fetch');
         let endpoint = "https://graph.microsoft.com/v1.0/me/sendMail";
 
@@ -99,18 +99,7 @@ class BulkMessageModal extends React.Component{
                         "contentType": "Text",
                         "content": "body content"
                     },
-                    "toRecipients": [
-                        {
-                        "emailAddress": {
-                            "address": "bilal.009@hotmail.com"
-                        }
-                        },
-                        {
-                        "emailAddress": {
-                            "address": "bahmed4343@gmail.com"
-                        }
-                        }
-                    ],
+                    "toRecipients": recipients,
                     },
                 };
           
@@ -128,16 +117,7 @@ class BulkMessageModal extends React.Component{
                 fetch(endpoint, options)
                 .then(response => response.json())
                 .then(response => this.handleResponse(response));
-
-                // this.props.enqueueSnackbar("Sent Email", {
-                //     variant: "success",
-                //     autoHideDuration: 5000,
-                //     action: (
-                //         <Button size="small" variant="outlined" color="inherit">Dismiss</Button>
-                //     ),
-                //     })
               }
-            // alert("Sent the following Email: \n\n" + "Subject: " + this.state.subjectValue + " \n\nBody: \n" + this.state.emailBodyValue);
         }
         
     }
@@ -158,12 +138,20 @@ class BulkMessageModal extends React.Component{
     }
 
     render(){
+        // Emails of all employees not checked-in
+        let emails = [];
+
         // The names of all not checked-in employees are displayed as Chip components
         let notCheckedIn = this.props.notCheckedIn;
         let employeeChips = notCheckedIn.map(elem => {
+            emails.push({
+                "emailAddress": {
+                    "address": elem.fields.Work_x0020_Email
+                }
+            });
             return <Chip label={elem.fields.Title + " " + elem.fields.Last_x0020_Name} classes={{root: "chips"}}/>
         });
-        
+
         const { value } = this.state;
         const numEmployees = notCheckedIn.length;
         return (
@@ -214,7 +202,7 @@ class BulkMessageModal extends React.Component{
                 </div>
 
                 <DialogActions>
-                    <Button variant="text" onClick={this.handleMessageSend} color="primary">
+                    <Button variant="text" onClick={event => this.handleMessageSend(emails)} color="primary">
                         <h3>Send</h3>
                         <SendIcon/>
                     </Button>
