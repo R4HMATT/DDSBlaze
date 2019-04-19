@@ -5,6 +5,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import Divider from '@material-ui/core/Divider';
+import InputBase from '@material-ui/core/InputBase';
 import TextField from '@material-ui/core/TextField';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -14,8 +16,19 @@ import IconButton from '@material-ui/core/IconButton';
 import SendIcon from '@material-ui/icons/Send';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CloseIcon from '@material-ui/icons/Close';
+import { withStyles } from '@material-ui/core/styles';
 import { withSnackbar } from 'notistack';
 import './BulkMessageModal.css';
+
+const styles = theme => ({
+    root: {
+      flexGrow: 1,
+      backgroundColor: "white",
+    },
+    AppBar: {
+      backgroundColor: '#0483e8',
+    },
+  });
 
 class BulkMessageModal extends React.Component{
 
@@ -153,16 +166,17 @@ class BulkMessageModal extends React.Component{
         });
 
         const { value } = this.state;
+        const { classes } = this.props;
         const numEmployees = notCheckedIn.length;
         return (
             <div>
-                <AppBar position="static" color="default">
+                <AppBar position="static" color="primary" classes={{colorPrimary: classes.AppBar}}>
                     <Toolbar>
                         <div className="heading">
                             Send Bulk Message
                         </div>
 
-                        <IconButton variant="text" onClick={this.handleDialogClose} color="default">
+                        <IconButton variant="text" onClick={this.handleDialogClose} color="inherit">
                             <CloseIcon/>
                         </IconButton>
                     </Toolbar>
@@ -190,7 +204,7 @@ class BulkMessageModal extends React.Component{
                         </div>
 
                         {value === 0 && <div className="subject">
-                            <TextField hidden dense="true" variant="outlined" label="Subject" 
+                            <TextField fullWidth hidden dense="true" variant="outlined" label="Subject" 
                             margin="none" onChange={this.updateSubject} value={this.state.subjectValue}/>
                         </div>}
                         
@@ -212,4 +226,4 @@ class BulkMessageModal extends React.Component{
     }
 }
 
-export default withSnackbar(BulkMessageModal);
+export default withSnackbar(withStyles(styles)(BulkMessageModal));

@@ -110,14 +110,23 @@ class ContactList extends Component {
       filterMetric: ['name-increasing', 'Name Increasing'],
       searchFilterOpen: {anchorEl: null},
       emergContacts: ContactCard,
+      currSnack: 0,
     }
   }
 
   setUp() {
     let notCheckedInArr = [];
     let checkedInArr = [];
+    let contacts = [];
+
     if (this.state.isLoading === false) {
-      let contacts = JSON.parse(this.state.contacts);
+      try{
+        contacts = JSON.parse(this.state.contacts);
+      } catch(e){
+        // Logout user if time-out happens
+        this.handleLogOut();
+      }
+
       let notCheckedInArr = [];
       let checkedInArr = [];
       for(var i = 0; i < contacts.length; i++) {
@@ -345,31 +354,32 @@ class ContactList extends Component {
   };
 
   /** Handle MS Graph response to PATCH request
-   * (object, int, string, string, string, int) => <Snackbar/>
+   * (object, int, string, string, string, int) => null
    */
   handleResponse(response, employee_id, employee_name, status, message, timeout){
+    let snackKey = 0;
+    this.props.closeSnackbar(this.state.currSnack);
+
     if(response.ok){
       // Return success snackbar since the PATCH request went through
-      return(
-          this.props.enqueueSnackbar(message, {
-          variant: (status === "CheckedIn" ? "warning" : "success"),
-          autoHideDuration: timeout,
-          action: (
-              <Button size="small" variant="outlined" color="inherit" onClick={
-                event => (status === "CheckedIn" ? this.checkIn(employee_id, employee_name) :  this.undoCheckIn(employee_id, employee_name))}>Undo</Button>
-          ),
-        })
-      );
-    }
-    return (
-        this.props.enqueueSnackbar(response.error.message, {
-        variant: "error",
-        autoHideDuration: 10000,
-        action: (
-            <Button size="small" variant="outlined" color="inherit">Dismiss</Button>
+      snackKey = this.props.enqueueSnackbar(message, {
+      variant: (status === "CheckedIn" ? "warning" : "success"),
+      autoHideDuration: timeout,
+      action: (
+          <Button size="small" variant="outlined" color="inherit" onClick={
+            event => (status === "CheckedIn" ? this.checkIn(employee_id, employee_name) :  this.undoCheckIn(employee_id, employee_name))}>Undo</Button>
         ),
-      })
-    );
+      });
+    } else{
+      snackKey = this.props.enqueueSnackbar(response.error.message, {
+      variant: "error",
+      autoHideDuration: 10000,
+      action: (
+          <Button size="small" variant="outlined" color="inherit">Dismiss</Button>
+        ),
+      });
+    }
+    this.setState({currSnack: snackKey});
 	}
 	
 	handleLogOut(){

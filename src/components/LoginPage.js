@@ -106,7 +106,7 @@ class LoginPage extends Component {
       localStorage.removeItem("accessToken");
       this.deleteCookies();
 
-      this.props.enqueueSnackbar("You are not authorized to access this resource", {
+      const key = this.props.enqueueSnackbar("You are not authorized to access this resource", {
         variant: "error",
         autoHideDuration: 10000,
         preventDuplicate: true,
