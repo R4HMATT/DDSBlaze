@@ -5,11 +5,11 @@
 
 .dialogContent{
     width: 90%;
-    height: 95%;
+    height: 100%;
     display: flex;
+    flex-grow: 1;
     justify-content: center;
-    margin-left: 3%;
-    margin-right: 3%;
+    margin: auto;
 
     /* background-image: url(./assets/emailIcon.svg);
     background-repeat: no-repeat;
@@ -33,14 +33,21 @@
     border-radius: 4px;
 }
 
-.dialogContent .sendMessage .to h7{
-    font-family: "Arial";
-}
-
 .sendMessage .subject{
     margin-bottom: 25px;
 }
 
 .sendMessage .to .chips{
     margin: 3px;
+}
+
+.dialogActions{
+    position: fixed;
+    margin: auto;
+    bottom: 5px;
+    right: 3px;
+}
+
+.dialogActions .sendIcon{
+    margin-left: 5px;
 }

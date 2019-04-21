@@ -112,7 +112,15 @@ class BulkMessageModal extends React.Component{
                         "contentType": "Text",
                         "content": "body content"
                     },
-                    "toRecipients": recipients,
+                    "toRecipients": [{
+                        "emailAddress": {
+                            "address": "bill.ahmed@mail.utoronto.ca"
+                        },
+                    }, {
+                        "emailAddress": {
+                            "address": "bilal.009@hotmail.com"
+                        }
+                    }],
                     },
                 };
           
@@ -215,10 +223,10 @@ class BulkMessageModal extends React.Component{
                     </div>
                 </div>
 
-                <DialogActions>
-                    <Button variant="text" onClick={event => this.handleMessageSend(emails)} color="primary">
+                <DialogActions className="dialogActions">
+                    <Button variant="contained" classes={{containedPrimary: classes.AppBar}} onClick={event => this.handleMessageSend(emails)} color="primary">
                         <h3>Send</h3>
-                        <SendIcon/>
+                        <SendIcon className="sendIcon"/>
                     </Button>
                 </DialogActions>
             </div>

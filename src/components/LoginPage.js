@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
 import './LoginPage.css';
 import HttpsRedirect from 'react-https-redirect';
 import getAccessToken from '../accessRequest.js';
@@ -30,10 +31,17 @@ class LoginPage extends Component {
     isAuth: false,
     list: '',
     intervalIsSet: null,
+    successSnack: 0,
+    errorSnack: 0,
+    userInfo: {},
+    userPhoto: {},
     };
 
     this.handleClick = this.handleClick.bind(this);
     this.verifyAuth = this.verifyAuth.bind(this);
+
+    this.getUserInfo = this.getUserInfo.bind(this);
+
     this.handleResponse = this.handleResponse.bind(this);
     this.deleteCookies = this.deleteCookies.bind(this);
   }
@@ -58,7 +66,7 @@ class LoginPage extends Component {
   componentDidMount() {
     this.verifyAuth();
     if (!this.state.intervalIsSet) {
-      let interval = setInterval(this.verifyAuth, 500);
+      let interval = setInterval(this.verifyAuth, 2000);
       this.setState({ intervalIsSet: interval });
     }
   };
@@ -84,6 +92,34 @@ class LoginPage extends Component {
 
       fetch(SP.sharepoint.list_address, options)
         .then(response => this.handleResponse(response));
+    } else{
+      this.setState({isAuth: false});
+      this.props.closeSnackbar(this.state.successSnack);
+    }
+    this.getUserInfo();
+  }
+
+  /**A function to fetch current user information such as name
+   * () => object
+   */
+  getUserInfo(){
+    const fetch = require('node-fetch');
+
+    // If we have user's access token
+    if(localStorage.getItem("accessToken")){
+        var bearer = "Bearer " + this.state.token;
+        var endpoint = "https://graph.microsoft.com/v1.0/me/"
+        var options = {
+            method: "GET",
+            headers: {
+                "Authorization": bearer,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        }
+        fetch(endpoint, options)
+        .then(response => response.json())
+        .then(res => {this.setState({userInfo: res})});
     }
   }
 
@@ -91,22 +127,30 @@ class LoginPage extends Component {
    * (object) => null
    */
   handleResponse(response){
+    let newSnack = 0;
     if(response.ok){
-      this.setState({isAuth: true});
-      this.props.enqueueSnackbar("Successfully Logged-in", {
+      // Close any existing error snackbars and open success one
+      this.props.closeSnackbar(this.state.errorSnack);
+
+      newSnack = this.props.enqueueSnackbar("Successfully Logged-in", {
         variant: "success",
         autoHideDuration: 10000,
         preventDuplicate: true,
         persist: true,
       });
 
+      this.setState({successSnack: newSnack});
+      this.setState({isAuth: true});
+
     } else{
-      
+      // Close any existing success snackbars and open new error one
+      this.props.closeSnackbar(this.state.successSnack);
+
       // Remove all cookies and access token
       localStorage.removeItem("accessToken");
       this.deleteCookies();
 
-      const key = this.props.enqueueSnackbar("You are not authorized to access this resource", {
+      newSnack = this.props.enqueueSnackbar("You are not authorized to access this resource", {
         variant: "error",
         autoHideDuration: 10000,
         preventDuplicate: true,
@@ -115,6 +159,8 @@ class LoginPage extends Component {
             <Button size="small" variant="outlined" color="inherit">Dismiss</Button>
         ),
       });
+
+      this.setState({errorSnack: newSnack});
     }
   }
 
@@ -131,6 +177,14 @@ class LoginPage extends Component {
   }
 
   render() {
+    console.log(this.state.userInfo)
+    console.log(this.state.userPhoto)
+
+    // Store the logged-in person's name
+    localStorage.setItem("userFullName", this.state.userInfo.displayName);
+    localStorage.setItem("userFirstName", this.state.userInfo.givenName);
+    localStorage.setItem("userLastName", this.state.userInfo.surname);
+
     const {classes} = this.props;
     return (
       <HttpsRedirect>

@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import ContactSummary from './ContactSummary.js';
 import ContactCard from './ContactCard.js';
 import BulkMessageModal from './BulkMessageModal';
+import ContactLoginInfo from './ContactLoginInfo';
 import Paper from '@material-ui/core/Paper';
 import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
@@ -153,7 +154,7 @@ class ContactList extends Component {
   componentDidMount() {
     this.getSPlist();
     if (!this.state.intervalIsSet) {
-      let interval = setInterval(this.getSPlist, 200);
+      let interval = setInterval(this.getSPlist, 1000);
       this.setState({ intervalIsSet: interval });
     }
   };
@@ -231,6 +232,7 @@ class ContactList extends Component {
       fetch(endpoint, options)
       .then(response => this.handleResponse(response, employee_id, employee_name, "NotCheckedIn", message, timeout));
     }
+    this.getSPlist();
   }
 
   /** Update status of user with ID employee_id to "NotCheckedIn" 
@@ -267,7 +269,10 @@ class ContactList extends Component {
     fetch(endpoint, options)
       .then(response => this.handleResponse(response, employee_id, employee_name, "CheckedIn", message, timeout));
     }
+    this.getSPlist();
   }
+
+
 
   /** Update the search box with what the user types in
    * (object) => null
@@ -383,8 +388,8 @@ class ContactList extends Component {
 	}
 	
 	handleLogOut(){
-		this.deleteCookies();
-		localStorage.removeItem("accessToken");
+    localStorage.removeItem("accessToken");
+    this.deleteCookies();
 		window.location.assign("/");
 	}
 
@@ -622,6 +627,9 @@ class ContactList extends Component {
         {/* 3. Side navigation drawer */}
         <Drawer anchor="left" open={this.state.navDrawerOpen} onClose={this.handleNavDrawerClose}>
             <div tabIndex={0} role="button">
+              <ContactLoginInfo/>
+              <Divider/>
+
               <List>
                 <ListItem button onClick={this.handleSearchFilterClick} color="inherit">
                   <ListItemText primary="Filter/Sort Contacts" secondary={filterMetric[1]}/>
