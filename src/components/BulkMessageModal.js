@@ -5,8 +5,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import Divider from '@material-ui/core/Divider';
-import InputBase from '@material-ui/core/InputBase';
 import TextField from '@material-ui/core/TextField';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -68,7 +66,7 @@ class BulkMessageModal extends React.Component{
         if(response.ok){
             // Return success snackbar since the POST request went through
             return(
-                this.props.enqueueSnackbar("Sent Email", {
+                this.props.enqueueSnackbar(`Sent Email to ${this.props.notCheckedIn.length} recipients`, {
                 variant: "success",
                 autoHideDuration: 5000,
                 action: (
@@ -107,20 +105,12 @@ class BulkMessageModal extends React.Component{
                 var bearer = "Bearer " + localStorage.getItem("accessToken");
                 var body = {
                 "message": {
-                    "subject": "ms graph email",
+                    "subject": this.state.subjectValue,
                     "body": {
                         "contentType": "Text",
-                        "content": "body content"
+                        "content": this.state.emailBodyValue
                     },
-                    "toRecipients": [{
-                        "emailAddress": {
-                            "address": "bill.ahmed@mail.utoronto.ca"
-                        },
-                    }, {
-                        "emailAddress": {
-                            "address": "bilal.009@hotmail.com"
-                        }
-                    }],
+                    "toRecipients": recipients,
                     },
                 };
           
@@ -136,7 +126,6 @@ class BulkMessageModal extends React.Component{
                 };
           
                 fetch(endpoint, options)
-                .then(response => response.json())
                 .then(response => this.handleResponse(response));
               }
         }

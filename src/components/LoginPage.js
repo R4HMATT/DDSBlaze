@@ -149,6 +149,7 @@ class LoginPage extends Component {
       // Remove all cookies and access token
       localStorage.removeItem("accessToken");
       this.deleteCookies();
+      this.setState({isAuth: false});
 
       newSnack = this.props.enqueueSnackbar("You are not authorized to access this resource", {
         variant: "error",
@@ -177,8 +178,6 @@ class LoginPage extends Component {
   }
 
   render() {
-    console.log(this.state.userInfo)
-    console.log(this.state.userPhoto)
 
     // Store the logged-in person's name
     localStorage.setItem("userFullName", this.state.userInfo.displayName);
