@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import ContactSummary from './ContactSummary.js';
 import ContactCard from './ContactCard.js';
 import BulkMessageModal from './BulkMessageModal';
+import ContactLoginInfo from './ContactLoginInfo';
 import Paper from '@material-ui/core/Paper';
 import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
@@ -90,6 +91,11 @@ class ContactList extends Component {
     this.handleBulkMessageModalOpen = this.handleBulkMessageModalOpen.bind(this);
     this.handleBulkMessageModalClose = this.handleBulkMessageModalClose.bind(this);
 
+		this.handleResponse = this.handleResponse.bind(this);
+		
+		this.deleteCookies = this.deleteCookies.bind(this);
+		this.handleLogOut = this.handleLogOut.bind(this);
+
     this.getNameByID = this.getNameByID.bind(this);
 
     this.state = {
@@ -105,14 +111,23 @@ class ContactList extends Component {
       filterMetric: ['name-increasing', 'Name Increasing'],
       searchFilterOpen: {anchorEl: null},
       emergContacts: ContactCard,
+      currSnack: 0,
     }
   }
 
   setUp() {
     let notCheckedInArr = [];
     let checkedInArr = [];
+    let contacts = [];
+
     if (this.state.isLoading === false) {
-      let contacts = JSON.parse(this.state.contacts);
+      try{
+        contacts = JSON.parse(this.state.contacts);
+      } catch(e){
+        // Logout user if time-out happens
+        this.handleLogOut();
+      }
+
       let notCheckedInArr = [];
       let checkedInArr = [];
       for(var i = 0; i < contacts.length; i++) {
@@ -139,7 +154,7 @@ class ContactList extends Component {
   componentDidMount() {
     this.getSPlist();
     if (!this.state.intervalIsSet) {
-      let interval = setInterval(this.getSPlist, 200);
+      let interval = setInterval(this.getSPlist, 1000);
       this.setState({ intervalIsSet: interval });
     }
   };
@@ -185,7 +200,9 @@ class ContactList extends Component {
     this.setState({ noteText: noteText.target.value })
   }
 
-  /* Move user with name "value" into the Checked-in list */
+  /** Update status of user with ID employee_id to "CheckedIn" 
+   * (int, string) => null
+   */
   checkIn(employee_id, employee_name) {
 
     const fetch = require('node-fetch');
@@ -212,28 +229,15 @@ class ContactList extends Component {
           body: JSON.stringify(body),
       };
 
-      try{
-        fetch(endpoint, options)
-        .then(response => response.json())
-        .then(this.props.enqueueSnackbar(message, {
-          variant: "success",
-          autoHideDuration: timeout,
-          action: (
-            <Button size="small" variant="outlined" color="inherit" onClick={event => this.undoCheckIn(employee_id, employee_name)}>Undo</Button>
-          ),
-        }));
-      } catch(e){
-        this.props.enqueueSnackbar("Failed to Check-in " + employee_name, {
-          variant: "error",
-          autoHideDuration: timeout,
-        });
-        console.log(e);
-      }
-      
+      fetch(endpoint, options)
+      .then(response => this.handleResponse(response, employee_id, employee_name, "NotCheckedIn", message, timeout));
     }
+    this.getSPlist();
   }
 
-  /* Move user with name "value" into the Not Checked-in list */
+  /** Update status of user with ID employee_id to "NotCheckedIn" 
+   * (int, string) => null
+   */
   undoCheckIn(employee_id, employee_name) {
 
     let employee_idTemp = employee_id + "";
@@ -262,26 +266,17 @@ class ContactList extends Component {
           body: JSON.stringify(body),
       };
 
-      try{
-      fetch(endpoint, options)
-        .then(response => response.json())
-        .then(this.props.enqueueSnackbar(message, {
-          variant: "warning",
-          autoHideDuration: timeout,
-          action: (
-            <Button size="small" variant="outlined" color="inherit" onClick={event => this.checkIn(employee_id, employee_name)}>Undo</Button>
-          ),
-        }));
-      } catch(e){
-        this.props.enqueueSnackbar("Failed to Check-Out " + employee_name, {
-          variant: "error",
-          autoHideDuration: timeout,
-        });
-        console.log(e);
-      }
+    fetch(endpoint, options)
+      .then(response => this.handleResponse(response, employee_id, employee_name, "CheckedIn", message, timeout));
     }
+    this.getSPlist();
   }
 
+
+
+  /** Update the search box with what the user types in
+   * (object) => null
+   */
   updateSearch(event) {
     this.setState({search: event.target.value});
 
@@ -303,13 +298,30 @@ class ContactList extends Component {
     } else{
       return 0;
     }
-  }
+	}
+	
+	/** Remove all cookies from client side */
+	deleteCookies(){
+		let cookies = document.cookie.split(";");
 
-  /*Handle opening the popup sorting  */
+		for(let i = 0; i < cookies.length; i++){
+			let cookie = cookies[i];
+			let eqPos = cookie.indexOf("=");
+			let name = eqPos > -1 ? cookies.substr(0, eqPos) : cookies;
+			document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+		}
+	}
+
+  /** Handle opening the popup sorting list 
+   * (object) => null
+  */
   handleSearchFilterClick(event){
     this.setState({searchFilterOpen: {anchorEl: event.currentTarget}});
   }
 
+  /** Handle closing the popup sorting list 
+   * (object, string) => null
+  */
   handleSearchFilterClose(event, metric){
     if(metric !== "null"){
       this.setState({filterMetric: metric});
@@ -318,31 +330,72 @@ class ContactList extends Component {
     this.handleNavDrawerClose();
   }
 
-  /*A function to handle opening the side nav drawer */
+  /** A function to handle opening the side nav drawer */
   handleNavDrawerOpen(){
     this.setState({navDrawerOpen: true});
   }
 
-  /*A function to handle closing the side navigation drawer */
+  /** A function to handle closing the side navigation drawer */
   handleNavDrawerClose(){
     this.setState({navDrawerOpen: false});
   }
 
+  /** Open the Bulk Message modal for sending mass emails/text */
   handleBulkMessageModalOpen(){
     this.setState({bulkMessageOpen: true});
     this.handleNavDrawerClose();
   }
 
+  /** Close the Bulk Message modal for sending mass emails/text */
   handleBulkMessageModalClose(){
     this.setState({bulkMessageOpen: false});
   }
 
+  /** Handle which tab the user is viewing ie. Checked-In vs Not Checked-In  
+   * (object, int) => null
+  */
   handleTabChange = (event, value) => {
     this.setState({ value });
   };
 
-  /*A function to return the name of an employee given their ID 
-    (string, array) -> string */
+  /** Handle MS Graph response to PATCH request
+   * (object, int, string, string, string, int) => null
+   */
+  handleResponse(response, employee_id, employee_name, status, message, timeout){
+    let snackKey = 0;
+    this.props.closeSnackbar(this.state.currSnack);
+
+    if(response.ok){
+      // Return success snackbar since the PATCH request went through
+      snackKey = this.props.enqueueSnackbar(message, {
+      variant: (status === "CheckedIn" ? "warning" : "success"),
+      autoHideDuration: timeout,
+      action: (
+          <Button size="small" variant="outlined" color="inherit" onClick={
+            event => (status === "CheckedIn" ? this.checkIn(employee_id, employee_name) :  this.undoCheckIn(employee_id, employee_name))}>Undo</Button>
+        ),
+      });
+    } else{
+      snackKey = this.props.enqueueSnackbar(response.error.message, {
+      variant: "error",
+      autoHideDuration: 10000,
+      action: (
+          <Button size="small" variant="outlined" color="inherit">Dismiss</Button>
+        ),
+      });
+    }
+    this.setState({currSnack: snackKey});
+	}
+	
+	handleLogOut(){
+    localStorage.removeItem("accessToken");
+    this.deleteCookies();
+		window.location.assign("/");
+	}
+
+  /** A function to return the name of an employee given their ID 
+   * (string, array) -> string 
+   */
   getNameByID(employeeID, employeeList){
     for(let i = 0; i < employeeList.length; i++){
       if(employeeList[i]["id"] === employeeID){
@@ -574,6 +627,9 @@ class ContactList extends Component {
         {/* 3. Side navigation drawer */}
         <Drawer anchor="left" open={this.state.navDrawerOpen} onClose={this.handleNavDrawerClose}>
             <div tabIndex={0} role="button">
+              <ContactLoginInfo/>
+              <Divider/>
+
               <List>
                 <ListItem button onClick={this.handleSearchFilterClick} color="inherit">
                   <ListItemText primary="Filter/Sort Contacts" secondary={filterMetric[1]}/>
@@ -593,7 +649,7 @@ class ContactList extends Component {
                   <ListItemIcon>
                     <ExitToAppIcon/>
                   </ListItemIcon>
-                  <ListItemText primary="Logout"/>
+                  <ListItemText primary="Logout" onClick={this.handleLogOut}/>
                 </ListItem>
               </List>
             </div>
