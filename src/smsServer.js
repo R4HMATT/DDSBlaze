@@ -1,6 +1,8 @@
 var Twilio = require('twilio');
-const twilioConnection = require('./Connection.json');
 const express = require('express');
+const bodyParser = require('body-parser');
+const twilioConnection = require('./Connection.json');
+
 const app = express();
 const port = process.env.PORT || 9000;
 
@@ -26,17 +28,21 @@ app.use(function(req, res, next) {
  * (String, function(object, object)) => null
  */
 // create a POST route for SMS
-app.post('/sendSMS', (req, res) => {
+app.post('/sendSMS', bodyParser.json(), (req, res) => {
+  console.log(req.body.recipients);
 
   // Call twilio API
-  try{
-    client.messages.create({
-      body: req.smsBody,
-      to: req.recipient,
-      from: "+16473608497"
-    }).then((message) => {res.json({ "response": message })});
-  } catch(e){
-    res.json({"error" : e});
+  for(let i = 0; i < req.body.recipients.length; i++){
+    try{
+      client.messages.create({
+        body: req.body.smsBody,
+        to: req.body.recipients[i],
+        from: "+16473608497"
+      }).then((message) => {res.json({ "twilioResponse": message })});
+    } catch(e){
+      console.log(e);
+      res.json({"Error" : e});
+    }
   }
 
 });

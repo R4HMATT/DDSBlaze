@@ -99,8 +99,12 @@ class BulkMessageModal extends React.Component{
 
             fetch('http://localhost:9000/sendSMS', {
                 method: "POST",
-                recipient: smsRecipients[0],
-                smsBody: this.state.smsBodyValue
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(
+                    {"recipients": smsRecipients, "smsBody": this.state.smsBodyValue})
             })
             .then(res => res.json())
             .then(resp => console.log(resp));

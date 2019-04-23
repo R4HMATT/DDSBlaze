@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^3.9.2",
     "@material-ui/icons": "^3.0.2",
+    "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "json-parser": "^1.1.5",
     "material-ui-search-bar": "^0.4.2",
