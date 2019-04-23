@@ -45,6 +45,7 @@ class BulkMessageModal extends React.Component{
             subjectValue: "**Fire Alarm Activated**",
             emailBodyValue: "**[ATTENTION]**\n\nEmergency Fire Alarm has been activated. Please navigate to the designated area.",
             smsBodyValue: "**[ATTENTION]**\n\nEmergency Fire Alarm has been activated. Please navigate to the designated area.",
+            sendingMessage: false,
         }
     }
 
@@ -62,11 +63,11 @@ class BulkMessageModal extends React.Component{
     /** Handle reponse from MS Graph POST request
      * (object) => <Snackbar/>
      */
-    handleResponse(response){
+    handleResponse(response, responseType){
         if(response.ok){
             // Return success snackbar since the POST request went through
             return(
-                this.props.enqueueSnackbar(`Sent Email to ${this.props.notCheckedIn.length} recipients`, {
+                this.props.enqueueSnackbar(`Sent ${responseType} to ${this.props.notCheckedIn.length} recipient(s)`, {
                 variant: "success",
                 autoHideDuration: 5000,
                 action: (
@@ -90,16 +91,40 @@ class BulkMessageModal extends React.Component{
     /** Send the Email/SMS user has written 
      * (array) => null
     */
-    handleMessageSend(recipients){
+    handleMessageSend(emailRecipients, smsRecipients){
         const fetch = require('node-fetch');
         let endpoint = "https://graph.microsoft.com/v1.0/me/sendMail";
 
+        // Disabled the "Send" button
+        this.setState({sendingMessage: true});
+
         // If user is in the SMS tab
         if(this.state.value){
-            alert("Sent SMS: \n\n" + this.state.smsBodyValue);
+            try{
+                fetch('http://localhost:9000/_api/sendSMS', {
+                method: "POST",
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(
+                    {"recipients": smsRecipients, "smsBody": this.state.smsBodyValue})
+                })
+                .then(res => res.json())
+                .then(resp => {
+                    // Enable "Send" button
+                    this.setState({sendingMessage: false});
+                    this.handleResponse(resp, "SMS")});
+            }catch(e){
+                console.log(e);
+                // If error is thrown, then the api server is most likely not running
+                this.handleResponse({"error": {"message": "Unable to send request to Twilio API"}}, "SMS");
+                this.setState({sendingMessage: false});
+            }
+            
+
+            // alert("Sent SMS: \n\n" + this.state.smsBodyValue);
         } else{
-            let subjectValue = this.state.subjectValue;
-            let emailBodyValue = this.state.emailBodyValue;
 
             if (localStorage.getItem('accessToken')) {
                 var bearer = "Bearer " + localStorage.getItem("accessToken");
@@ -110,7 +135,7 @@ class BulkMessageModal extends React.Component{
                         "contentType": "Text",
                         "content": this.state.emailBodyValue
                     },
-                    "toRecipients": recipients,
+                    "toRecipients": emailRecipients,
                     },
                 };
           
@@ -126,7 +151,10 @@ class BulkMessageModal extends React.Component{
                 };
           
                 fetch(endpoint, options)
-                .then(response => this.handleResponse(response));
+                .then(response => {
+                    // Enable "Send" button
+                    this.setState({sendingMessage: false});
+                    this.handleResponse(response, "Email")});
               }
         }
         
@@ -150,7 +178,8 @@ class BulkMessageModal extends React.Component{
     render(){
         // Emails of all employees not checked-in
         let emails = [];
-
+        let sms = [];
+        // console.log(this.props.notCheckedIn)
         // The names of all not checked-in employees are displayed as Chip components
         let notCheckedIn = this.props.notCheckedIn;
         let employeeChips = notCheckedIn.map(elem => {
@@ -159,6 +188,7 @@ class BulkMessageModal extends React.Component{
                     "address": elem.fields.Work_x0020_Email
                 }
             });
+            sms.push(elem.fields._x0066_pv8);
             return <Chip label={elem.fields.Title + " " + elem.fields.Last_x0020_Name} classes={{root: "chips"}}/>
         });
 
@@ -213,7 +243,7 @@ class BulkMessageModal extends React.Component{
                 </div>
 
                 <DialogActions className="dialogActions">
-                    <Button variant="contained" classes={{containedPrimary: classes.AppBar}} onClick={event => this.handleMessageSend(emails)} color="primary">
+                    <Button variant="contained" disabled={this.state.sendingMessage} classes={{containedPrimary: classes.AppBar}} onClick={event => this.handleMessageSend(emails, sms)} color="primary">
                         <h3>Send</h3>
                         <SendIcon className="sendIcon"/>
                     </Button>
