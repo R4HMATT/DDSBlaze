@@ -17,17 +17,14 @@ var client = new Twilio(accountSid, authToken);
 // console.log that your server is up and running
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
-// Enable CORS
+/* Enabls CORS */
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
 
-/**Create a POST route for sending SMS to a number req.recipients with body req.smsBody
- * (String, function(object, object)) => null
- */
-// create a POST route for SMS
+/* Create a POST route for sending SMS to a number req.recipients with body req.smsBody */
 app.post('/_api/sendSMS', bodyParser.json(), (req, res) => {
   console.log(req.body.recipients);
   res.header("Content-Type", "application/json");
