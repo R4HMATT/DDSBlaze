@@ -28,8 +28,9 @@ app.use(function(req, res, next) {
  * (String, function(object, object)) => null
  */
 // create a POST route for SMS
-app.post('/sendSMS', bodyParser.json(), (req, res) => {
+app.post('/_api/sendSMS', bodyParser.json(), (req, res) => {
   console.log(req.body.recipients);
+  res.header("Content-Type", "application/json");
 
   // Call twilio API
   for(let i = 0; i < req.body.recipients.length; i++){
@@ -38,10 +39,10 @@ app.post('/sendSMS', bodyParser.json(), (req, res) => {
         body: req.body.smsBody,
         to: req.body.recipients[i],
         from: "+16473608497"
-      }).then((message) => {res.json({ "twilioResponse": message })});
+      }).then((message) => {res.json({ "twilioResponse": message, "ok": true })});
     } catch(e){
       console.log(e);
-      res.json({"Error" : e});
+      res.json({"Error" : e, "ok": false});
     }
   }
 
