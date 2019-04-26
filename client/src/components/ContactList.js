@@ -39,8 +39,6 @@ import './ContactList.css';
 /**** This component displays all individuals that are checked-in and not checked-in, 
    as well as the search bar and other main functionality ****/
 
-const SP = require('../Connection.json');
-
 // Styles applied to the Loading Spinner
 const styles = theme => ({
   CircularProgress: {
@@ -187,7 +185,7 @@ class ContactList extends Component {
           headers: headers
       };
 
-      fetch(SP.sharepoint.list_address, options)
+      fetch("https://graph.microsoft.com/v1.0/sites/rahmnik.sharepoint.com/lists/testlist/items?expand=fields", options)
         .then(response => response.json())
         .then(res => this.setState({
           contacts: JSON.stringify(res.value),

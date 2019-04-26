@@ -9,10 +9,8 @@ import { withSnackbar } from 'notistack';
 
 //var access = require('./accessRequest.js')
 const https = require('https');
-const SP = require(".././Connection.json");
 
 //var sharepointSite = "https://rahmnik.sharepoint.com/sites/DDSBlazeWFH/_api/web/lists/getbytitle('DDSB Contacts Info')"
-var sharepointSite = SP.sharepoint.list_address;
 
 // Styles applied to Login button
 const styles = theme => ({
@@ -90,7 +88,7 @@ class LoginPage extends Component {
           headers: headers
       };
 
-      fetch(SP.sharepoint.list_address, options)
+      fetch("https://graph.microsoft.com/v1.0/sites/rahmnik.sharepoint.com/lists/testlist/items?expand=fields", options)
         .then(response => this.handleResponse(response));
     } else{
       this.setState({isAuth: false});
