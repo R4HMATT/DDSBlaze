@@ -1,0 +1,43 @@
+{
+  "name": "ddsblaze",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^3.9.2",
+    "@material-ui/icons": "^3.0.2",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "json-parser": "^1.1.5",
+    "material-ui-search-bar": "^0.4.2",
+    "micromodal": "^0.3.2",
+    "msal": "^0.2.4",
+    "notistack": "^0.6.1",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-https-redirect": "^1.0.11",
+    "react-native-material-design-searchbar": "^1.8.0",
+    "react-native-vector-icons": "^6.3.0",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "^2.1.8",
+    "react-swipeable-views": "^0.13.1",
+    "twilio": "^3.30.1"
+  },
+  "scripts": {
+    "start": "set HTTPS=true&&react-scripts start",
+    "stop": "node server.stop.js",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "proxy": "https://localhost:9000",
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
