@@ -119,9 +119,7 @@ class LoginPage extends Component {
         }
         fetch(endpoint, options)
         .then(response => response.json())
-        .then(res => {
-          this.setState({isAuth: true});
-          this.setState({userInfo: res})});
+        .then(res => {this.setState({userInfo: res})});
     }
   }
 
@@ -142,6 +140,7 @@ class LoginPage extends Component {
       });
 
       this.setState({successSnack: newSnack});
+      this.setState({isAuth: true});
 
     } else{
       // Close any existing success snackbars and open new error one
