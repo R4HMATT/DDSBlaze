@@ -243,7 +243,7 @@ class BulkMessageModal extends React.Component{
                 </div>
 
                 <DialogActions className="dialogActions">
-                    <Button variant="contained" disabled={this.state.sendingMessage} classes={{containedPrimary: classes.AppBar}} onClick={event => this.handleMessageSend(emails, sms)} color="primary">
+                    <Button variant="contained" disabled={this.state.sendingMessage || this.state.value} classes={{containedPrimary: classes.AppBar}} onClick={event => this.handleMessageSend(emails, sms)} color="primary">
                         <h3>Send</h3>
                         <SendIcon className="sendIcon"/>
                     </Button>
