@@ -3,9 +3,8 @@
 First of all, welcome to the DDSBlaze project :) I wanted to follow up on what we covered during our last group mentoring session as well as a small setup guide. Here are some important links (pls bookmark):
 
  
-On-premise SharePoint: http://cscgikdcapmdw40/DDSBTest/DDSBlaze/_layouts/15/start.aspx#/SitePages/Home.aspx <br/>
+
 Remote Sharepoint: https://rahmnik.sharepoint.com/ <br/>
-TFS: http://cscgikdcapmdw39.cihs.ad.gov.on.ca/DDSB/Emergency%20Response <br/>
 GitHub: https://github.com/R4HMATT/DDSBlaze (this also contains an important README.md) <br/>
  
 # Set up
